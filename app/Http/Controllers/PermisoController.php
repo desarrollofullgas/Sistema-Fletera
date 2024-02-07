@@ -15,7 +15,7 @@ class PermisoController extends Controller
 {
     public function show()
     {
-        $valid = Auth::user()->permiso->panels->where('id', 10)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 3)->first();
         
         if (Auth::user()->permiso->id == 1) {
             return view('modules.permisos.index', ['val' => $valid]);

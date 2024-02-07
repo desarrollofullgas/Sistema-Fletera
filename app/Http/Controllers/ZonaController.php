@@ -15,7 +15,7 @@ class ZonaController extends Controller
      */
     public function index(Request $request)
     {
-        $valid = Auth::user()->permiso->panels->where('id', 12)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 5)->first();
         $trashed = Zona::onlyTrashed()->count();
 
         if (Auth::user()->permiso->id == 1) {

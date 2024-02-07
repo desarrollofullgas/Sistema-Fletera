@@ -30,7 +30,7 @@ class UserController extends Controller
         // ])->with(['zonas'])->first()->paginate(5);
 
         // $trashed = User::onlyTrashed()->count();
-        $valid = Auth::user()->permiso->panels->where('id', 11)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 4)->first();
         $trashed = User::onlyTrashed()->count();
 
         if (Auth::user()->permiso->id == 1) {

@@ -106,7 +106,7 @@ class EstacionController extends Controller
         //         ->withQueryString();
         // }
         $trashed = Estacion::onlyTrashed()->count();
-        $valid = Auth::user()->permiso->panels->where('id', 8)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 2)->first();
 
         if (Auth::user()->permiso->id == 1) {
             return view('modules.estaciones.estaciones', compact('trashed', 'valid'));
