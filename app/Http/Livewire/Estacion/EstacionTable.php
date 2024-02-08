@@ -27,7 +27,7 @@ class EstacionTable extends Component
 
     public function render()
     {
-        $this->valid = Auth::user()->permiso->panels->where('id', 8)->first();
+        $this->valid = Auth::user()->permiso->panels->where('id', 2)->first();
         return view('livewire.estacion.estacion-table', [
             'trashed' => Estacion::onlyTrashed()->count(),
             'estaciones' => $this->estaciones,

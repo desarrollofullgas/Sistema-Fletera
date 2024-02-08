@@ -11,8 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class ZonaEdit extends Component
 {
     public $EditZona;
-    public $zona_id, $name, $status
-    ,$regionsUpdate=[];
+    public $zona_id, $name, $status;
 
     public function resetFilters()
     {
@@ -35,14 +34,6 @@ class ZonaEdit extends Component
         $this->status = $zona->status;
 
         $this->EditZona = true;
-
-        $arrayID = [];//Se recopilan los IDs de las zonas asociadas al usuario en un array
-        $regionesArray = DB::table('zona_region')->select('region_id')->where('zona_id', $id)->get();
-        foreach ($regionesArray as $region) { //utilizando una consulta de base de datos y un bucle foreach. Los IDs se almacenan en el atributo $regionsUpdate.
-
-            $arrayID[] = $region->region_id;
-        }
-        $this->regionsUpdate = $arrayID;
     }
 
     public function EditarZona($id)
@@ -64,11 +55,6 @@ class ZonaEdit extends Component
             'name' => $this->name,
             'status' => $this->status,
         ])->save();
-        if (isset($zona->regions)){
-            $zona->regions()->sync($this->regionsUpdate);
-            }else{
-                $zona->regions()->sync(array());
-            }
 
         $this->mount();
         //Alert::success('Zona Actualizada', "La Zona". ' '.$this->name. ' '. "ha sido actualizada en el sistema");
@@ -79,7 +65,6 @@ class ZonaEdit extends Component
     }
     public function render()
     {
-        $regions = Region::where('status', 'Activo')->get(); // Regiones
-        return view('livewire.zonas.zona-edit',['regions'=>$regions]);
+        return view('livewire.zonas.zona-edit');
     }
 }

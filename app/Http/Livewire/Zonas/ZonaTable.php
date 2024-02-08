@@ -29,7 +29,7 @@ class ZonaTable extends Component
     //protected $queryString = ['sortField', 'sortDirection'];
     public function render()
     {
-        $this->valid = Auth::user()->permiso->panels->where('id', 12)->first();
+        $this->valid = Auth::user()->permiso->panels->where('id', 5)->first();
 
         //$trashed = Zona::onlyTrashed()->count();
         return view('livewire.zonas.zona-table', [

@@ -11,7 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class ZonaCreate extends Component
 {
     public $newgZona;
-    public $name, $region;
+    public $name;
 
     public function resetFilters()
     {
@@ -38,20 +38,17 @@ class ZonaCreate extends Component
         $this->validate(
             [
                 'name' => ['required', 'min:3', 'max:250'],
-                'region' => ['required'],
             ],
             [
                 'name.required' => 'El Nombre de la Zona es obligatorio',
                 'name.max' => 'El Nombre de la Zona no debe ser mayor a 250 caracteres',
                 'name.min' => 'El Nombre de la Zona debe ser mayor a 3 caracteres',
-                'region.required' => 'La Región es obligatoria',
             ]
         );
 
         $zona = Zona::create([
             'name' => $this->name,
         ]);
-        $zona->regions()->attach($this->region);
 
         $this->mount();
 
@@ -64,7 +61,6 @@ class ZonaCreate extends Component
     }
     public function render()
     {
-        $regions = Region::where('status', 'Activo')->whereNotIn('id', [1,2])->get(); // Regiones
-        return view('livewire.zonas.zona-create',['regions' => $regions]);
+        return view('livewire.zonas.zona-create');
     }
 }

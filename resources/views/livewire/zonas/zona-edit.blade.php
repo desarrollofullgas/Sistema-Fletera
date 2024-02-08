@@ -39,20 +39,6 @@
                     </select>
                     <x-input-error for="status"></x-input-error>
                 </div>
-                <div class="mb-3 mr-2 col-6">
-                    <x-label value="{{ __('Región') }}" />
-                    <select wire:model="regionsUpdate"
-                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm {{ $errors->has('status') ? 'is-invalid' : '' }}"
-                        name="status" required aria-required="true">
-                        <option value="">Seleccionar región</option>
-                        @foreach ($regions as $tag)
-                            <option value="{{ $tag->id }}" @if (old('regionsUpdate') == $tag->id) selected @endif>
-                                {{ $tag->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <x-input-error for="region"></x-input-error>
-                </div>
             </div>
         </x-slot>
 
