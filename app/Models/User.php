@@ -86,10 +86,7 @@ class User extends Authenticatable
             });
         })->orWhereHas('zonas', function ($query) use ($value) {
             $query->where('name', 'like', "%{$value}%");
-        })
-            ->orWhereHas('areas', function ($query) use ($value) {
-                $query->where('name', 'like', "%{$value}%");
-            });
+        });
     }
     public function getStatusColorAttribute()
     {

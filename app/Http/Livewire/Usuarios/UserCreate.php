@@ -27,12 +27,7 @@ class UserCreate extends Component
 
     //variables para crear usuario que no sea un gerente, supervisor, administrador o compras
     public $selectZonas = false, $personaltck = false;
-    public $deptos; //lista de registros
-    public $area; //para guardar el valor
-    public $region;
-    public $areas, $areasList;
-
-    public $areau = false; //es una propiedad pública de tipo booleano que se inicializa en false.
+    
     public $zonau = false; //es una propiedad pública de tipo booleano que se inicializa en false.
 
 
@@ -46,7 +41,6 @@ class UserCreate extends Component
     public function mount()
     {
         $this->zonas = Zona::all();
-        $this->areas= Areas::all();
         
         $this->newgUsuario = false;
     }
@@ -57,24 +51,6 @@ class UserCreate extends Component
 
         $this->newgUsuario = true;
     }
-
-    // public function UpdatedPermiso($val)
-    // {
-    //     if ($val == 1 || $val == 4) {
-    //         $this->areau = false;
-    //         $this->zonau = false;
-    //     } elseif ($val == 5 || $val == 6 || $val == 7 || $val == 8) {
-    //         $this->areau = true;
-    //         $this->zonau = false;
-    //     } elseif ($val == 2 || $val == 3) {
-    //         $this->areau = true;
-    //         $this->zonau = true;
-    //     } else {
-    //         // Reinicia los valores al pasar de un valor a otro
-    //         $this->areau = false;
-    //         $this->zonau = false;
-    //     }
-    // }
 
 
     public function nextStep() //funcion siguiente con validacion
@@ -105,11 +81,9 @@ class UserCreate extends Component
         $this->validate(
             [
                 'permiso' => ['required', 'not_in:0'],
-                'region' => ['required', 'not_in:0'],
             ],
             [
                 'permiso.required' => 'El campo Rol es obligatorio',
-                'region.required' => 'Seleccione una región para el usuario'
             ]
         );
         $this->currentStep++;
@@ -133,7 +107,6 @@ class UserCreate extends Component
                 'password' => ['required', 'string', 'confirmed', Password::min(8)],
                 'password_confirmation' => ['required', 'same:password'],
                 'permiso' => ['required', 'not_in:0'],
-                'region' => ['required', 'not_in:0'],
             ],
             [ // pasamos a español las validaciones
                 'name.required' => 'El campo Nombre es obligatorio',
@@ -149,7 +122,6 @@ class UserCreate extends Component
                 'password_confirmation.required' => 'La contraseña es obligatoria',
                 'password_confirmation.same' => 'Las contraseñas no coinciden',
                 'permiso.required' => 'El campo Rol es obligatorio',
-                'region.required' => 'Seleccione una región para el usuario'
             ]
         );
 
@@ -161,12 +133,9 @@ class UserCreate extends Component
             'name' => $this->name,
             'username' => $this->username,
             'permiso_id' => $this->permiso,
-            'region_id' => $this->region,
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
-
-        $user->areas()->sync($this->areasList); // Asignamos área(s) al usuario cuando sean requeridas
 
         $user->zonas()->sync($this->zonasList); // Asignamos zona(s) al usuario cuando sea requerida
 
@@ -194,10 +163,7 @@ class UserCreate extends Component
     public function render()
     {
         $permisos = Permiso::all(); // Todos los permisos
-        $this->deptos = Departamento::select('id', 'name')->orderBy('name', 'asc')->get(); // Departamentos
         $zonas = Zona::where('status', 'Activo')->get(); // Zonas
-        $areas = Areas::where('status', 'Activo')->get(); // Areas
-        $regiones = Region::where('status', 'Activo')->whereNotIn('id', [3,4])->get(); // Regiones
-        return view('livewire.usuarios.user-create', compact('zonas', 'permisos', 'regiones','areas')); // pasamos las variables a renderizar con compact
+        return view('livewire.usuarios.user-create', compact('zonas', 'permisos', )); // pasamos las variables a renderizar con compact
     }
 }

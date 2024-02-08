@@ -90,34 +90,7 @@
                         </div>
                     {{-- @endif --}}
                 </div>
-                <div class="flex gap-2 mb-3">
-                    {{-- @if ($areau) --}}
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0" wire:ignore>
-                            <x-label value="{{ __('Area') }}" />
-                            <select id="select3" name="areasList[ ]" 
-                                class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
-                         dark:focus:ring-offset-dark-eval-1 w-full"
-                                multiple="multiple">
-                                @foreach ($areas as $area)
-                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error for="area"></x-input-error>
-                        </div>
-                    {{-- @endif --}}
-                    <div class="md:w-1/2 mb-6 md:mb-0">
-                        <x-label value="{{ __('Región') }}" />
-                        <select id="region" wire:model="region"
-                            class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 {{ $errors->has('region') ? 'is-invalid' : '' }}"
-                            name="region" required aria-required="true">
-                            <option hidden value="" selected>Seleccionar Región</option>
-                            @foreach ($regiones as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                        <x-input-error for="region"></x-input-error>
-                    </div>
-                </div>
+                
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <button
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-dark-eval-3 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
@@ -198,13 +171,6 @@
                         allowClear: true
                     }).on('change', function () {
                         @this.set('zonasList', $(this).val());
-                    });
-
-                    $('#select3').select2({
-                        placeholder: "Seleccionar area(s)...",
-                        allowClear: true
-                    }).on('change', function () {
-                        @this.set('areasList', $(this).val());
                     });
                 });
             });

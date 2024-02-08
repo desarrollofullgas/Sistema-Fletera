@@ -27,7 +27,6 @@ class ShowUser extends Component
         $this->email = $user->email;
 
         $this->rol = $user->permiso->titulo_permiso;
-        $this->region = $user->region->name;
 
         $this->status = $user->status;
         $this->created_at = Carbon::parse($user['created_at'])->isoFormat('D MMMM Y  h:mm:ss A ');

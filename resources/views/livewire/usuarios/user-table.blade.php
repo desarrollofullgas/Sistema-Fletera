@@ -91,95 +91,90 @@
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading>
                     <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">USUARIO</x-heading>
-                    <x-heading >ZONA/ÁREA</x-heading>
-                    <x-heading >DISPONIBILIDAD</x-heading>
+                    <x-heading>ZONA</x-heading>
+                    <x-heading>DISPONIBILIDAD</x-heading>
                     <x-heading sortable wire:click="sortBy('status')" :direction="$sortField === 'status' ? $sortDirection : null">ESTADO</x-heading>
                     <x-heading>OPCIONES</x-heading>
                 </x-slot>
                 <x-slot name="body">
                     @forelse($usuarios as $user)
-                    {{-- Componente Row --}}
-                    <x-row wire:loading.class.delay="opacity-75">
-                        {{-- Componente Column --}}
-                        <x-cell> <x-input type="checkbox" value="{{ $user->id }}" wire:model="checked" />
-                        </x-cell>
-                        <x-cell>{{ $user->id }} </x-cell>
-                        <x-cell>{{ $user->name }}</x-cell>
-                        <x-cell><div class="flex flex-wrap">
-                            {{-- @if ($user->zonas->count() > 0) --}}
-                            @foreach ($user->zonas as $zona)
+                        {{-- Componente Row --}}
+                        <x-row wire:loading.class.delay="opacity-75">
+                            {{-- Componente Column --}}
+                            <x-cell> <x-input type="checkbox" value="{{ $user->id }}" wire:model="checked" />
+                            </x-cell>
+                            <x-cell>{{ $user->id }} </x-cell>
+                            <x-cell>{{ $user->name }}</x-cell>
+                            <x-cell>
+                                <div class="flex flex-wrap">
+                                    @foreach ($user->zonas as $zona)
+                                        <span
+                                            class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600  dark:bg-gray-300 dark:text-gray-900">
+                                            {{ $zona->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </x-cell>
+                            <x-cell>
+                                @if (Cache::has('user-is-online-' . $user->id))
+                                    <span
+                                        class="inline-flex items-center m-2 px-3 py-1 bg-green-200 rounded-full text-sm font-semibold text-green-600  dark:bg-green-900 dark:text-green-300">
+                                        <span class="ml-1">
+                                            Online
+                                        </span>
+                                    </span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center m-2 px-2 py-1 bg-gray-200 rounded-full text-sm font-semibold text-gray-600  dark:bg-gray-900 dark:text-gray-300">
+                                        <span class="ml-1">
+                                            Offline
+                                        </span>
+                                    </span>
+                                    <br>
+                                    @if ($user->last_seen)
+                                        <span class="dark:text-gray-400 text-xs">
+                                            Últ. vez: {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
+                                        </span>
+                                    @endif
+                                @endif
+                            </x-cell>
+                            <x-cell>
                                 <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600  dark:bg-gray-300 dark:text-gray-900">
-                                    {{ $zona->name }}
+                                    class="rounded bg-{{ $user->status_color }}-200 py-1 px-3 text-xs text-{{ $user->status_color }}-500 font-bold dark:bg-green-900 dark:text-green-300">
+                                    {{ $user->status }}
                                 </span>
-                            @endforeach
-                        {{-- @else --}}
-                            @foreach ($user->areas as $area)
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-sky-600 px-2 py-1 text-xs font-semibold text-white dark:bg-gray-900 dark:text-gray-300">
-                                    {{ $area->name }}
-                                </span>
-                            @endforeach
-                        {{-- @endif --}}
-                        </div></x-cell>
-                        <x-cell>@if (Cache::has('user-is-online-' . $user->id))
-                            <span
-                                class="inline-flex items-center m-2 px-3 py-1 bg-green-200 rounded-full text-sm font-semibold text-green-600  dark:bg-green-900 dark:text-green-300">
-                                <span class="ml-1">
-                                    Online
-                                </span>
-                            </span>
-                        @else
-                            <span
-                                class="inline-flex items-center m-2 px-2 py-1 bg-gray-200 rounded-full text-sm font-semibold text-gray-600  dark:bg-gray-900 dark:text-gray-300">
-                                <span class="ml-1">
-                                    Offline
-                                </span>
-                            </span>
-                            <br>
-                            @if ($user->last_seen)
-                                <span class="dark:text-gray-400 text-xs">
-                                    Últ. vez: {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
-                                </span>
-                            @endif
-                        @endif</x-cell>
-                        <x-cell>
-                            <span
-                                class="rounded bg-{{ $user->status_color }}-200 py-1 px-3 text-xs text-{{ $user->status_color }}-500 font-bold dark:bg-green-900 dark:text-green-300">
-                                {{ $user->status }}
-                            </span>
-                        </x-cell>
-                        <x-cell>
-                            <div class="flex gap-2 justify-center items-center">
-                                <div>
-                                    @if ($valid->pivot->ed == 1)
-                                        @livewire('usuarios.user-edit', ['user_edit_id' => $user->id], key('ed'.$user->id))
-                                    @endif
+                            </x-cell>
+                            <x-cell>
+                                <div class="flex gap-2 justify-center items-center">
+                                    <div>
+                                        @if ($valid->pivot->ed == 1)
+                                            @livewire('usuarios.user-edit', ['user_edit_id' => $user->id], key('ed' . $user->id))
+                                        @endif
+                                    </div>
+                                    <div>
+                                        @if ($valid->pivot->vermas == 1)
+                                            @livewire('usuarios.show-user', ['user_show_id' => $user->id], key('show' . $user->id))
+                                        @endif
+                                    </div>
+                                    <div>
+                                        @if ($valid->pivot->de == 1)
+                                            @livewire('usuarios.user-delete', ['userID' => $user->id], key('del' . $user->id))
+                                        @endif
+                                    </div>
                                 </div>
-                                <div>
-                                    @if ($valid->pivot->vermas == 1)
-                                        @livewire('usuarios.show-user', ['user_show_id' => $user->id], key('show'.$user->id))
-                                    @endif
+                            </x-cell>
+                        </x-row>
+                    @empty
+                        <x-row>
+                            <x-cell colspan="7">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icons.inbox class="w-8 h-8 text-gray-300" />
+                                    <span class="py-8 font-medium text-gray-400 text-xl">No se encontraron
+                                        resultados...</span>
                                 </div>
-                                <div>
-                                    @if ($valid->pivot->de == 1)
-                                        @livewire('usuarios.user-delete', ['userID' => $user->id], key('del'.$user->id))
-                                    @endif
-                                </div>
-                            </div>
-                        </x-cell>
-                    </x-row>
-                @empty
-                    <x-row>
-                        <x-cell colspan="7">
-                            <div class="flex justify-center items-center space-x-2">
-                                <x-icons.inbox class="w-8 h-8 text-gray-300" />
-                                <span class="py-8 font-medium text-gray-400 text-xl">No se encontraron
-                                    resultados...</span>
-                            </div>
-                        </x-cell>
-                    </x-row>
-                @endforelse
+                            </x-cell>
+                        </x-row>
+                    @endforelse
                 </x-slot>
             </x-table>
             {{-- Paginación y contenido por página --}}

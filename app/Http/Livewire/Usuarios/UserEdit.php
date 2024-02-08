@@ -26,10 +26,9 @@ class UserEdit extends Component
     //Cada una de ellas tiene un tipo específico, como int o string, dependiendo del tipo de dato que se espera para cada campo del usuario.
 
     public $zonasUpdate = []; //es una propiedad pública que almacena un array vacío y se utiliza para actualizar las zonas del usuario.
-    public $areasUpdate = []; //es una propiedad pública que almacena un array vacío y se utiliza para actualizar las areas del usuario.
-    public $areau = false; //es una propiedad pública de tipo booleano que se inicializa en false.
+    
     public $zonau = false; //es una propiedad pública de tipo booleano que se inicializa en false.
-    public $deptos, $area; //son propiedades públicas que se inicializan sin ningún valor asignado.
+    public $deptos; //son propiedades públicas que se inicializan sin ningún valor asignado.
 
     public function resetFilters() //resetea los campos 
     {
@@ -40,29 +39,22 @@ class UserEdit extends Component
     {
         $this->EditUsuario = false; //se establece en false, lo que indica que no se está editando ningún usuario inicialmente.
         $this->zonasUpdate = []; //se establece como un array vacío, lo que significa que no hay ninguna zona seleccionada inicialmente.
-        $this->areasUpdate = []; //se establece como un array vacío, lo que significa que no hay ningun area seleccionada inicialmente.
     }
 
     
     public function UpdatedRole($val)
     {//función para habilitar zonas o areas cuando de acuerdo al rol
         if($val==1 || $val==4){
-            $this->areau=false;
             $this->zonau=false;
             $this->zonasUpdate=[];
-            $this->areasUpdate=[];
         }
         elseif($val==5 || $val==6 || $val==7 || $val==8){
-            $this->areau=true;
             $this->zonau=false;
             $this->zonasUpdate=[];
-            $this->areasUpdate=[];
         }
         elseif($val==2 || $val==3){
-            $this->areau=true;
             $this->zonau=true;
             $this->zonasUpdate=[];
-            $this->areasUpdate=[];
         }
     }
 
@@ -77,7 +69,6 @@ class UserEdit extends Component
         $this->email = $user->email;
 
         $this->role = $user->permiso->id;
-        $this->region = $user->region_id;
         $this->status = $user->status;
 
         $this->EditUsuario = true; // cambiamos la propiedad a true lo que indica que se esta editando info del usuario (abre el modal).
@@ -89,14 +80,6 @@ class UserEdit extends Component
             $arrayID[] = $zona->zona_id;
         }
         $this->zonasUpdate = $arrayID; //Esto se utiliza para mostrar y mantener las zonas seleccionadas por el usuario en el formulario de edición.
-
-        $arraycollectID = [];//Se recopilan los IDs de las areas asociadas al usuario en un array
-        $areasArray = DB::table('user_areas')->select('area_id')->where('user_id', $id)->get();
-        foreach ($areasArray as $area) { //utilizando una consulta de base de datos y un bucle foreach. Los IDs se almacenan en el atributo $areasUpdate.
-
-            $arraycollectID[] = $area->area_id;
-        }
-        $this->areasUpdate = $arraycollectID; //Esto se utiliza para mostrar y mantener las areas seleccionadas por el usuario en el formulario de edición.
     }
 
     public function EditarUsuario($id)
@@ -144,7 +127,6 @@ class UserEdit extends Component
                 'username' => $this->username,
                 'email' => $this->email,
                 'permiso_id' => $this->role,
-                'region_id' => $this->region,
                 'status' => $this->status,
             ])->save();
         }
@@ -160,7 +142,6 @@ class UserEdit extends Component
                 'username' => $this->username,
                 'email' => $this->email,
                 'permiso_id' => $this->role,
-                'region_id' => $this->region,
                 'status' => $this->status,
             ])->save();
         }
@@ -171,13 +152,6 @@ class UserEdit extends Component
             }else{
                 $user->zonas()->sync(array());
             }
-        
-            if (isset($user->areas)){
-                $user->areas()->sync($this->areasUpdate);
-                }else{
-                    $user->areas()->sync(array());
-                }
-
 
         $this->resetFilters();//Se restablecen los filtros ($this->resetFilters()) para limpiar los campos del formulario de búsqueda o filtros utilizados antes de la edición.
         //Alert::success('Usuario Actualizado', "El usuario" . ' ' . $this->name . ' ' . "ha sido actualizado en el sistema");//Se muestra una alerta de éxito utilizando la clase Alert, indicando que el usuario ha sido actualizado.
@@ -203,7 +177,6 @@ class UserEdit extends Component
             'username' => $this->username,
             'email' => $this->email,
             'permiso_id' => $this->role,
-            'region_id' => $this->region,
             'status' => $this->statId,
             'email_verified_at' => null,
         ])->save();//Luego, se guarda el usuario para aplicar los cambios en la base de datos.
@@ -215,9 +188,6 @@ class UserEdit extends Component
     {
         $permisos = Permiso::all();//llamamos a todos los permisos
         $zonas = Zona::where('status','Activo')->get();//llamamos a las zonas que esten activas
-        $regiones = Region::where('status', 'Activo')->whereNotIn('id', [3,4])->get(); // llamamos a las regiones activas
-        $this->deptos = Departamento::select('id', 'name')->orderBy('name', 'asc')->get(); // llamado a los departamentos
-        $areas = Areas::where('status', 'Activo')->get(); // Areas
-        return view('livewire.usuarios.user-edit', compact('zonas', 'permisos', 'regiones','areas')); // se pasan las variables a la vista
+        return view('livewire.usuarios.user-edit', compact('zonas', 'permisos')); // se pasan las variables a la vista
     }
 }

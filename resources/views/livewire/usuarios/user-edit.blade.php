@@ -63,25 +63,6 @@
                         </select>
                         <x-input-error for="role"></x-input-error>
                     </div>
-                    {{-- @if ($areau) --}}
-                    <div class="mb-3 col-6">
-                        <x-label value="{{ __('Area') }}" />
-                        <div class="max-h-[100px] min-w-[120px] overflow-y-auto">
-                            @foreach ($areas as $tag)
-                                <div class="flex items-center">
-                                    <input type="checkbox" wire:model="areasUpdate"
-                                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
-                                        dark:text-gray-300 dark:focus:ring-offset-dark-eval-1"
-                                        value="{{ $tag->id }}" name="names[]" id="{{ $tag->name }}" multiple>
-                                    <label for="{{ $tag->name }}"
-                                        @if (old('areasUpdate') == $tag->id) selected @endif>{{ $tag->name }}</label>
-                                </div>
-                            @endforeach
-                        </div>
-                        <x-input-error for="area"></x-input-error>
-                    </div>
-                    {{-- @endif
-                    @if ($zonau) --}}
                     <div class="mb-3 col-6">
                         <x-label value="{{ __('Zona') }}" />
                         <div class="max-h-[100px] min-w-[120px] overflow-y-auto">
@@ -98,22 +79,8 @@
                         </div>
                         <x-input-error for="zona"></x-input-error>
                     </div>
-                    {{-- @endif --}}
                 </div>
                 <div class="flex gap-2 mb-3">
-                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                        <x-label value="{{ __('Región') }}" />
-                        <select id="region" wire:model="region"
-                            class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
-                        dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 {{ $errors->has('region') ? 'is-invalid' : '' }}"
-                            name="region" required aria-required="true">
-                            @foreach ($regiones as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                        <x-input-error for="region"></x-input-error>
-                    </div>
-
                     <div class="md:w-1/2 px-3">
                         <x-label value="{{ __('Status') }}" />
                         <select id="status" wire:model="status"
