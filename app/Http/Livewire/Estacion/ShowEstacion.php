@@ -13,6 +13,7 @@ class ShowEstacion extends Component
     public $ShowgEstacion;
     public $estacion_show_id, $producto, $zonastat, $gerentestat, $supervisorstat;
     public $titulo_estacion, $zonas, $ubicacion, $created_at, $gerente, $supervisor, $status, $numero;
+    public $estaciones, $user_gerentes,$user_supervisores,$razon,$rfc,$siic,$iva,$num_cre,$direccion,$propietario;
 
     public function mount()
     {
@@ -25,6 +26,13 @@ class ShowEstacion extends Component
         $this->estacion_show_id = $id;
         $this->titulo_estacion = $estacion->name;
         $this->numero = $estacion->num_estacion;
+        $this->razon = $estacion->razon;
+        $this->rfc = $estacion->rfc;
+        $this->siic = $estacion->siic;
+        $this->iva = $estacion->iva;
+        $this->num_cre = $estacion->num_cre;
+        $this->direccion = $estacion->direccion;
+        $this->propietario = $estacion->propietario;
         $this->zonas = $estacion->zona->name;
         $this->created_at = Carbon::parse($estacion['created_at'])->isoFormat('D MMMM Y  h:mm:ss ');
 
