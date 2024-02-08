@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('estacions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 500);
-            $table->float('num_estacion',10,2);
+            $table->string('num_estacion',500);
             $table->string('razon_social', 500)->nullable();
             $table->string('rfc', 500)->nullable();
-            $table->float('siic',10,2)->nullable();
+            $table->string('siic',500)->nullable();
             $table->float('iva',10,2)->nullable();
             $table->string('num_cre', 500)->nullable();
             $table->string('direccion', 500)->nullable();
