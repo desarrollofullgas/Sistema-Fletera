@@ -79,6 +79,9 @@
                     @if ($item->pivot->panel_id == 5 && $item->pivot->re == 1)
                         <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
                     @endif
+                    @if ($item->pivot->panel_id == 7 && $item->pivot->re == 1)
+                        <x-sidebar.sublink title="Operadores" href="{{ route('operadores') }}" :active="request()->routeIs('operadores')" />
+                    @endif
                 @endforeach
             </x-sidebar.dropdown>
         </x-sidebar.dropdown>
