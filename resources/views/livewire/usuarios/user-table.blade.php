@@ -89,7 +89,7 @@
                 <x-slot name="head">
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
-                    <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading>
+                    {{-- <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading> --}}
                     <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">USUARIO</x-heading>
                     <x-heading>ZONA</x-heading>
                     <x-heading>DISPONIBILIDAD</x-heading>
@@ -103,8 +103,35 @@
                             {{-- Componente Column --}}
                             <x-cell> <x-input type="checkbox" value="{{ $user->id }}" wire:model="checked" />
                             </x-cell>
-                            <x-cell>{{ $user->id }} </x-cell>
-                            <x-cell>{{ $user->name }}</x-cell>
+                            {{-- <x-cell>{{ $user->id }} </x-cell> --}}
+                            <x-cell class="flex gap-3 px-6 py-4 font-normal">
+                                <div class="relative h-10 w-10">
+                                    @if ($user->profile_photo_path)
+                                        <div
+                                            onclick="window.location.href='{{ asset('/storage/' . $user->profile_photo_path) }}'">
+                                            <img class="h-10 w-10 rounded-full object-cover"
+                                                src="/storage/{{ $user->profile_photo_path }}"
+                                                alt="{{ $user->name }}" />
+                                        </div>
+                                    @else
+                                        <div onclick="window.location.href='{{ asset($user->profile_photo_url) }}'">
+                                            <img class="object-cover w-10 h-10 rounded-full"
+                                                src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" />
+                                        </div>
+                                    @endif
+                                    @if (Cache::has('user-is-online-' . $user->id))
+                                        <span
+                                            class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+                                    @else
+                                        <span
+                                            class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-red-600 ring ring-white"></span>
+                                    @endif
+                                </div>
+                                <div class="text-sm">
+                                    <div class="font-bold">{{ $user->name }}</div>
+                                    <div class="text-gray-400">{{ $user->permiso->titulo_permiso }}</div>
+                                </div>
+                            </x-cell>
                             <x-cell>
                                 <div class="flex flex-wrap">
                                     @foreach ($user->zonas as $zona)

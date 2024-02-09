@@ -26,7 +26,7 @@ class ShowEstacion extends Component
         $this->estacion_show_id = $id;
         $this->titulo_estacion = $estacion->name;
         $this->numero = $estacion->num_estacion;
-        $this->razon = $estacion->razon;
+        $this->razon = $estacion->razon_social;
         $this->rfc = $estacion->rfc;
         $this->siic = $estacion->siic;
         $this->iva = $estacion->iva;
