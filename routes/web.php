@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EstacionController;
+use App\Http\Controllers\OperadorController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
@@ -49,6 +50,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get("/trashedestaciones", [EstacionController::class, "trashed_estaciones"])->name('estaciones.trashed');
     Route::post("/restoreestacion", [EstacionController::class, "do_restore"])->name('estacion_restore');
     Route::post("/deleteestacion-permanently", [EstacionController::class, "delete_permanently"])->name('deleteestacion_permanently');
+
+
+     //Operadores
+     Route::get('/operadores', [OperadorController::class, 'index'])->name('operadores');
+     Route::delete('/operadores{operador}', [OperadorController::class, 'destroy'])->name('operadores.destroy');
+     Route::get("/trashedoperadores", [OperadorController::class, "trashed_operadores"])->name('operadores.trashed');
+     Route::post("/restoreoperador", [OperadorController::class, "do_restore"])->name('operador_restore');
+     Route::post("/deleteoperador-permanently", [OperadorController::class, "delete_permanently"])->name('deleteoperador_permanently');
 
      //Permisos
      Route::get('/roles', [PermisoController::class, 'show'])->name('roles');

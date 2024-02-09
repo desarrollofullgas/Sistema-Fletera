@@ -19,7 +19,7 @@ class UserDelete extends Component
         $supplierDel->status="Inactivo";
         $supplierDel->delete();
         $supplierDel->save();
-        return redirect()->route('users');
+        return redirect(request()->header('Referer'));
     }
     public function render()
     {
