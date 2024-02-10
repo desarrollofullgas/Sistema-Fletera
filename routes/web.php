@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
 use App\Http\Controllers\ZonaController;
@@ -49,6 +50,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get("/trashedestaciones", [EstacionController::class, "trashed_estaciones"])->name('estaciones.trashed');
     Route::post("/restoreestacion", [EstacionController::class, "do_restore"])->name('estacion_restore');
     Route::post("/deleteestacion-permanently", [EstacionController::class, "delete_permanently"])->name('deleteestacion_permanently');
+
+    //unidades
+    Route::controller(UnidadesController::class)->group(function (){
+        Route::get('/unidades','home')->name('unidades');
+        Route::get('/lineas-transporte','lineasHome')->name('lineas.transporte');
+    });
 
      //Permisos
      Route::get('/roles', [PermisoController::class, 'show'])->name('roles');

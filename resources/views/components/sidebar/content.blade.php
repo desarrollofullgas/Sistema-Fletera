@@ -80,6 +80,8 @@
                         <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
                     @endif
                 @endforeach
+                <x-sidebar.sublink title="Líneas" href="{{ route('lineas.transporte') }}" :active="request()->routeIs('lineas.transporte')" />
+                <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
             </x-sidebar.dropdown>
         </x-sidebar.dropdown>
     </div>
