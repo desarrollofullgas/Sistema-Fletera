@@ -4,7 +4,7 @@
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             {{-- Barra de Busqueda --}}
             <div>
-                <x-input wire:model="search" type="text" class="w-auto" placeholder="Buscar operadores..." />
+                <x-input wire:model="search" type="text" class="w-auto" placeholder="Buscar proveedores..." />
             </div>
             {{-- Acciones Masivas --}}
             @if ($checked)
@@ -29,8 +29,8 @@
                             <!-- Eliminar y Exportar-->
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    <x-dropdown-link href="#" wire:click="deleteOperadores">
-                                        {{ __('Eliminar Operador') }}
+                                    <x-dropdown-link href="#" wire:click="deleteProveedores">
+                                        {{ __('Eliminar Proveedor') }}
                                     </x-dropdown-link>
                                 @endif
                                 <x-dropdown-link href="#" wire:click="exportSelected">
@@ -72,12 +72,12 @@
         @if ($selectPage)
             @if ($selectAll)
                 <div class="text-gray-400 text-xs">
-                    Se han seleccionado <strong>{{ $operadores->total() }}</strong> elementos.
+                    Se han seleccionado <strong>{{ $proveedores->total() }}</strong> elementos.
                 </div>
             @else
                 <div class="text-gray-400 text-xs">
                     Se han seleccionado <strong>{{ count($checked) }}</strong> elementos, ¿Deseas seleccionar los
-                    <strong>{{ $operadores->total() }}</strong>?
+                    <strong>{{ $proveedores->total() }}</strong>?
                     <a href="#" class="text-blue-500 hover:underline" wire:click="selectAll">Seleccionar todo</a>
                 </div>
             @endif
@@ -91,43 +91,42 @@
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading>
                     <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">NOMBRE</x-heading>
-                    <x-heading sortable wire:click="sortBy('licencia')" :direction="$sortField === 'licencia' ? $sortDirection : null">LICENCIA</x-heading>
+                    <x-heading sortable wire:click="sortBy('razon_social')" :direction="$sortField === 'razon_social' ? $sortDirection : null">RAZÓN SOCIAL</x-heading>
                     <x-heading sortable wire:click="sortBy('rfc')" :direction="$sortField === 'rfc' ? $sortDirection : null">RFC</x-heading>
+                    <x-heading sortable wire:click="sortBy('origen')" :direction="$sortField === 'origen' ? $sortDirection : null">ORIGEN</x-heading>
                     <x-heading sortable wire:click="sortBy('status')" :direction="$sortField === 'status' ? $sortDirection : null">ESTADO</x-heading>
-                    <x-heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">FECHA REGISTRO</x-heading>
                     <x-heading>OPCIONES</x-heading>
                 </x-slot>
                 <x-slot name="body">
-                    @forelse($operadores as $op)
+                    @forelse($proveedores as $pro)
                         {{-- Componente Row --}}
                         <x-row wire:loading.class.delay="opacity-75">
                             {{-- Componente Column --}}
-                            <x-cell> <x-input type="checkbox" value="{{ $op->id }}" wire:model="checked" />
+                            <x-cell> <x-input type="checkbox" value="{{ $pro->id }}" wire:model="checked" />
                             </x-cell>
-                            <x-cell>{{ $op->id }} </x-cell>
-                            <x-cell><span class="font-bold">{{ $op->name }}</span></x-cell>
-                            <x-cell>{{ $op->licencia }} </x-cell>
-                            <x-cell>{{ $op->rfc}} </x-cell>
+                            <x-cell>{{ $pro->id }} </x-cell>
+                            <x-cell><span class="font-bold">{{ $pro->name }}</span></x-cell>
+                            <x-cell>{{ $pro->razon_social }} </x-cell>
+                            <x-cell>{{ $pro->rfc}} </x-cell>
+                            <x-cell>{{ $pro->origen}} </x-cell>
                             <x-cell>
                                 <span
-                                    class="rounded bg-gray-200 py-1 px-3 text-xs text-gray-500 font-bold">
-                                    {{ $op->status }}
-                                </span>
-                            </x-cell>
-                            <x-cell> {{ $op->created_at->locale('es')->isoFormat('D  MMMM  YYYY') }}
+                                class="rounded bg-{{ $pro->status_color }}-200 py-1 px-3 text-xs text-{{ $pro->status_color }}-500 font-bold">
+                                {{ $pro->status }}
+                            </span>
                             </x-cell>
                             <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
-                                    <div>
+                                    {{-- <div>
                                         @if ($valid->pivot->ed == 1)
-                                            @livewire('operadores.operador-edit', ['operador_id' => $op->id], key('ed' . $op->id))
+                                            @livewire('proveedores.proerador-edit', ['operador_id' => $op->id], key('ed' . $op->id))
                                         @endif
                                     </div>
                                     <div>
                                         @if ($valid->pivot->de == 1)
-                                            @livewire('operadores.operador-delete', ['operadorID' => $op->id], key('del' . $op->id))
+                                            @livewire('proveedores.operador-delete', ['operadorID' => $op->id], key('del' . $op->id))
                                         @endif
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </x-cell>
                         </x-row>
@@ -157,7 +156,7 @@
                         <option value="50">50</option>
                     </select>
                 </div>
-                {{ $operadores->links() }}
+                {{ $proveedores->links() }}
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\OperadorController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
 use App\Http\Controllers\ZonaController;
@@ -58,6 +59,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
      Route::get("/trashedoperadores", [OperadorController::class, "trashed_operadores"])->name('operadores.trashed');
      Route::post("/restoreoperador", [OperadorController::class, "do_restore"])->name('operador_restore');
      Route::post("/deleteoperador-permanently", [OperadorController::class, "delete_permanently"])->name('deleteoperador_permanently');
+
+      //Proveedores
+      Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores');
+      Route::delete('/proveedores{operador}', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
+      Route::get("/trashedproveedores", [ProveedorController::class, "trashed_proveedores"])->name('proveedores.trashed');
+      Route::post("/restoreproveedor", [ProveedorController::class, "do_restore"])->name('proveedor_restore');
+      Route::post("/deleteproveedor-permanently", [ProveedorController::class, "delete_permanently"])->name('deleteproveedor_permanently');
 
      //Permisos
      Route::get('/roles', [PermisoController::class, 'show'])->name('roles');
