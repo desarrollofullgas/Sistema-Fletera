@@ -144,8 +144,8 @@
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
                                 <div class="w-full flex justify-center gap-2">
-                                    {{-- @livewire('lineas.edit-linea',['lineaID'=>$unidad->id])
-                                    @livewire('lineas.delete-linea',['lineaID'=>$unidad->id]) --}}
+                                    @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id])
+                                    @livewire('unidades.show-unidad',['unidadID' => $unidad->id])
                                 </div>
                             </th>
                         </tr>

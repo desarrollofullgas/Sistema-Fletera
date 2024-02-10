@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('capacidad');
             $table->string('placa',30)->nullable();
             $table->string('marca',30)->nullable();
+            $table->string('modelo',30)->nullable();
             $table->string('serie',30)->nullable();
             $table->string('status',30)->default('Disponible');
             $table->softDeletes();

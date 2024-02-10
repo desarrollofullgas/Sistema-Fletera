@@ -26,7 +26,7 @@ class NewUnidad extends Component
             'tractor.required'=>'El número de unidad es requerido',
             'capacidad.required'=>'Ingrese la capacidad total de la unidad',
             'linea.required'=>'Seleccione el trasportista al que pertenece la unidad',
-            'pipas.required'=>'Ingrese toda la información hobligatoria',
+            'pipas.required'=>'Ingrese toda la información requerida',
             'pipas.*.tonel.required'=>'Seleccione el tipo de tonel'
         ]);
         //manejamos el try catch para que la app no se detenga en caso de error
@@ -37,6 +37,7 @@ class NewUnidad extends Component
             $unidad->capacidad=$this->capacidad;
             $unidad->placa=$this->placa;
             $unidad->marca=$this->marca;
+            $unidad->modelo=$this->modelo;
             $unidad->serie=$this->serie;
             $unidad->save();
             //guardamos las pipas de la unidad 

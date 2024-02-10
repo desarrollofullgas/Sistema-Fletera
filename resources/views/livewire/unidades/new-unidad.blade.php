@@ -3,6 +3,16 @@
         <fieldset class="border dark:border-gray-500 p-2">
             <legend>Datos de unidad</legend>
             <div class="flex flex-wrap justify-evenly gap-2">
+                <div class="w-full">
+                    <x-label value="{{ __('Línea de transporte') }}" for="linea" class="before:content-['*'] before:text-red-500"/>
+                    <select name="linea" id="linea" wire:model.defer="linea" class="w-full  border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
+                        <option hidden value="" selected>Línea de transporte</option>
+                        @foreach ($lineas as $linea)
+                            <option value="{{$linea->id}}">{{$linea->name}}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error for="capacidad"></x-input-error>
+                </div>
                 <div class="max-sm:w-full">
                     <x-label value="{{ __('Número de unidad') }}" for="tractor" class="before:content-['*'] before:text-red-500"/>
                     <x-input wire:model.defer="tractor" type="text" name="tractor"
@@ -39,16 +49,6 @@
                         id="capacidad" required autofocus autocomplete="capacidad" class="max-sm:w-full"/>
                     <x-input-error for="capacidad"></x-input-error>
                 </div>
-                <div class="w-full">
-                    <x-label value="{{ __('Línea de transporte') }}" for="linea" class="before:content-['*'] before:text-red-500"/>
-                    <select name="linea" id="linea" wire:model.defer="linea" class="w-full  border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
-                        <option hidden value="" selected>Línea de transporte</option>
-                        @foreach ($lineas as $linea)
-                            <option value="{{$linea->id}}">{{$linea->name}}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error for="capacidad"></x-input-error>
-                </div>
             </div>
         </fieldset>
     </x-slot>
@@ -65,7 +65,7 @@
                 $wire.set('pipas',datos);
                 $wire.addUnidad();
             }}">
-            <fieldset class="border dark:border-gray-500 p-2 text-left mb-4">
+            <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden max-h-60 overflow-y-auto">
                 <legend>Datos de toneles</legend>
                 <x-input-error for="pipas"></x-input-error>
                 <div class="flex flex-col justify-evenly gap-2">
