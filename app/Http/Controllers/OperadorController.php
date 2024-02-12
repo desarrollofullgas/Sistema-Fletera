@@ -15,7 +15,7 @@ class OperadorController extends Controller
      */
     public function index(Request $request)
     {
-        $valid = Auth::user()->permiso->panels->where('id', 7)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 6)->first();
         $trashed = Operador::onlyTrashed()->count();
 
         if (Auth::user()->permiso->id == 1) {
@@ -30,7 +30,7 @@ class OperadorController extends Controller
   
     public function trashed_operadores()
     {
-        $valid = Auth::user()->permiso->panels->where('id', 7)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 6)->first();
 
         $trashed = Operador::onlyTrashed()->orderBy("id", "desc")->paginate();
 

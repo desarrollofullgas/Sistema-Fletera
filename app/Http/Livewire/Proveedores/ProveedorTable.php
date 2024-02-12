@@ -27,7 +27,7 @@ class ProveedorTable extends Component
 
     public function render()
     {
-        $this->valid = Auth::user()->permiso->panels->where('id', 8)->first();
+        $this->valid = Auth::user()->permiso->panels->where('id', 7)->first();
 
         return view('livewire.proveedores.proveedor-table', [
             'trashed' => Proveedor::onlyTrashed()->count(),

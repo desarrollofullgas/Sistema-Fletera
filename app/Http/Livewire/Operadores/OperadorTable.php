@@ -27,7 +27,7 @@ class OperadorTable extends Component
 
     public function render()
     {
-        $this->valid = Auth::user()->permiso->panels->where('id', 7)->first();
+        $this->valid = Auth::user()->permiso->panels->where('id', 6)->first();
         return view('livewire.operadores.operador-table', [
             'trashed' => Operador::onlyTrashed()->count(),
             'operadores' => $this->operadores,
