@@ -120,7 +120,7 @@
                                 <div class="flex gap-2 justify-center items-center">
                                     <div>
                                         @if ($valid->pivot->ed == 1)
-                                            @livewire('operadores.operador-edit', ['operador_id' => $op->id], key('ed' . $op->id))
+                                            @livewire('operadores.operador-edit', ['ope_id' => $op->id], key('ed' . $op->id))
                                         @endif
                                     </div>
                                     <div>

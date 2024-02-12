@@ -107,26 +107,26 @@
                             <x-cell>{{ $pro->id }} </x-cell>
                             <x-cell><span class="font-bold">{{ $pro->name }}</span></x-cell>
                             <x-cell>{{ $pro->razon_social }} </x-cell>
-                            <x-cell>{{ $pro->rfc}} </x-cell>
-                            <x-cell>{{ $pro->origen}} </x-cell>
+                            <x-cell>{{ $pro->rfc }} </x-cell>
+                            <x-cell>{{ $pro->origen }} </x-cell>
                             <x-cell>
                                 <span
-                                class="rounded bg-{{ $pro->status_color }}-200 py-1 px-3 text-xs text-{{ $pro->status_color }}-500 font-bold">
-                                {{ $pro->status }}
-                            </span>
+                                    class="rounded bg-{{ $pro->status_color }}-200 py-1 px-3 text-xs text-{{ $pro->status_color }}-500 font-bold">
+                                    {{ $pro->status }}
+                                </span>
                             </x-cell>
                             <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
-                                    {{-- <div>
+                                    <div>
                                         @if ($valid->pivot->ed == 1)
-                                            @livewire('proveedores.proerador-edit', ['operador_id' => $op->id], key('ed' . $op->id))
+                                            @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('ed' . $pro->id))
                                         @endif
                                     </div>
                                     <div>
                                         @if ($valid->pivot->de == 1)
-                                            @livewire('proveedores.operador-delete', ['operadorID' => $op->id], key('del' . $op->id))
+                                            @livewire('proveedores.proveedor-delete', ['proveedorID' => $pro->id], key('del' . $pro->id))
                                         @endif
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </x-cell>
                         </x-row>
@@ -161,4 +161,3 @@
         </div>
     </div>
 </div>
-
