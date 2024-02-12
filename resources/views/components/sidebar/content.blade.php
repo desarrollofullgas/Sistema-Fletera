@@ -1,13 +1,11 @@
 @php
     $valid = Auth::user()->permiso->panels;
 
-
     $settings = 'hidden';
 
     $sistema = 'hidden';
 
     foreach ($valid as $permis) {
-
         for ($i = 2; $i <= 7; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $settings = 'block';
@@ -42,12 +40,7 @@
 
     {{-- Ajustes --}}
     <div class="{{ $settings }}">
-        <x-sidebar.dropdown title="Ajustes" :active="Str::startsWith(
-            request()
-                ->route()
-                ->uri(),
-            'buttons',
-            )">
+        <x-sidebar.dropdown title="Ajustes" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
             <x-slot name="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
@@ -56,48 +49,33 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </x-slot>
+            @foreach ($valid as $item)
+                @if ($item->pivot->panel_id == 2 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Estaciones" href="{{ route('estaciones') }}" :active="request()->routeIs('estaciones')" />
+                @endif
 
-            {{-- Ajustes General --}}
-            <x-sidebar.dropdown title="General" :active="Str::startsWith(
-                request()
-                    ->route()
-                    ->uri(),
-                'buttons',
-            )">
-                @foreach ($valid as $item)
-                    
-                    @if ($item->pivot->panel_id == 2 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Estaciones" href="{{ route('estaciones') }}" :active="request()->routeIs('estaciones')" />
-                    @endif
-                   
-                    @if ($item->pivot->panel_id == 3 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Roles" href="{{ route('roles') }}" :active="request()->routeIs('roles')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 4 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Usuarios" href="{{ route('users') }}" :active="request()->routeIs('users')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 5 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 6 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Operadores" href="{{ route('operadores') }}" :active="request()->routeIs('operadores')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 7 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Provedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
-                    @endif
-                @endforeach
-            </x-sidebar.dropdown>
+                @if ($item->pivot->panel_id == 3 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Roles" href="{{ route('roles') }}" :active="request()->routeIs('roles')" />
+                @endif
+                @if ($item->pivot->panel_id == 4 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Usuarios" href="{{ route('users') }}" :active="request()->routeIs('users')" />
+                @endif
+                @if ($item->pivot->panel_id == 5 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
+                @endif
+                @if ($item->pivot->panel_id == 6 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Operadores" href="{{ route('operadores') }}" :active="request()->routeIs('operadores')" />
+                @endif
+                @if ($item->pivot->panel_id == 7 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Provedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
+                @endif
+            @endforeach
         </x-sidebar.dropdown>
     </div>
 
     {{-- Sistema --}}
     <div class="{{ $sistema }}">
-        <x-sidebar.dropdown title="Sistema" :active="Str::startsWith(
-            request()
-                ->route()
-                ->uri(),
-            'buttons',
-        )">
+        <x-sidebar.dropdown title="Sistema" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
             <x-slot name="icon">
                 {{-- <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" /> --}}
                 <svg class="flex-shrink-0 w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
