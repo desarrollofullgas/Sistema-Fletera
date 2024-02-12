@@ -5,6 +5,7 @@ use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\OperadorController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
 use App\Http\Controllers\ZonaController;
@@ -53,25 +54,39 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post("/deleteestacion-permanently", [EstacionController::class, "delete_permanently"])->name('deleteestacion_permanently');
 
 
-     //Operadores
-     Route::get('/operadores', [OperadorController::class, 'index'])->name('operadores');
-     Route::delete('/operadores{operador}', [OperadorController::class, 'destroy'])->name('operadores.destroy');
-     Route::get("/trashedoperadores", [OperadorController::class, "trashed_operadores"])->name('operadores.trashed');
-     Route::post("/restoreoperador", [OperadorController::class, "do_restore"])->name('operador_restore');
-     Route::post("/deleteoperador-permanently", [OperadorController::class, "delete_permanently"])->name('deleteoperador_permanently');
+    //Operadores
+    Route::get('/operadores', [OperadorController::class, 'index'])->name('operadores');
+    Route::delete('/operadores{operador}', [OperadorController::class, 'destroy'])->name('operadores.destroy');
+    Route::get("/trashedoperadores", [OperadorController::class, "trashed_operadores"])->name('operadores.trashed');
+    Route::post("/restoreoperador", [OperadorController::class, "do_restore"])->name('operador_restore');
+    Route::post("/deleteoperador-permanently", [OperadorController::class, "delete_permanently"])->name('deleteoperador_permanently');
 
-      //Proveedores
-      Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores');
-      Route::delete('/proveedores{operador}', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
-      Route::get("/trashedproveedores", [ProveedorController::class, "trashed_proveedores"])->name('proveedores.trashed');
-      Route::post("/restoreproveedor", [ProveedorController::class, "do_restore"])->name('proveedor_restore');
-      Route::post("/deleteproveedor-permanently", [ProveedorController::class, "delete_permanently"])->name('deleteproveedor_permanently');
+    //Proveedores
+    Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores');
+    Route::delete('/proveedores{operador}', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
+    Route::get("/trashedproveedores", [ProveedorController::class, "trashed_proveedores"])->name('proveedores.trashed');
+    Route::post("/restoreproveedor", [ProveedorController::class, "do_restore"])->name('proveedor_restore');
+    Route::post("/deleteproveedor-permanently", [ProveedorController::class, "delete_permanently"])->name('deleteproveedor_permanently');
 
-     //Permisos
-     Route::get('/roles', [PermisoController::class, 'show'])->name('roles');
-     Route::put('/roles/{id}', [PermisoController::class, 'asignar'])->name('asignacionpermiso.asignar');
- 
-     //Sistema
-     Route::get('/versiones', [VersionController::class, 'show'])->name('versiones');
+    //Unidades
+    Route::controller(UnidadController::class)->group(function () {
+        Route::get('/unidades', 'index')->name('unidades');
+        Route::delete('/unidades{unidad}' . 'destroy')->name('unidades.destroy');
+        Route::get("/trashedunidades", 'trashed_unidades')->name('unidades.trashed');
+        Route::post("/restoreunidad", 'do_restore')->name('unidad_restore');
+        Route::post("/deleteunidad-permanently", 'delete_permanently')->name('unidad_permanently');
+        //Lineas
+        Route::get('/lineas-transporte', 'lineasIndex')->name('lineas.transporte');
+        Route::delete('/lineas-transporte{lineas}' . 'destroyL')->name('lineas.destroy');
+        Route::get("/trashedlineas-transporte", 'trashed_lineas')->name('lineas.trashed');
+        Route::post("/restorelinea", 'do_restoreL')->name('linea_restore');
+        Route::post("/deletelinea-permanently", 'delete_permanentlyL')->name('linea_permanently');
+    });
 
+    //Permisos
+    Route::get('/roles', [PermisoController::class, 'show'])->name('roles');
+    Route::put('/roles/{id}', [PermisoController::class, 'asignar'])->name('asignacionpermiso.asignar');
+
+    //Sistema
+    Route::get('/versiones', [VersionController::class, 'show'])->name('versiones');
 });

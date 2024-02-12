@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class VersionController extends Controller
 {
     public function show()
-    {$valid = Auth::user()->permiso->panels->where('id', 8)->first();
+    {$valid = Auth::user()->permiso->panels->where('id', 10)->first();
         
         if (Auth::user()->permiso->id == 1) {
             return view('modules.sistema.versiones.index', ['val' => $valid]);

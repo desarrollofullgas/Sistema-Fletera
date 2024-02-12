@@ -6,13 +6,13 @@
     $sistema = 'hidden';
 
     foreach ($valid as $permis) {
-        for ($i = 2; $i <= 7; $i++) {
+        for ($i = 2; $i <= 9; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $settings = 'block';
             }
         }
 
-        for ($i = 7; $i <= 8; $i++) {
+        for ($i = 9; $i <= 10; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $sistema = 'block';
             }
@@ -67,7 +67,13 @@
                     <x-sidebar.sublink title="Operadores" href="{{ route('operadores') }}" :active="request()->routeIs('operadores')" />
                 @endif
                 @if ($item->pivot->panel_id == 7 && $item->pivot->re == 1)
-                    <x-sidebar.sublink title="Provedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
+                    <x-sidebar.sublink title="Proveedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
+                @endif
+                @if ($item->pivot->panel_id == 8 && $item->pivot->re == 1)
+                <x-sidebar.sublink title="Líneas" href="{{ route('lineas.transporte') }}" :active="request()->routeIs('lineas.transporte')" />
+                @endif
+                @if ($item->pivot->panel_id == 9 && $item->pivot->re == 1)
+                <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
                 @endif
             @endforeach
         </x-sidebar.dropdown>
@@ -86,7 +92,7 @@
                 </svg>
             </x-slot>
             @foreach ($valid as $item)
-                @if ($item->pivot->panel_id == 8 && $item->pivot->re == 1)
+                @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
                     <x-sidebar.sublink title="Versiones" href="{{ route('versiones') }}" :active="request()->routeIs('versiones')" />
                 @endif
             @endforeach

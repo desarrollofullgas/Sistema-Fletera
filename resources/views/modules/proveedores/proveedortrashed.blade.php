@@ -1,9 +1,9 @@
 <x-app-layout>
-    @section('title', 'Operadores Eliminados')
+    @section('title', 'Proveedores Eliminados')
     <x-slot name="header">
         <div>
             <x-card-greet-header>
-                {{ __('Operadores Eliminados') }}
+                {{ __('Proveedores Eliminados') }}
             </x-card-greet-header>
         </div>
     </x-slot>
@@ -29,7 +29,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                                 @if (count($trashed) > 0)
-                                    @foreach ($trashed as $operador)
+                                    @foreach ($trashed as $proveedor)
                                         <tr
                                             class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
                                             <td
@@ -37,7 +37,7 @@
                                                 <span
                                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Nombre</span>
                                                 <div class="text-sm">
-                                                    <div class="font-medium text-gray-700 uppercase">{{ $operador->name }}</div>
+                                                    <div class="font-medium text-gray-700 uppercase">{{ $proveedor->name }}</div>
                                                 </div>
                                             </td>
 
@@ -45,7 +45,7 @@
                                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b  block lg:table-cell relative lg:static">
                                                 <span
                                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Eliminado</span>
-                                                {{ $operador->deleted_at }}
+                                                {{ $proveedor->deleted_at }}
                                             </td>
                                             <td
                                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
@@ -55,11 +55,11 @@
                                                     <div>
                                                         {{-- restaurar --}}
                                                         @if ($valid->pivot->restpap == 1)
-                                                        <form method="POST" action="{{ route('operador_restore') }}"
-                                                            onsubmit="return confirm('Restaurar Operador');">
+                                                        <form method="POST" action="{{ route('proveedor_restore') }}"
+                                                            onsubmit="return confirm('Restaurar Proveedor');">
                                                             {{ csrf_field() }}
                                                             <input type="hidden" name="id"
-                                                                value="{{ $operador->id }}" required />
+                                                                value="{{ $proveedor->id }}" required />
                                                             <button type="submit">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
@@ -103,7 +103,7 @@
                                             <span
                                                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Sin
                                                 registros</span>
-                                            {{ __('No hay operadores eliminados') }}
+                                            {{ __('No hay proveedores eliminados') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -111,7 +111,7 @@
                         </table>
                         <div class="mt-2 ml-2 mb-2">
                             <a class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition"
-                                href="{{ route('operadores') }}">
+                                href="{{ route('proveedores') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"

@@ -157,7 +157,7 @@ class UserCreate extends Component
         session()->flash('flash.banner', 'Nuevo usuario, el usuario "'.$this->name.'" ha sido agregado al sistema.');
         session()->flash('flash.bannerStyle', 'success');
 
-        return redirect()->route('users'); //Despúes de creado el usuario retornamos a la vista usuarios
+        return redirect(request()->header('Referer')); //Despúes de creado el usuario retornamos a la vista usuarios
     }
 
     public function render()

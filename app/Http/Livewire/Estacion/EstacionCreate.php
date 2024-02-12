@@ -123,9 +123,11 @@ class EstacionCreate extends Component
 
         $this->mount();
 
-        Alert::success('Nueva Estacion', "La Estacion". ' '.$this->name. ' '. "ha sido agregada al sistema");
+        // Alert::success('Nueva Estacion', "La Estacion". ' '.$this->name. ' '. "ha sido agregada al sistema");
+        session()->flash('flash.banner', 'Nueva Estación, la estación "'.$this->name.'" ha sido agregada al sistema.');
+        session()->flash('flash.bannerStyle', 'success');
         
-        return redirect()->route('estaciones');
+        return redirect(request()->header('Referer'));
     }
 
     public function updatedZona($id)
