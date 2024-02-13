@@ -22,8 +22,9 @@
                 <div class="mb-3 mr-2 ">
                     <x-label value="{{ __('Razón Social') }}" />
 
-                    <x-input wire:model="razon_social" class="uppercase {{ $errors->has('razon_social') ? 'is-invalid' : '' }}"
-                        type="text" name="razon_social" :value="old('razon_social')" required autofocus autocomplete="razon_social" />
+                    <x-input wire:model="razon_social"
+                        class="uppercase {{ $errors->has('razon_social') ? 'is-invalid' : '' }}" type="text"
+                        name="razon_social" :value="old('razon_social')" required autofocus autocomplete="razon_social" />
                     <x-input-error for="razon_social"></x-input-error>
                 </div>
             </div>
@@ -31,8 +32,9 @@
                 <div class="mb-3 mr-2 ">
                     <x-label value="{{ __('Dirección') }}" />
 
-                    <x-input wire:model="direccion" class="uppercase {{ $errors->has('direccion') ? 'is-invalid' : '' }}"
-                        type="text" name="direccion" :value="old('direccion')" required autofocus autocomplete="direccion" />
+                    <x-input wire:model="direccion"
+                        class="uppercase {{ $errors->has('direccion') ? 'is-invalid' : '' }}" type="text"
+                        name="direccion" :value="old('direccion')" required autofocus autocomplete="direccion" />
                     <x-input-error for="direccion"></x-input-error>
                 </div>
                 <div class="mb-3 mr-2 ">
@@ -44,13 +46,18 @@
                 </div>
             </div>
             <div class="flex flex-wrap justify-center items-center">
-                <div class="mb-3 mr-2 ">
-                    <x-label value="{{ __('Origen') }}" />
-
-                    <x-input wire:model="origen" class="uppercase {{ $errors->has('origen') ? 'is-invalid' : '' }}"
-                        type="text" name="origen" :value="old('origen')" required autofocus autocomplete="origen" />
-                    <x-input-error for="origen"></x-input-error>
-                </div>
+                <div class="mb-3 mr-2 " wire:ignore>
+                    <x-label value="{{ __('Zona') }}" />
+                    <select id="select2" name="zonasList[ ]"
+                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
+                     dark:focus:ring-offset-dark-eval-1 w-full"
+                        multiple="multiple">
+                        @foreach ($zonas as $zona)
+                            <option value="{{ $zona->id }}">{{ $zona->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error for="zona"></x-input-error>
+                </div> 
             </div>
         </x-slot>
 
@@ -77,5 +84,18 @@
             </x-secondary-button>
         </x-slot>
     </x-dialog-modal>
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:load', function() {
+                Livewire.hook('message.processed', (message, component) => {
+                    $('#select2').select2({
+                        placeholder: "Seleccionar zona(s)...",
+                        allowClear: true
+                    }).on('change', function() {
+                        @this.set('zonasList', $(this).val());
+                    });
+                });
+            });
+        </script>
+    @endpush
 </div>
-

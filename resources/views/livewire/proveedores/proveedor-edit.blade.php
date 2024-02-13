@@ -1,5 +1,4 @@
 <div>
-
     <button wire:click="confirmProvEdit({{ $prov_id }})" wire:loading.attr="disabled" class="tooltip"
         data-target="EditProv{{ $prov_id }}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -50,11 +49,21 @@
             </div>
             <div class="flex flex-wrap">
                 <div class="mb-3 mr-2 ">
-                    <x-label value="{{ __('Origen') }}" />
+                    <x-label value="{{ __('Zona') }}" />
 
-                    <x-input wire:model="origen" class="{{ $errors->has('origen') ? 'is-invalid' : '' }}" type="text"
-                        name="origen" :value="old('origen')" required autofocus autocomplete="origen" />
-                    <x-input-error for="origen"></x-input-error>
+                    <div class="max-h-[100px] min-w-[120px] overflow-y-auto">
+                        @foreach ($zonas as $tag)
+                            <div class="flex items-center">
+                                <input type="checkbox" wire:model="zonasUpdate"
+                                    class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
+                                    dark:text-gray-300 dark:focus:ring-offset-dark-eval-1"
+                                    value="{{ $tag->id }}" name="names[]" id="{{ $tag->name }}" multiple>
+                                <label for="{{ $tag->name }}"
+                                    @if (old('zonasUpdate') == $tag->id) selected @endif>{{ $tag->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <x-input-error for="zona"></x-input-error>
                 </div>
                 <div class="mb-3 mr-2 col-6" wire:ignore>
                     <x-label value="{{ __('Estado') }}" />

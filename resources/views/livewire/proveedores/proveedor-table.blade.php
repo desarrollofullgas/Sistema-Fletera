@@ -83,6 +83,30 @@
             @endif
         @endif
 
+        {{-- Modal para mostrar zonas --}}
+        <x-dialog-modal wire:model="showingAllZonas" class="flex items-center">
+            <x-slot name="title">
+                <div class="bg-dark-eval-1 dark:bg-gray-600 p-1 rounded-md text-white text-center">
+                    {{ __('ZONAS PROVEEDOR') }} 
+                </div>
+            </x-slot>
+
+            <x-slot name="content">
+                <!-- Mostrar todas las zonas -->
+                <ul class="text-center">
+                    @foreach ($allZonas as $zona)
+                        <li>{{ $zona->name }}</li>
+                    @endforeach
+                </ul>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-secondary-button wire:click="$set('showingAllZonas', false)">
+                    Cerrar
+                </x-secondary-button>
+            </x-slot>
+        </x-dialog-modal>
+
         <div class="flex-col space-y-4">
             {{-- Componente tabla --}}
             <x-table>
@@ -90,11 +114,9 @@
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading>
-                    <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">NOMBRE</x-heading>
-                    <x-heading sortable wire:click="sortBy('razon_social')" :direction="$sortField === 'razon_social' ? $sortDirection : null">RAZÓN SOCIAL</x-heading>
-                    <x-heading sortable wire:click="sortBy('rfc')" :direction="$sortField === 'rfc' ? $sortDirection : null">RFC</x-heading>
-                    <x-heading sortable wire:click="sortBy('origen')" :direction="$sortField === 'origen' ? $sortDirection : null">ORIGEN</x-heading>
+                    <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">PROVEEDOR</x-heading>
                     <x-heading sortable wire:click="sortBy('status')" :direction="$sortField === 'status' ? $sortDirection : null">ESTADO</x-heading>
+                    <x-heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">ZONA</x-heading>
                     <x-heading>OPCIONES</x-heading>
                 </x-slot>
                 <x-slot name="body">
@@ -106,17 +128,34 @@
                             </x-cell>
                             <x-cell>{{ $pro->id }} </x-cell>
                             <x-cell><span class="font-bold">{{ $pro->name }}</span></x-cell>
-                            <x-cell>{{ $pro->razon_social }} </x-cell>
-                            <x-cell>{{ $pro->rfc }} </x-cell>
-                            <x-cell>{{ $pro->origen }} </x-cell>
                             <x-cell>
-                                <span
-                                    class="rounded bg-{{ $pro->status_color }}-200 py-1 px-3 text-xs text-{{ $pro->status_color }}-500 font-bold">
+                                <span class="rounded bg-gray-200 py-1 px-3 text-xs text-gray-500 font-bold">
                                     {{ $pro->status }}
                                 </span>
                             </x-cell>
                             <x-cell>
+                                <div class="flex flex-wrap">
+                                    @if ($pro->zonas->isEmpty())
+                                        <div>Por Definir</div>
+                                    @else
+                                        @php $maxZonasToShow = 1; @endphp
+                                        @foreach ($pro->zonas->take($maxZonasToShow) as $zona)
+                                            {{ $zona->name }}
+                                        @endforeach
+                                        @if ($pro->zonas->count() > $maxZonasToShow)
+                                            <button class="ml-1 text-blue-600 dark:text-gray-400 hover:underline text-xs font-bold"
+                                                wire:click="getAllZonas({{ $pro->id }})">Ver más</button>
+                                        @endif
+                                    @endif
+                                </div>
+                            </x-cell>
+                            <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
+                                    <div>
+                                        @if ($valid->pivot->vermas == 1)
+                                            @livewire('proveedores.proveedor-show', ['proveedorID' => $pro->id], key('show' . $pro->id))
+                                        @endif
+                                    </div>
                                     <div>
                                         @if ($valid->pivot->ed == 1)
                                             @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('ed' . $pro->id))

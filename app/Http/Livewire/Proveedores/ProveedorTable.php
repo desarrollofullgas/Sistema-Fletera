@@ -25,6 +25,10 @@ class ProveedorTable extends Component
     public $selectPage = false;
     public $selectAll = false;
 
+    public $showingAllZonas = false;
+    public $selectedProveedorId;
+    public $allZonas = [];
+
     public function render()
     {
         $this->valid = Auth::user()->permiso->panels->where('id', 7)->first();
@@ -112,5 +116,13 @@ class ProveedorTable extends Component
         session()->flash('flash.banner', 'ELIMINADO, el proveedor ha sido eliminado del sistema.');
         session()->flash('flash.bannerStyle', 'success');
         return redirect(request()->header('Referer'));
+    }
+
+    public function getAllZonas($proveedorId)
+    {
+        $this->selectedProveedorId = $proveedorId;
+        $this->proveedor = Proveedor::findOrFail($proveedorId);
+        $this->allZonas = $this->proveedor->zonas ?? []; // Verificar si $proveedor->zonas es null y asignar un array vacío en ese caso
+        $this->showingAllZonas = true;
     }
 }

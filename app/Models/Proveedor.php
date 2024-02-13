@@ -11,7 +11,7 @@ class Proveedor extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable=['name','razon_social','direccion','rfc','origen','busqueda','status'];
+    protected $fillable=['name','razon_social','direccion','rfc','busqueda','status'];
 
     public function scopeSearch($query, $value){
         $query->where('id', 'like', "%{$value}%")
@@ -19,7 +19,6 @@ class Proveedor extends Model
         ->orWhere('razon_social', 'like', "%{$value}%")
         ->orWhere('direccion', 'like', "%{$value}%")
         ->orWhere('rfc', 'like', "%{$value}%")
-        ->orWhere('origen', 'like', "%{$value}%")
         ->orWhere('busqueda', 'like', "%{$value}%")
         ->orWhere('status', 'like', "%{$value}%")
         ->orWhere('created_at', 'like', "%{$value}%");
@@ -29,5 +28,10 @@ class Proveedor extends Model
             'Activo' => 'green',
             'Inactivo' => 'red',
         ][$this->status] ?? 'gray';
+    }
+
+    public function zonas()
+    {
+        return $this->belongsToMany(Zona::class, 'proveedor_zonas');
     }
 }

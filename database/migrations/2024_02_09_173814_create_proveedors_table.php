@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('razon_social',500);
             $table->string('direccion',500)->nullable();
             $table->string('rfc',500);
-            $table->string('origen',500);
             $table->string('busqueda')->default('SU PLANTA');
             $table->enum('status',['Activo','Inactivo'])->default('Activo');
             $table->softDeletes();

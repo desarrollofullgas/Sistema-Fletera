@@ -133,10 +133,9 @@
                                 </div>
                             </x-cell>
                             <x-cell>
-                                <div class="flex flex-wrap">
+                                <div class="flex flex-wrap" >
                                     @foreach ($user->zonas as $zona)
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600  dark:bg-gray-300 dark:text-gray-900">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 dark:bg-gray-300 dark:text-gray-900" style="margin-bottom: 5px;">
                                             {{ $zona->name }}
                                         </span>
                                     @endforeach

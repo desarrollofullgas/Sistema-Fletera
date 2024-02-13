@@ -67,10 +67,10 @@ class OperadorCreate extends Component
         $this->mount();
 
 
-        session()->flash('flash.banner', 'Nuevo Operador "' . $this->name . '" ha sido agregado al sistema.');
+        session()->flash('flash.banner', 'Nuevo Operador "' . $operador->name . '" ha sido agregado al sistema.');
         session()->flash('flash.bannerStyle', 'success');
 
-        return redirect()->route('operadores');
+        return redirect(request()->header('Referer'));
     }
     public function render()
     {
