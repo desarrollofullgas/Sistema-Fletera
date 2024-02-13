@@ -121,8 +121,8 @@ class ProveedorTable extends Component
     public function getAllZonas($proveedorId)
     {
         $this->selectedProveedorId = $proveedorId;
-        $this->proveedor = Proveedor::findOrFail($proveedorId);
-        $this->allZonas = $this->proveedor->zonas ?? []; // Verificar si $proveedor->zonas es null y asignar un array vacío en ese caso
+        $proveedor = Proveedor::findOrFail($proveedorId);
+        $this->allZonas = $proveedor->zonas ?? []; // Verificar si $proveedor->zonas es null y asignar un array vacío en ese caso
         $this->showingAllZonas = true;
     }
 }
