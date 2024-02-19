@@ -16,4 +16,8 @@ class UnidadesController extends Controller
         $lineas=Linea::paginate(10);
         return view('modules.lineas.index',compact('lineas'));
     }
+    public function editUnidad($id){
+        $unidadID=$id;
+        return view('modules.unidades.edit',compact('unidadID'));
+    }
 }

@@ -55,6 +55,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::controller(UnidadesController::class)->group(function (){
         Route::get('/unidades','home')->name('unidades');
         Route::get('/lineas-transporte','lineasHome')->name('lineas.transporte');
+        Route::get('/unidades/editar/{id}','editUnidad')->name('unidad.edit');
     });
 
      //Permisos

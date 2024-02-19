@@ -108,7 +108,7 @@
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         PLACA
                                     </span>
-                                    {{$unidad->placa}}
+                                    {{$unidad->placa??'S/N'}}
                                 </div>
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
@@ -116,14 +116,14 @@
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         MARCA
                                     </span>
-                                    {{$unidad->marca}}
+                                    {{$unidad->marca??'S/N'}}
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         SERIE
                                     </span>
-                                    {{$unidad->serie}}
+                                    {{$unidad->serie??'S/N'}}
                                 </div>
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
@@ -139,13 +139,16 @@
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         ESTADO
                                     </span>
-                                    {{$unidad->status}}
+                                    <span class="px-2 py-1 rounded-full {{$unidad->status=='Disponible'?'bg-green-300 text-green-800':'bg-red-400 text-red-800'}}">
+                                        {{$unidad->status}}
+                                    </span>
                                 </div>
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
                                 <div class="w-full flex justify-center gap-2">
                                     @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id])
                                     @livewire('unidades.show-unidad',['unidadID' => $unidad->id])
+                                    <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
                                 </div>
                             </th>
                         </tr>
