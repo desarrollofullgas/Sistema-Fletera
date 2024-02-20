@@ -82,6 +82,7 @@
                 @endforeach
                 <x-sidebar.sublink title="Líneas" href="{{ route('lineas.transporte') }}" :active="request()->routeIs('lineas.transporte')" />
                 <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
+                <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
             </x-sidebar.dropdown>
         </x-sidebar.dropdown>
     </div>

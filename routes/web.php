@@ -6,6 +6,7 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
+use App\Http\Controllers\ViajesController;
 use App\Http\Controllers\ZonaController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/unidades','home')->name('unidades');
         Route::get('/lineas-transporte','lineasHome')->name('lineas.transporte');
         Route::get('/unidades/editar/{id}','editUnidad')->name('unidad.edit');
+    });
+
+    //viajes
+    Route::controller(ViajesController::class)->group(function(){
+        Route::get('/viajes','home')->name('viajes');
     });
 
      //Permisos
