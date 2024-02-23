@@ -13,14 +13,14 @@
 
     <x-dialog-modal wire:model="ShowgUsuario" id="ShowUsuario{{ $user_show_id }}" >
         <x-slot name="title">
-            <div class="bg-dark-eval-1 dark:bg-gray-600 p-4 rounded-md text-white text-center">
+            <div class="bg-dark-eval-1 dark:bg-gray-600 p-1 rounded-md text-white text-center">
             {{ __('Información General del Usuario') }}
            </div>
         </x-slot>
 
         <x-slot name="content">
             <div class="flex items-center justify-center">
-                <div class=" bg-gray-200 dark:bg-dark-eval-0 shadow-lg rounded-lg overflow-hidden ">
+                <div class="bg-gray-200 dark:bg-dark-eval-2 shadow-lg rounded-lg overflow-hidden ">
                     @if ($user->profile_photo_path)
                         <img class="w-full h-56 object-cover object-center"
                             src="{{ Storage::url($user->profile_photo_path) }}" alt="{{ $user->name }} foto">
@@ -28,7 +28,7 @@
                         <img class="w-full h-56 object-cover object-center" src="{{ $user->profile_photo_url }}"
                             alt="{{ $user->name }}'s profile photo">
                     @endif
-                    <div class="flex items-center px-3 py-1 bg-gray-900">
+                    <div class="flex items-center px-3 py-1 bg-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-6 h-6 text-white">
                             <path fill-rule="evenodd"

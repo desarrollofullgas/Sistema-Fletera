@@ -103,7 +103,7 @@
                             <x-cell> <x-input type="checkbox" value="{{ $zona->id }}" wire:model="checked" />
                             </x-cell>
                             <x-cell>{{ $zona->id }} </x-cell>
-                            <x-cell>{{ $zona->name }}</x-cell>
+                            <x-cell><span class="font-bold">{{ $zona->name }}</span></x-cell>
                             <x-cell>
                                 <span
                                     class="rounded bg-{{ $zona->status_color }}-200 py-1 px-3 text-xs text-{{ $zona->status_color }}-500 font-bold">

@@ -12,10 +12,11 @@ class EstacionEdit extends Component
 {
     public $EditEstacion, $gerente;
     public $estacion_id, $name, $zona, $supervisor, $status,$isSuper, $isGeren,$numero;
+    public $razon,$propietario,$rfc,$siic,$iva,$num_cre,$direccion;
     
     public function resetFilters()
     {
-        $this->reset(['name', 'zona', 'supervisor', 'status', 'gerente']);
+        $this->reset(['name', 'zona', 'supervisor', 'status', 'gerente','propietario','razon','rfc','siic','iva','num_cre','direccion']);
     }
 
     public function mount()
@@ -32,6 +33,13 @@ class EstacionEdit extends Component
         $this->estacion_id = $id;
         $this->name = $estacion->name;
         $this->numero = $estacion->num_estacion;
+        $this->razon = $estacion->razon_social;
+        $this->rfc = $estacion->rfc;
+        $this->siic = $estacion->siic;
+        $this->iva = $estacion->iva;
+        $this->num_cre = $estacion->num_cre;
+        $this->direccion = $estacion->direccion;
+        $this->propietario = $estacion->propietario;
         $this->zona = $estacion->zona_id;
         $this->gerente = $estacion->user_id;
         $this->supervisor = $estacion->supervisor_id;
@@ -65,6 +73,13 @@ class EstacionEdit extends Component
         $esta->forceFill([
             'name' => $this->name,
             'num_estacion' => $this->numero,
+            'razon_social' => $this->razon,
+            'propietario' => $this->propietario,
+            'rfc' => $this->rfc,
+            'siic' => $this->siic,
+            'iva' => $this->iva,
+            'num_cre' => $this->cre,
+            'direccion' => $this->direccion,
             'zona_id' => $this->zona,
             'user_id' => $this->gerente,
             'supervisor_id' => $this->supervisor,
@@ -72,8 +87,10 @@ class EstacionEdit extends Component
         ])->save();
 
         $this->mount();
-        Alert::success('Estacion Actualizada', "La Estacion". ' '.$this->name. ' '. "ha sido actualizada en el sistema");
-        // return redirect()->route('estaciones');
+        session()->flash('flash.banner', 'Estación Actualizada,  "'.$esta->name.'" ha sido actualizada en el sistema.');
+        session()->flash('flash.bannerStyle', 'success');
+
+        //return redirect()->route('users');//Finalmente, se redirige al usuario a la ruta 'users'.
         return redirect(request()->header('Referer'));
     }
 

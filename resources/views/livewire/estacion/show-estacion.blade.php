@@ -1,7 +1,7 @@
 <div>
 
-    <button wire:click="confirmShowEstacion({{ $estacion_show_id }})" wire:loading.attr="disabled"
-        class="tooltip" data-target="ShowEstacion{{ $estacion_show_id }}">
+    <button wire:click="confirmShowEstacion({{ $estacion_show_id }})" wire:loading.attr="disabled" class="tooltip"
+        data-target="ShowEstacion{{ $estacion_show_id }}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="w-6 h-6 text-gray-400 hover:text-indigo-400">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -21,12 +21,12 @@
         <x-slot name="content">
             <div class="w-full rounded overflow-hidden shadow-lg">
                 <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2 ">{{ $this->titulo_estacion }}</div>
-                    <div class="font-bold text-sm mb-2 ">No. {{ $this->numero }}</div>
+                    <div class="font-bold text-xl mb-2 text-center">{{ $this->titulo_estacion }}</div>
+                    <div class="font-bold text-sm mb-2 text-center">No. {{ $this->numero }}</div>
                     <div class="px-2">
                         <div class="flex -mx-2 bg-gray-300 p-2 rounded-md">
-                            <div class="w-1/3 px-2">
-                                <span class="dark:text-black">Gerente: </span>
+                            <div >
+                                <span class="text-sm font-bold dark:text-black">Gerente: </span>
                                 @if ($gerentestat == 'Inactivo')
                                     <p class="text-red-500">
                                         <span class="text-xs">{{ $this->gerente }}</span>
@@ -35,8 +35,8 @@
                                     <span class="text-xs dark:text-black"> {{ $this->gerente }}</span>
                                 @endif
                             </div>
-                            <div class="w-1/3 px-2">
-                                <span class="dark:text-black">Supervisor:</span>
+                            <div>
+                                <span class="text-sm font-bold dark:text-black">Supervisor:</span>
                                 @if ($supervisorstat == 'Inactivo')
                                     <p class="text-red-500">
                                         <span class="text-xs"> {{ $this->supervisor }}</span>
@@ -45,22 +45,47 @@
                                     <span class="text-xs dark:text-black"> {{ $this->supervisor }}</span>
                                 @endif
                             </div>
-                            <div class="w-1/3 px-2">
-                                <span class="dark:text-black">Status:</span>
+                            <div>
+                                <span class="text-sm font-bold dark:text-black">Status:</span>
                                 <span class="text-xs dark:text-black">{{ $this->status }}</span>
                             </div>
-                            <div class="w-1/3 dark:text-black"> Registro:</span>
-                                <span class="text-xs dark:text-black">{{ $this->created_at }}</span>
+                            <div class="text-sm font-bold dark:text-black"> Propietario:</span>
+                                <span class="text-xs dark:text-black">{{ $this->propietario }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="px-6 pt-4 pb-2">
+                <div class="px-6 pt-4 pb-2 text-center">
                     <span class="text-indigo-500 font-bold">Zona:</span>
                     <span
                         class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{{ $this->zonas }}</span>
                 </div>
-                <img class="w-full" src="{{ asset('img/logo/fullpower.png') }}" alt="">
+                <div class="flex gap-2 bg-gray-300 p-2 rounded-md">
+                    <div>
+                        <span class="text-sm font-bold dark:text-black">Razón Social: </span>
+                            <span class="text-xs dark:text-black"> {{ $this->razon }}</span>
+                    </div>
+                    <div>
+                        <span class="text-sm font-bold dark:text-black">RFC:</span>
+                            <span class="text-xs dark:text-black"> {{ $this->rfc }}</span>
+                    </div>
+                    <div>
+                        <span class="text-sm font-bold dark:text-black">SIIC:</span>
+                        <span class="text-xs dark:text-black">{{ $this->siic }}</span>
+                    </div>
+                    <div> 
+                         <span class="text-sm font-bold dark:text-black">IVA:</span>
+                        <span class="text-xs dark:text-black">{{ $this->iva }}</span>
+                    </div>
+                    <div>
+                         <span class="text-sm font-bold dark:text-black">Permiso CRE:</span>
+                        <span class="text-xs dark:text-black">{{ $this->num_cre }}</span>
+                    </div>
+                    <div> 
+                         <span class="text-sm font-bold dark:text-black">Dirección:</span>
+                        <span class="text-xs dark:text-black">{{ $this->direccion }}</span>
+                    </div>
+                </div>
             </div>
         </x-slot>
 

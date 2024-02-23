@@ -11,7 +11,28 @@ class Unidad extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table="unidades";
+
+    protected $table='unidades';
+    public function scopeSearch($query, $value)
+    {
+        $query->where(function ($query) use ($value) {
+            $query->where('id', 'like', "%{$value}%")
+                ->orWhere('tractor', 'like', "%{$value}%")
+                ->orWhere('capacidad', 'like', "%{$value}%")
+                ->orWhere('placa', 'like', "%{$value}%")
+                ->orWhere('marca', 'like', "%{$value}%")
+                ->orWhere('modelo', 'like', "%{$value}%")
+                ->orWhere('serie', 'like', "%{$value}%")
+                ->orWhere('status', 'like', "%{$value}%")
+                ->orWhere('created_at', 'like', "%{$value}%");
+        })->orWhere(function ($query) use ($value) {
+            $query->whereIn('linea_id', function ($subquery) use ($value) {
+                $subquery->select('id')
+                    ->from('lineas')
+                    ->where('name', 'LIKE', "%{$value}%");
+            });
+        });
+    }
 
     public function toneles():HasMany
     {

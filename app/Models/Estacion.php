@@ -22,6 +22,13 @@ class Estacion extends Model
             $query->where('id', 'like', "%{$value}%")
                 ->orWhere('name', 'like', "%{$value}%")
                 ->orWhere('num_estacion', 'like', "%{$value}%")
+                ->orWhere('num_cre', 'like', "%{$value}%")
+                ->orWhere('rfc', 'like', "%{$value}%")
+                ->orWhere('razon_social', 'like', "%{$value}%")
+                ->orWhere('propietario', 'like', "%{$value}%")
+                ->orWhere('direccion', 'like', "%{$value}%")
+                ->orWhere('siic', 'like', "%{$value}%")
+                ->orWhere('iva', 'like', "%{$value}%")
                 ->orWhere('status', 'like', "%{$value}%")
                 ->orWhere('created_at', 'like', "%{$value}%");
         })->orWhere(function ($query) use ($value) {

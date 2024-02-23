@@ -30,7 +30,7 @@ class ZonaController extends Controller
   
     public function trashed_zonas()
     {
-        $valid = Auth::user()->permiso->panels->where('id', 12)->first();
+        $valid = Auth::user()->permiso->panels->where('id', 5)->first();
 
         $trashed = Zona::onlyTrashed()->orderBy("id", "desc")->paginate();
 

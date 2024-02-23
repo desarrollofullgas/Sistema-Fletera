@@ -1,20 +1,18 @@
 @php
     $valid = Auth::user()->permiso->panels;
 
-
     $settings = 'hidden';
 
     $sistema = 'hidden';
 
     foreach ($valid as $permis) {
-
-        for ($i = 2; $i <= 5; $i++) {
+        for ($i = 2; $i <= 9; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $settings = 'block';
             }
         }
 
-        for ($i = 5; $i <= 8; $i++) {
+        for ($i = 9; $i <= 10; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $sistema = 'block';
             }
@@ -42,12 +40,7 @@
 
     {{-- Ajustes --}}
     <div class="{{ $settings }}">
-        <x-sidebar.dropdown title="Ajustes" :active="Str::startsWith(
-            request()
-                ->route()
-                ->uri(),
-            'buttons',
-            )">
+        <x-sidebar.dropdown title="Ajustes" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
             <x-slot name="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
@@ -56,45 +49,43 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </x-slot>
+            @foreach ($valid as $item)
+                @if ($item->pivot->panel_id == 2 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Estaciones" href="{{ route('estaciones') }}" :active="request()->routeIs('estaciones')" />
+                @endif
 
-            {{-- Ajustes General --}}
-            <x-sidebar.dropdown title="General" :active="Str::startsWith(
-                request()
-                    ->route()
-                    ->uri(),
-                'buttons',
-            )">
-                @foreach ($valid as $item)
-                    
-                    @if ($item->pivot->panel_id == 2 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Estaciones" href="{{ route('estaciones') }}" :active="request()->routeIs('estaciones')" />
-                    @endif
-                   
-                    @if ($item->pivot->panel_id == 3 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Roles" href="{{ route('roles') }}" :active="request()->routeIs('roles')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 4 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Usuarios" href="{{ route('users') }}" :active="request()->routeIs('users')" />
-                    @endif
-                    @if ($item->pivot->panel_id == 5 && $item->pivot->re == 1)
-                        <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
-                    @endif
-                @endforeach
+                @if ($item->pivot->panel_id == 3 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Roles" href="{{ route('roles') }}" :active="request()->routeIs('roles')" />
+                @endif
+                @if ($item->pivot->panel_id == 4 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Usuarios" href="{{ route('users') }}" :active="request()->routeIs('users')" />
+                @endif
+                @if ($item->pivot->panel_id == 5 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Zonas" href="{{ route('zonas') }}" :active="request()->routeIs('zonas')" />
+                @endif
+                @if ($item->pivot->panel_id == 6 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Operadores" href="{{ route('operadores') }}" :active="request()->routeIs('operadores')" />
+                @endif
+                @if ($item->pivot->panel_id == 7 && $item->pivot->re == 1)
+                    <x-sidebar.sublink title="Proveedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
+                @endif
+                @if ($item->pivot->panel_id == 8 && $item->pivot->re == 1)
                 <x-sidebar.sublink title="Líneas" href="{{ route('lineas.transporte') }}" :active="request()->routeIs('lineas.transporte')" />
+                @endif
+                @if ($item->pivot->panel_id == 9 && $item->pivot->re == 1)
                 <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
-                <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
-            </x-sidebar.dropdown>
+                @endif
+            @endforeach
+            <x-sidebar.sublink title="Proveedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
+            <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
+            <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
+
         </x-sidebar.dropdown>
     </div>
 
     {{-- Sistema --}}
     <div class="{{ $sistema }}">
-        <x-sidebar.dropdown title="Sistema" :active="Str::startsWith(
-            request()
-                ->route()
-                ->uri(),
-            'buttons',
-        )">
+        <x-sidebar.dropdown title="Sistema" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
             <x-slot name="icon">
                 {{-- <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" /> --}}
                 <svg class="flex-shrink-0 w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -105,7 +96,7 @@
                 </svg>
             </x-slot>
             @foreach ($valid as $item)
-                @if ($item->pivot->panel_id == 6 && $item->pivot->re == 1)
+                @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
                     <x-sidebar.sublink title="Versiones" href="{{ route('versiones') }}" :active="request()->routeIs('versiones')" />
                 @endif
             @endforeach

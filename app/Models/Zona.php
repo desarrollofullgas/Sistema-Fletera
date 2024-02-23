@@ -30,6 +30,10 @@ class Zona extends Model
     {
         return $this->belongsToMany(User::class, 'user_zona');
     }
+    public function proveedores()
+    {
+        return $this->belongsToMany(User::class, 'proveedor_zonas');
+    }
     public function estacions()
     {
         return $this->hasMany(Estacion::class);

@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="{{ asset('img/favicon/faviconnew.png') }}" type="image/x-icon">
 
-    <title>BIENVENIDO TICKETS</title>
+    <title>BIENVENIDO FLETERA</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -41,12 +41,8 @@
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <div class="flex justify-center">
-                <img src="{{ asset('img/logo/FullGas.png') }}" alt="">
+                <img src="{{ asset('img/logo/Mesa de trabajo 1ng.png') }}" alt="" style="width: 350px">
             </div>
-            {{-- <div>
-                <p class="mt-8 text-center">SISTEMA DE ATENCIÓN DE TICKETS HELPDESK
-                </p>
-            </div> --}}
             <div class="leyenda flex justify-center mt-3">
                 <a id="loginLink" style="text-decoration: none; display: flex; align-items: center;" class="kbc-button" href="/login">
                     <span style="margin-right: 5px;">

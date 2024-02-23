@@ -106,7 +106,10 @@
                             <x-cell> <x-input type="checkbox" value="{{ $esta->id }}" wire:model="checked" />
                             </x-cell>
                             <x-cell>{{ $esta->id }} </x-cell>
-                            <x-cell>{{ $esta->name }}</x-cell>
+                            <x-cell class="flex flex-col">
+                               <span class="font-bold"> {{ $esta->name }}</span>
+                                <span class="text-xs">#{{ $esta->num_estacion }}</span>
+                            </x-cell>
                             <x-cell>
                                 @if ($esta->user_id != 0 || $esta->user_id != null)
                                     @if ($esta->user->permiso_id == 3 && $esta->user->status == 'Activo')

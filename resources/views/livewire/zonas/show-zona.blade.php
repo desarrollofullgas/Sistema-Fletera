@@ -13,7 +13,7 @@
 
     <x-dialog-modal wire:model="ShowgZona" id="ShowZona{{ $zona_show_id }}" class="flex items-center">
         <x-slot name="title">
-            <div class="bg-dark-eval-1 dark:bg-gray-600 p-4 rounded-md text-white text-center">
+            <div class="bg-dark-eval-1 dark:bg-gray-600 p-1 rounded-md text-white text-center">
                 {{ __('Información General de la Zona') }}
             </div>
         </x-slot>
@@ -21,28 +21,28 @@
         <x-slot name="content">
                 {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
                 <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2 text-black">{{ $this->name }}</div>
+                    <div class="font-bold text-xl mb-2 text-center">{{ $this->name }}</div>
                     <div class="px-2">
-                        <div class="flex -mx-2 bg-black opacity-50 p-2 rounded-md">
+                        <div class="flex -mx-2  p-1 rounded-md">
                             <div class="w-1/3 px-2">
-                                <span class="text-gray-100">Gerentes: </span>
-                                <span class="text-xs text-gray-100">{{ $this->gerent }}</span>
+                                <span class="font-bold">Gerentes: </span>
+                                <span class="text-xs ">{{ $this->gerent }}</span>
                             </div>
                             <div class="w-1/3 px-2">
-                                <span class="text-gray-100">Estaciones: </span>
-                                <span class="text-xs text-gray-100">{{ $this->estacions }}</span>
+                                <span class="font-bold">Estaciones: </span>
+                                <span class="text-xs">{{ $this->estacions }}</span>
                             </div>
                             {{-- <div class="w-1/3 px-2">
                                 <span class="text-gray-700">Productos:</span>
                                 <span class="text-xs">{{ $this->prods }}</span>
                             </div> --}}
                             <div class="w-1/3 px-2">
-                                <span class="text-gray-100">Status:</span>
-                                <span class="text-xs text-gray-100">{{ $this->status }}</span>
+                                <span class="font-bold">Status:</span>
+                                <span class="text-xs ">{{ $this->status }}</span>
                             </div>
                             <div class="w-1/3 px-2">
-                                <span class="text-gray-100"> Registro:</span>
-                                <span class="text-xs text-gray-100"> {{ $this->created_at }}</span>
+                                <span class="font-bold"> Registro:</span>
+                                <span class="text-xs "> {{ $this->created_at }}</span>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     @if (!empty($db))
                         <div class="border rounded-lg overflow-hidden max-h-[320px] overflow-y-auto">
                             <details>
-                                <summary class="bg-gray-100 py-2 px-4 cursor-pointer">Click para mostrar/ocultar
+                                <summary class="bg-gray-100 dark:bg-transparent py-2 px-4 cursor-pointer">Click para mostrar/ocultar
                                     Gerentes</summary>
                                 <table class="table-auto w-full">
                                     <thead>
@@ -59,7 +59,6 @@
                                             <th class="px-4 py-2">Nombre</th>
                                             <th class="px-4 py-2">Estacion</th>
                                             <th class="px-4 py-2">Status</th>
-                                            <th class="px-4 py-2">Disponibilidad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -90,19 +89,10 @@
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        @if ($user->deleted_at == null)
-                                                            {{ __('En Sistema') }}
-                                                        @else
-                                                            {{ __('En Papelera') }}
-                                                        @endif
-                                                    </span>
-                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td class="border px-4 py-2" colspan="4">Sin datos.</td>
+                                                <td class="border px-4 py-2" colspan="3">Sin datos.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -116,14 +106,13 @@
                     @if ($isSuper->isnotEmpty())
                         <div class="border rounded-lg overflow-hidden max-h-[320px] overflow-y-auto">
                             <details>
-                                <summary class="bg-gray-100 py-2 px-4 cursor-pointer">Click para mostrar/ocultar
+                                <summary class="bg-gray-100 dark:bg-transparent  py-2 px-4 cursor-pointer">Click para mostrar/ocultar
                                     Estaciones</summary>
                                 <table class="table-auto w-full">
                                     <thead>
                                         <tr>
                                             <th class="px-4 py-2">Nombre</th>
                                             <th class="px-4 py-2">Status</th>
-                                            <th class="px-4 py-2">Disponibilidad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,19 +132,10 @@
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        @if ($estacion->deleted_at == null)
-                                                            {{ __('En Sistema') }}
-                                                        @else
-                                                            {{ __('En Papelera') }}
-                                                        @endif
-                                                    </span>
-                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td class="border px-4 py-2" colspan="3">Sin datos.</td>
+                                                <td class="border px-4 py-2" colspan="2">Sin datos.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -165,14 +145,13 @@
                     @elseif ($estaciones->isnotEmpty())
                         <div class="border rounded-lg overflow-hidden max-h-[320px] overflow-y-auto">
                             <details>
-                                <summary class="bg-gray-100 py-2 px-4 cursor-pointer">Click para mostrar/ocultar
+                                <summary class="bg-gray-100 dark:bg-transparent  py-2 px-4 cursor-pointer">Click para mostrar/ocultar
                                     Estaciones</summary>
                                 <table class="table-auto w-full">
                                     <thead>
                                         <tr>
                                             <th class="px-4 py-2">Nombre</th>
                                             <th class="px-4 py-2">Status</th>
-                                            <th class="px-4 py-2">Disponibilidad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -192,19 +171,10 @@
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        @if ($estacion->deleted_at == null)
-                                                            {{ __('En Sistema') }}
-                                                        @else
-                                                            {{ __('En Papelera') }}
-                                                        @endif
-                                                    </span>
-                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td class="border px-4 py-2" colspan="3">Sin datos.</td>
+                                                <td class="border px-4 py-2" colspan="2">Sin datos.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -214,59 +184,6 @@
                     @endif
                 </div>
                 <br>
-                {{-- <br>
-                <div>
-                    @if ($productos->isnotEmpty())
-                        <div class="border rounded-lg overflow-hidden max-h-[320px] overflow-y-auto">
-                            <details>
-                                <summary class="bg-gray-100 py-2 px-4 cursor-pointer">Click para mostrar/ocultar
-                                    Productos</summary>
-                                <table class="table-auto w-full">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-4 py-2">Nombre</th>
-                                            <th class="px-4 py-2">Categoria</th>
-                                            <th class="px-4 py-2">Stock</th>
-                                            <th class="px-4 py-2">Disponibilidad</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse($productos as $prod)
-                                            <tr>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs"> {{ $prod->name }}</span>
-                                                </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        {{ $prod->categoria->name }}
-                                                    </span>
-                                                </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        {{ $prod->stock }}
-                                                    </span>
-                                                </td>
-                                                <td class="border px-4 py-2">
-                                                    <span class="text-xs">
-                                                        @if ($prod->flag_trash == 0)
-                                                            {{ __('En Sistema') }}
-                                                        @else
-                                                            {{ __('En Papelera') }}
-                                                        @endif
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td class="border px-4 py-2" colspan="4">Sin datos.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </details>
-                        </div>
-                    @endif
-                </div> --}}
         </x-slot>
 
         <x-slot name="footer" class="d-none">
