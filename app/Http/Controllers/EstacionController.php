@@ -73,4 +73,9 @@ class EstacionController extends Controller
         $estacion->forceDelete();
         return redirect()->back();
     }
+
+    public function editEstacion($id){
+        $estacionID=$id;
+        return view('modules.estaciones.edit',compact('estacionID'));
+    }
 }

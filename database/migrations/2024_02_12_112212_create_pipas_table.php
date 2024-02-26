@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('serie')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('unidad_id')->references('id')->on('unidads')->onDelete('cascade');
         });
     }
 

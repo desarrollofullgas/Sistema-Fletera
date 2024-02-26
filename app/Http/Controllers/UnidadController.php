@@ -102,5 +102,10 @@ class UnidadController extends Controller
         $linea->forceDelete();
         return redirect()->back();
     }
+
+    public function editUnidad($id){
+        $unidadID=$id;
+        return view('modules.unidades.edit',compact('unidadID'));
+    }
     
 }

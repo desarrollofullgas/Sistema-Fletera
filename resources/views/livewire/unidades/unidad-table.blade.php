@@ -120,8 +120,13 @@
                             <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
                                     <div>
-                                        @if ($valid->pivot->ed == 1)
+                                        @if ($valid->pivot->vermas == 1)
                                             @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
+                                        @endif
+                                    </div>
+                                    <div>
+                                        @if ($valid->pivot->ed == 1)
+                                        <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
                                         @endif
                                     </div>
                                     <div>

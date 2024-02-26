@@ -115,7 +115,7 @@
                 </div>
                 <div class="mt-2">
                     <button @click="addPipa()" class="rounded-md bg-green-700 text-white px-2 py-1">
-                        Añadir tonel
+                        Añadir Pipa
                     </button>
                 </div>
             </fieldset>
