@@ -99,6 +99,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //viajes
     Route::controller(ViajesController::class)->group(function(){
         Route::get('/viajes','home')->name('viajes');
+        Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
     });
 
     //Permisos

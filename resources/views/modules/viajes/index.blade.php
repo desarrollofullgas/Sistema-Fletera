@@ -148,6 +148,10 @@
                                     @if ($viaje->status!='Finalizado')
                                         @livewire('viajes.change-status',['viajeID' =>$viaje->id])
                                     @endif
+                                    @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id])
+                                    <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank">
+                                        <x-icons.print/>
+                                    </a>
                                     {{-- @livewire('viajes.delete-unidad', ['unidadID' => $unidad->id])
                                     @livewire('viajes.show-unidad',['unidadID' => $unidad->id])
                                     <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a> --}}
