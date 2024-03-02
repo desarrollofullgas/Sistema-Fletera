@@ -95,6 +95,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //viajes
     Route::controller(ViajesController::class)->group(function(){
         Route::get('/viajes','home')->name('viajes');
+        Route::get('/viajes/search/','buscarViaje')->name('viajes.search');
         Route::get('/viajes/recepcion-pipas/{ctID}','recepcion')->name('recepcion');
         Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
         Route::get('/viajes/recepcion-pipas/editar/{rep}','editRecepcion')->name('recepcion.edit');

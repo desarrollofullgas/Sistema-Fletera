@@ -10,74 +10,65 @@
             </div>
         </div>
     </x-slot>
-    <div class="p-6 flex flex-col gap-6 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
+    <div class="p-6 flex flex-col gap-4 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
+        <form action="{{route('viajes.search')}}" class="flex flex-wrap items-center gap-2">
+            <x-input id="search" name="search" type="text" placeholder="Buscar No. viaje o estación..."/>
+            <div class="flex flex-wrap gap-1 items-center">
+                <x-input id="start" name="start" type="date"/>
+                <span>al</span>
+                <x-input id="end" name="end" type="date"/>
+            </div>
+            <button class="p-2 rounded-md bg-black dark:bg-slate-700 text-gray-200"><x-icons.search/></button>
+        </form>
         @if ($viajes->count()>0)
-            <table>
-                <thead>
-                    <tr>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            NUM. VIAJE
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            DESTINO
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            COMBUSTIBLE
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            OPERADOR
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            UNIDAD
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            PROVEEDOR
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            ESTADO
-                        </th>
-                        <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
-                            OPCIONES
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+            <x-table>
+                <x-slot name="head">
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">NUM. VIAJE</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">DESTINO</span> </x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">UNIDAD</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">OPERADOR</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">COMBUSTIBLE</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">PROVEEDOR</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">ESTADO</span></x-heading>
+                    <x-heading class="max-lg:hidden lg:table-cell"></x-heading>
+                </x-slot>
+                <x-slot name="body">
                     @foreach ($viajes as $viaje)
-                        <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 dark:bg-slate-800 dark:lg:hover:bg-slate-600">
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                        <x-row class="lg:table-row flex flex-col">
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         viaje
                                     </span>
                                     {{$viaje->id}}
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         DESTINO
                                     </span>
                                     {{$viaje->estacion->name}}
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
-                                        COMBUSTIBLE
+                                        UNIDAD
                                     </span>
                                     
-                                    {{$viaje->combustible->tipo}}
+                                    {{$viaje->unidad->tractor}}
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         OPERADOR
                                     </span>
                                     {{$viaje->operador->name}}
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         UNIDAD
@@ -96,16 +87,16 @@
                                         </span>
                                     @endif
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         PROVEEDOR
                                     </span>
                                     {{$viaje->proveedor->name}}
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell>
                                 <div class="w-full flex justify-center gap-2">
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         ESTADO
@@ -139,19 +130,20 @@
                                         </div>
                                     @endif
                                 </div>
-                            </th>
-                            <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
+                            </x-cell>
+                            <x-cell  class=" flex justify-center">
                                 <div class="relative w-fit" x-data="{show:false}">
                                     <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
                                         <x-icons.dots-vertical/>
                                     </button>
-                                    <div class="px-2 w-max flex flex-col gap-1 absolute top-0 sm:left-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" @click.outside="show=false">
+                                    <div class="px-2 w-max flex flex-col gap-1 absolute top-0 sm:left-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
                                         @livewire('viajes.show-viaje',['viajeID' =>$viaje->id])
                                         @livewire('viajes.edit-viaje',['viajeID' =>$viaje->id])
                                         @livewire('viajes.delete-viaje',['viajeID' =>$viaje->id])
-                                        @if ($viaje->status=='En tránsito' && $viaje->recepcion->count()==0)
-                                            <a href="{{route('recepcion',$viaje->id)}}" target="_self" class="text-gray-400 hover:text-indigo-500">
+                                        @if ($viaje->status=='Descargando' && $viaje->recepcion==null)
+                                            <a href="{{route('recepcion',$viaje->id)}}" target="_self" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                                 <x-icons.descarga-fuel/>
+                                                <span>Recepción de pipa</span>
                                             </a>
                                         @endif
                                         @if ($viaje->recepcion)
@@ -160,21 +152,21 @@
                                                 <span>Editar recepción</span>
                                             </a>
                                         @endif
-                                        {{-- @if ($viaje->status!='Finalizado')
+                                        {{-- @if ($viaje->status=='En tránsito')
                                             @livewire('viajes.change-status',['viajeID' =>$viaje->id])
-                                        @endif
-                                        @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id]) --}}
+                                        @endif --}}
+                                       {{--  @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id]) --}}
                                         <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                             <x-icons.print/>
                                             <span>Carta porte</span>
                                         </a>
                                     </div>
                                 </div>
-                            </th>
-                        </tr>
+                            </x-cell>
+                        </x-row>
                     @endforeach
-                </tbody>
-            </table>
+                </x-slot>
+            </x-table>
             {{$viajes->links()}}
         @else
             <div class="flex flex-col justify-center items-center gap-3 py-6 text-gray-400">

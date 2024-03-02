@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cataport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ViajesController extends Controller
@@ -12,6 +13,14 @@ class ViajesController extends Controller
     public function home(){
         $viajes=Cataport::orderBy('id','DESC')->paginate(10);
         return view('modules.viajes.index',compact('viajes'));
+    }
+    public function buscarViaje(Request $request){
+        $rango=[Carbon::create($request->query('start'))->startOfDay()->toDateTimeString(),Carbon::create($request->query('end'))->endOfDay()->toDateTimeString()];
+        $viajes=Cataport::where('id',$request->query('search'))->orWhereHas('estacion',function(Builder $estaciones)use($request){
+            $estaciones->where('name','LIKE','%'.$request->query('search').'%');
+        })->paginate(10);
+        return view('modules.viajes.index',compact('viajes'));
+
     }
     //PDF del cataporte
     public function pdf($id){

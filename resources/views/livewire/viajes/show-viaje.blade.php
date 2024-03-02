@@ -1,6 +1,6 @@
-<x-modal-create tittle="" tipo="show">
+<x-modal-create tittle="" tipo="show" class="w-full">
     <x-slot name="button_tittle">
-        <div class="p-1 flex items-center gap-2">
+        <div class="flex items-center gap-2">
             <x-icons.eye/>
             <span>Detalles del viaje</span>
         </div>

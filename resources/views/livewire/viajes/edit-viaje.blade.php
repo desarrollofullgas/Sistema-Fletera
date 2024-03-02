@@ -1,6 +1,6 @@
-<x-modal-create tittle="Editar viaje #{{$viajeID}}" tipo="edit">
+<x-modal-create tittle="Editar viaje #{{$viajeID}}" tipo="edit" class="w-full">{{-- el class es para el merge en class del boton  --}}
     <x-slot name="button_tittle">
-        <div class="p-1 flex items-center gap-2">
+        <div class="flex items-center gap-2">
             <x-icons.edit/>
             <span>Editar viaje</span>
         </div>

@@ -3,9 +3,9 @@
         <button type="button" title="Inicio de descarga" wire:click='descarga'>
             <x-icons.descarga-fuel/>
         </button>
-    @else
+{{--     @else
         <button type="button" title="Finalizar viaje" wire:click='end'>
             <x-icons.check/>
-        </button>
+        </button> --}}
     @endif
 </div>

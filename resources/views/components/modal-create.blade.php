@@ -8,8 +8,8 @@
     
 @endphp
 <div x-data="{ modelOpen: false }">
-    <div class="border">
-        <button  @click="modelOpen =!modelOpen" class="{{$classes}}">
+    <div>
+        <button  @click="modelOpen =!modelOpen" {{$attributes->merge(['class'=>$classes])}}>
             {{$button_tittle}}
         </button>
     </div>
