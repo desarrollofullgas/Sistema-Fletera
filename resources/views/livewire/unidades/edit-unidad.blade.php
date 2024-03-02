@@ -52,7 +52,7 @@
             </div>
             @if (count($toneles) > 0)    
                 <fieldset class="border-t mt-3">
-                    <legend class="mx-2 px-1">Toneles registrados</legend>
+                    <legend class="mx-2 px-1">Detalles Pipa</legend>
                     <div class="">
                         @foreach ($toneles as $key=>$tonel)
                             <div class="flex flex-wrap justify-evenly items-center gap-2 py-2 border-b dark:border-gray-500">
@@ -112,7 +112,7 @@
                 $wire.unidadUpdate();
             }}">
         <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden overflow-y-auto max-h-96">
-            <legend class="px-1">Registrar toneles</legend>
+            <legend class="px-1">Añadir Pipa</legend>
             <x-input-error for="pipas"></x-input-error>
             <div class="flex flex-col justify-evenly gap-2">
                 <template x-for="(pipa,index) in pipas" :key="index">
@@ -159,7 +159,7 @@
             </div>
             <div class="mt-2">
                 <button @click="addPipa()" class="rounded-md bg-green-700 text-white px-2 py-1">
-                    Añadir tonel
+                    Añadir
                 </button>
             </div>
         </fieldset>

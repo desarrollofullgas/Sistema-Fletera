@@ -1,6 +1,9 @@
 <x-modal-create tittle="Editar viaje #{{$viajeID}}" tipo="edit">
     <x-slot name="button_tittle">
-        <x-icons.edit/>
+        <div class="p-1 flex items-center gap-2">
+            <x-icons.edit/>
+            <span>Editar viaje</span>
+        </div>
     </x-slot>
     <x-slot name="content">
         <fieldset class="border dark:border-gray-500 p-2">

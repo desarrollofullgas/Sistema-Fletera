@@ -13,10 +13,21 @@ class ViajesController extends Controller
         $viajes=Cataport::orderBy('id','DESC')->paginate(10);
         return view('modules.viajes.index',compact('viajes'));
     }
+    //PDF del cataporte
     public function pdf($id){
         $cataporte=Cataport::find($id);
         //$cataporte->created_at=Carbon::create($cataporte->created_at)->toDateString();
         $pdf=Pdf::loadView('modules.viajes.PDF',compact('cataporte'))->stream();
         return $pdf;
+    }
+    //recepcion de pipas
+    public function recepcion($id){
+        $viaje=Cataport::find($id);
+        return view('modules.recepcion.new-recepcion',compact('viaje'));
+    }
+    //editar recepcion de pipa
+    public function editRecepcion($id){
+        $viaje=Cataport::find($id);
+        return view('modules.recepcion.edit-recepcion',compact('viaje'));
     }
 }

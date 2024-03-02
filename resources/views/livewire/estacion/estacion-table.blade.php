@@ -44,25 +44,13 @@
             {{-- Filtro de Fechas --}}
             <div class="flex items-center">
                 <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                    </div>
+                    
                     <input type="date" name="start" id="from_date" wire:model="from_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <span class="mx-4 text-gray-500">a</span>
                 <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                    </div>
+                   
                     <input type="date" name="end" id="to_date" wire:model="to_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
@@ -91,8 +79,7 @@
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-heading>
                     <x-heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">ESTACIÓN</x-heading>
-                    <x-heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">GERENTE</x-heading>
-                    <x-heading sortable wire:click="sortBy('supervisor_id')" :direction="$sortField === 'supervisor_id' ? $sortDirection : null">SUPERVISOR</x-heading>
+                    <x-heading sortable wire:click="sortBy('razon_social')" :direction="$sortField === 'razon_social' ? $sortDirection : null">RAZÓN SOCIAL</x-heading>
                     <x-heading sortable wire:click="sortBy('zona_id')" :direction="$sortField === 'zona_id' ? $sortDirection : null">ZONA</x-heading>
                     <x-heading sortable wire:click="sortBy('status')" :direction="$sortField === 'status' ? $sortDirection : null">ESTADO</x-heading>
                     {{-- <x-heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">FECHA REGISTRO</x-heading> --}}
@@ -107,10 +94,10 @@
                             </x-cell>
                             <x-cell>{{ $esta->id }} </x-cell>
                             <x-cell class="flex flex-col">
-                               <span class="font-bold"> {{ $esta->name }}</span>
+                               <span class="font-bold" > {{ $esta->name }}</span>
                                 <span class="text-xs">#{{ $esta->num_estacion }}</span>
                             </x-cell>
-                            <x-cell>
+                            {{-- <x-cell>
                                 @if ($esta->user_id != 0 || $esta->user_id != null)
                                     @if ($esta->user->permiso_id == 3 && $esta->user->status == 'Activo')
                                         {{ $esta->user->name }}
@@ -159,7 +146,8 @@
                                         {{ __('Sin Supervisor') }}
                                     </p>
                                 @endif
-                            </x-cell>
+                            </x-cell> --}}
+                            <x-cell class="text-sm truncate" style="max-width: 200px;">{{ $esta->razon_social }}</x-cell>
                             <x-cell>
                                 @if ($esta->zona->status == 'Inactivo')
                                     <p class="text-red-500">
@@ -192,12 +180,12 @@
                                 <div class="flex gap-2 justify-center items-center">
                                     <div>
                                         @if ($valid->pivot->vermas == 1)
-                                            @livewire('estacion.show-estacion', ['estacion_show_id' => $esta->id], key('show'.$esta->id))
+                                            @livewire('estacion.show-estacion', ['estacionID' => $esta->id], key('show'.$esta->id))
                                         @endif
                                     </div>
                                     <div>
                                         @if ($valid->pivot->ed == 1)
-                                            @livewire('estacion.estacion-edit', ['estacion_id' => $esta->id], key('ed'.$esta->id))
+                                        <a href="{{route('estacion.edit',$esta->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
                                         @endif
                                     </div>
                                     <div>

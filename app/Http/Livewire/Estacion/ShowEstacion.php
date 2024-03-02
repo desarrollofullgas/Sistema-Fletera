@@ -11,12 +11,13 @@ use Carbon\Carbon;
 class ShowEstacion extends Component
 {
     public $ShowgEstacion;
-    public $estacion_show_id, $producto, $zonastat, $gerentestat, $supervisorstat;
+    public $estacion_show_id, $producto, $zonastat, $gerentestat, $supervisorstat,$estacion,$estacionID;
     public $titulo_estacion, $zonas, $ubicacion, $created_at, $gerente, $supervisor, $status, $numero;
     public $estaciones, $user_gerentes,$user_supervisores,$razon,$rfc,$siic,$iva,$num_cre,$direccion,$propietario;
 
     public function mount()
     {
+        $this->estacion = Estacion::find($this->estacionID);
         $this->ShowgEstacion = false;
     }
 

@@ -10,7 +10,7 @@
             </div>
         </div>
     </x-slot>
-    <div class="p-6 flex flex-col gap-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
+    <div class="p-6 flex flex-col gap-6 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
         @if ($viajes->count()>0)
             <table>
                 <thead>
@@ -82,11 +82,11 @@
                                     <span class="lg:hidden bg-blue-200 p-1 text-xs font-bold uppercase dark:bg-blue-600 dark:text-white">
                                         UNIDAD
                                     </span>
-                                    @if ($viaje->combustible->tipo=='Magna')
+                                    @if ($viaje->combustible->tipo=='MAGNA')
                                         <span class="px-2 py-1 bg-green-700 text-green-200 rounded-full">
                                             {{$viaje->combustible->tipo}}
                                         </span>
-                                    @elseif($viaje->combustible->tipo=='Premium')
+                                    @elseif($viaje->combustible->tipo=='PREMIUM')
                                         <span class="px-2 py-1 bg-red-700 text-red-200 rounded-full">
                                             {{$viaje->combustible->tipo}}
                                         </span>
@@ -141,20 +141,34 @@
                                 </div>
                             </th>
                             <th  class="w-full font-medium text-sm lg:w-auto p-3 text-gray-800 text-center border border-b dark:text-gray-400  dark:border-gray-700">
-                                <div class="w-full flex justify-center gap-2">
-                                    @livewire('viajes.show-viaje',['viajeID' =>$viaje->id])
-                                    @livewire('viajes.edit-viaje',['viajeID' =>$viaje->id])
-                                    @livewire('viajes.delete-viaje',['viajeID' =>$viaje->id])
-                                    @if ($viaje->status!='Finalizado')
-                                        @livewire('viajes.change-status',['viajeID' =>$viaje->id])
-                                    @endif
-                                    @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id])
-                                    <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank">
-                                        <x-icons.print/>
-                                    </a>
-                                    {{-- @livewire('viajes.delete-unidad', ['unidadID' => $unidad->id])
-                                    @livewire('viajes.show-unidad',['unidadID' => $unidad->id])
-                                    <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a> --}}
+                                <div class="relative w-fit" x-data="{show:false}">
+                                    <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
+                                        <x-icons.dots-vertical/>
+                                    </button>
+                                    <div class="px-2 w-max flex flex-col gap-1 absolute top-0 sm:left-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" @click.outside="show=false">
+                                        @livewire('viajes.show-viaje',['viajeID' =>$viaje->id])
+                                        @livewire('viajes.edit-viaje',['viajeID' =>$viaje->id])
+                                        @livewire('viajes.delete-viaje',['viajeID' =>$viaje->id])
+                                        @if ($viaje->status=='En tránsito' && $viaje->recepcion->count()==0)
+                                            <a href="{{route('recepcion',$viaje->id)}}" target="_self" class="text-gray-400 hover:text-indigo-500">
+                                                <x-icons.descarga-fuel/>
+                                            </a>
+                                        @endif
+                                        @if ($viaje->recepcion)
+                                            <a href="{{route('recepcion.edit',$viaje->id)}}" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
+                                                <x-icons.file-pencil/>
+                                                <span>Editar recepción</span>
+                                            </a>
+                                        @endif
+                                        {{-- @if ($viaje->status!='Finalizado')
+                                            @livewire('viajes.change-status',['viajeID' =>$viaje->id])
+                                        @endif
+                                        @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id]) --}}
+                                        <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
+                                            <x-icons.print/>
+                                            <span>Carta porte</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </th>
                         </tr>

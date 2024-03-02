@@ -1,6 +1,9 @@
 <x-modal-create tipo="edit">
     <x-slot name="button_tittle">
-        <x-icons.trash/>
+        <div class="p-1 flex items-center gap-2">
+            <x-icons.trash/>
+            <span>Eliminar viaje</span>
+        </div>
     </x-slot>
     <x-slot name="content">
         <div class="flex flex-col gap-2 justify-center">

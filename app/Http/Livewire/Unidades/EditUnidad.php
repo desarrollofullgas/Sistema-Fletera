@@ -19,6 +19,7 @@ class EditUnidad extends Component
         $this->linea=$unidad->linea_id;
         $this->placa=$unidad->placa;
         $this->marca=$unidad->marca;
+        $this->modelo=$unidad->modelo;
         $this->serie=$unidad->serie;
         $this->capacidad=$unidad->capacidad;
         $this->toneles();
@@ -61,6 +62,7 @@ class EditUnidad extends Component
             $unidad->modelo=$this->modelo;
             $unidad->serie=$this->serie;
             $unidad->capacidad=$this->capacidad;
+            $unidad->save();
             //actualizamos los datos de las pipas actuales
             foreach($this->toneles as $tonel){
                 $reg=Pipa::find($tonel['id']);

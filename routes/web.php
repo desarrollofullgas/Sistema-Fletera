@@ -54,6 +54,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get("/trashedestaciones", [EstacionController::class, "trashed_estaciones"])->name('estaciones.trashed');
     Route::post("/restoreestacion", [EstacionController::class, "do_restore"])->name('estacion_restore');
     Route::post("/deleteestacion-permanently", [EstacionController::class, "delete_permanently"])->name('deleteestacion_permanently');
+    Route::get('/estacion/editar/{id}', [EstacionController::class, "editEstacion"])->name('estacion.edit');
 
     //unidades
     Route::controller(UnidadesController::class)->group(function (){
@@ -61,12 +62,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/lineas-transporte','lineasHome')->name('lineas.transporte');
         Route::get('/unidades/editar/{id}','editUnidad')->name('unidad.edit');
     });
-
-    //viajes
-    Route::controller(ViajesController::class)->group(function(){
-        Route::get('/viajes','home')->name('viajes');
-    });
-
 
     //Operadores
     Route::get('/operadores', [OperadorController::class, 'index'])->name('operadores');
@@ -89,6 +84,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get("/trashedunidades", 'trashed_unidades')->name('unidades.trashed');
         Route::post("/restoreunidad", 'do_restore')->name('unidad_restore');
         Route::post("/deleteunidad-permanently", 'delete_permanently')->name('unidad_permanently');
+        Route::get('/unidades/editar/{id}','editUnidad')->name('unidad.edit');
         //Lineas
         Route::get('/lineas-transporte', 'lineasIndex')->name('lineas.transporte');
         Route::delete('/lineas-transporte{lineas}' . 'destroyL')->name('lineas.destroy');
@@ -99,7 +95,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //viajes
     Route::controller(ViajesController::class)->group(function(){
         Route::get('/viajes','home')->name('viajes');
+        Route::get('/viajes/recepcion-pipas/{ctID}','recepcion')->name('recepcion');
         Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
+        Route::get('/viajes/recepcion-pipas/editar/{rep}','editRecepcion')->name('recepcion.edit');
     });
 
     //Permisos

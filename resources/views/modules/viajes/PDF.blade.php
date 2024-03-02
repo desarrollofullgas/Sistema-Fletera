@@ -121,7 +121,7 @@
                 </tr>
                 <tr>
                     <td colspan="6">
-                        <p>PIPA CONTENIDO: <u class="px_10 border_b">{{number_format($cataporte->contenido)}}</u> DE: <u class="px_10 border_b">{{$cataporte->combustible->tipo}}</u></p>
+                        <p>PIPA CONTENIDO: <u class="px_10 border_b">{{number_format($cataporte->contenido)}}</u> DE: <u class="px_10 border_b">{{$cataporte->combustible->clave}}</u></p>
                         <table style="width: 100%">
                             <tr>
                                 <td style="padding: 0;">OPERADOR: <u class="px_10 border_b">{{$cataporte->operador->name}}</u></td>
@@ -172,7 +172,7 @@
         <p>ESTACIÓN DE SERVICIO: <u class="border_b px_10" style="width: 100%;">{{$cataporte->estacion->razon_social}}</u></p>
         <p>NO DE E.S. <u>{{$cataporte->estacion->num_estacion}}</u> CLAVE SIIC: <u>{{$cataporte->estacion->siic}}</u></p>
         <p class="line__20">UBICACIÓN: <u>{{$cataporte->estacion->direccion}}</u></p>
-        <p class="line__20">ADRADECE SUMINISTRE <u class="border_b px_10">{{$cataporte->combustible->tipo}}</u> RETIRADO CON EL AUTOTANQUE <u class="border_b px_10">{{$cataporte->unidad->tractor}}</u> CAPACIDAD <u class="border_b px_10">{{number_format($cataporte->contenido)}}</u> DE LA LÍNEA DE TRANSPORTE <u class="border_b px_10">{{$cataporte->unidad->linea->name}}</u> QUE TENGO AUTORIZADA.</p>
+        <p class="line__20">ADRADECE SUMINISTRE <u class="border_b px_10">{{$cataporte->combustible->clave}}</u> RETIRADO CON EL AUTOTANQUE <u class="border_b px_10">{{$cataporte->unidad->tractor}}</u> CAPACIDAD <u class="border_b px_10">{{number_format($cataporte->contenido)}}</u> DE LA LÍNEA DE TRANSPORTE <u class="border_b px_10">{{$cataporte->unidad->linea->name}}</u> QUE TENGO AUTORIZADA.</p>
         <p>NOMBRE DEL OPERADOR <u class="border_b px_10">{{$cataporte->operador->name}}</u> R.F.C. <u class="border_b px_10">{{$cataporte->operador->rfc}}</u></p>
         <table>
             <tbody>
@@ -235,7 +235,7 @@
                 </tr>
                 <tr>
                     <td class="px_0" style="width: 4.5cm;">PRODUCTO </td>
-                    <td class="border_b">{{$cataporte->combustible->tipo}}</td>
+                    <td class="border_b">{{$cataporte->combustible->clave}}</td>
                 </tr>
             </tbody>
         </table>

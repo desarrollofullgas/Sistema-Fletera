@@ -1,6 +1,9 @@
 <x-modal-create tittle="" tipo="show">
     <x-slot name="button_tittle">
-        <x-icons.eye/>
+        <div class="p-1 flex items-center gap-2">
+            <x-icons.eye/>
+            <span>Detalles del viaje</span>
+        </div>
     </x-slot>
     <x-slot name="content">
         <fieldset class="border dark:border-gray-500 p-2">
@@ -17,11 +20,11 @@
                 <div class="max-sm:w-full flex gap-2 items-center">
                     <x-icons.oil/>
                     <span><strong>Combustible: </strong>
-                        @if ($viaje->combustible->tipo=='Magna')
+                        @if ($viaje->combustible->tipo=='MAGNA')
                             <span class="px-2 py-1 bg-green-700 text-green-200 rounded-full">
                                 {{$viaje->combustible->tipo}}
                             </span>
-                        @elseif($viaje->combustible->tipo=='Premium')
+                        @elseif($viaje->combustible->tipo=='PREMIUM')
                             <span class="px-2 py-1 bg-red-700 text-red-200 rounded-full">
                                 {{$viaje->combustible->tipo}}
                             </span>
@@ -49,7 +52,7 @@
                     <span><strong>Tonel seleccionado: </strong>{{$viaje->tonel->toneles}}</span>
                 </div>
                 <div class="max-sm:w-full flex gap-2 items-center">
-                    <span><strong>Camtidad: </strong>{{number_format($viaje->contenido)}} lts</span>
+                    <span><strong>Cantidad: </strong>{{number_format($viaje->contenido)}} lts</span>
                 </div>
             </div>
         </fieldset>
