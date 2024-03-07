@@ -10,6 +10,7 @@ use App\Models\Proveedor;
 use App\Models\ProveedorZona;
 use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class NewViaje extends Component
@@ -18,7 +19,18 @@ class NewViaje extends Component
     //variables para el formulario
     public $estacion,$proveedor,$combustible,$operador,$unidad,$pipa,$contenido;
     public function mount(){
-        $this->estaciones=Estacion::orderBy('name','ASC')->get(['id','name']);
+        $user=Auth::user();
+        //estaciones de acuerdo al permiso del usuario
+        //administrador
+        if(in_array($user->permiso_id,[1,4])){
+            $this->estaciones=Estacion::orderBy('name','ASC')->get(['id','name']);
+        //supervisor
+        }elseif($user->permiso_id==2){
+            $this->estaciones=Estacion::where('supervisor_id',$user->id)->orderBy('name','ASC')->get(['id','name']);
+        //gerente
+        }elseif($user->permiso_id==3){
+            $this->estaciones=Estacion::where('user_id',$user->id)->orderBy('name','ASC')->get(['id','name']);
+        }
         $this->operadores=Operador::orderBy('name','ASC')->get(['id','name']);
         $this->unidades=Unidad::where('status','Disponible')->orderBy('tractor','ASC')->get(['id','tractor']);
     }
