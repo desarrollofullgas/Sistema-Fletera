@@ -15,7 +15,7 @@
                         @endforeach
                     </select>
                 </div>
-                @if (!empty($tiposCombustible) && $tiposCombustible->count() > 0)
+                @if (!empty($tiposCombustible))
                     <div class="flex flex-wrap justify-evenly gap-2">
                         <div class="max-sm:w-full">
                             <x-label :value="'Venta Total en Litros'" for="tlitros" />
@@ -37,6 +37,11 @@
     <x-slot name="btn_action">
         <div x-data="{
             detalles: [{ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' }],
+            tiposCombustible: comb,
+            selectCombustible:[],
+            filterCombustibles(event){
+                this.selectCombustible = this.tipoCombustible.filter(item => item.estacion == event.target.value);
+            },
             addDetalle() {
                 this.detalles.push({ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' });
             },
@@ -50,6 +55,10 @@
                 $wire.addLectura();
             }
         }">
+        <script>
+            const comb = {!! json_encode($tiposCombustible) !!};
+            console.log(comb);
+        </script>
             <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden max-h-60 overflow-y-auto">
                 <legend class="font-bold">Datos de Combustible</legend>
                 <x-input-error for="detalles"></x-input-error>
@@ -63,10 +72,9 @@
                                     <select x-model="detalle.tipo"
                                         class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                         <option value="">Seleccionar Tipo de Combustible</option>
-                                        @foreach ($tiposCombustible as $tipoCombustible)
-                                            <option value="{{ $tipoCombustible->id }}">{{ $tipoCombustible->tipo }}
-                                            </option>
-                                        @endforeach
+                                        <template x-for="tipoCombustible in tiposCombustible" >
+                                            <option x-bind:value="tipoCombustible.id" x-text="tipoCombustible.tipo"></option>
+                                        </template>
                                     </select>
                                     <x-input-error for="tipo"></x-input-error>
                                 </div>

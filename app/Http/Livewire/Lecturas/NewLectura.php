@@ -24,6 +24,8 @@ public function mount()
 {
     if (Auth::user()->permiso_id == 1) {
         $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
+         // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
+         $this->tiposCombustible=Combustible::all();
     } else {
         $this->estaciones = Estacion::where('status', 'Activo')->where('user_id', Auth::user()->id)->get();
         // Verificar si hay estaciones asignadas al usuario no administrador
