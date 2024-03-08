@@ -6,6 +6,18 @@
                 {{ __('LISTADO DE VIAJES') }}
             </x-card-greet-header>
             <div class=" flex justify-center space-x-2">
+                <x-menu-options>
+                    <x-slot name="button">
+                        <x-button variant="danger">
+                            <x-icons.file-download/>
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="options">
+                        @livewire('recepcion.gen-reporte-merma')
+                        <p>option</p>
+                        <p>option</p>
+                    </x-slot>
+                </x-menu-options>
                 @livewire('viajes.new-viaje')
             </div>
         </div>
@@ -101,7 +113,7 @@
                                 </div>
                             </x-cell>
                             <x-cell class="max-lg:p-0 max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900">
-                                <div class="w-full flex items-strech gap-2">
+                                <div class="w-full flex items-strech gap-2 max-w-xs">
                                     <div class="lg:hidden flex items-center bg-blue-200 py-2 px-1 min-w-[6rem] text-xs font-bold uppercase dark:bg-blue-900 dark:text-blue-200">
                                         <span>PRVEEDOR</span>
                                     </div>
