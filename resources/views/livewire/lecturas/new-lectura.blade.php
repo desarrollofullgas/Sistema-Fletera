@@ -1,6 +1,25 @@
 <x-modal-create button_tittle="Nueva Lectura" tittle="REGISTRO DE VENTAS">
     <x-slot name="content">
-
+        <div x-data="{
+            detalles: [{ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' }],
+            tiposCombustible: comb,
+            selectCombustible:[],
+            filterCombustibles(event){
+                this.selectCombustible = this.tipoCombustible.filter(item => item.estacion == event.target.value);
+            },
+            addDetalle() {
+                this.detalles.push({ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' });
+            },
+            delDetalle(index) {
+                this.detalles.splice(index, 1);
+            },
+            newDetalle() {
+                const datos = this.detalles.filter((item) => item.tipo != '');
+                //console.log(datos);
+                $wire.set('detalles', datos);
+                $wire.addLectura();
+            }
+        }">
         <fieldset class="border dark:border-gray-500 p-2 overflow-hidden max-h-60 overflow-y-auto">
             <legend class="font-bold">Datos </legend>
             <div class="flex flex-wrap justify-evenly gap-2">
@@ -35,26 +54,7 @@
         </fieldset>
     </x-slot>
     <x-slot name="btn_action">
-        <div x-data="{
-            detalles: [{ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' }],
-            tiposCombustible: comb,
-            selectCombustible:[],
-            filterCombustibles(event){
-                this.selectCombustible = this.tipoCombustible.filter(item => item.estacion == event.target.value);
-            },
-            addDetalle() {
-                this.detalles.push({ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' });
-            },
-            delDetalle(index) {
-                this.detalles.splice(index, 1);
-            },
-            newDetalle() {
-                const datos = this.detalles.filter((item) => item.tipo != '');
-                //console.log(datos);
-                $wire.set('detalles', datos);
-                $wire.addLectura();
-            }
-        }">
+        
         <script>
             const comb = {!! json_encode($tiposCombustible) !!};
             console.log(comb);
@@ -145,6 +145,7 @@
             <x-secondary-button @click="modelOpen = false" wire:loading.attr="disabled">
                 Cancelar
             </x-secondary-button>
-        </div>
+        
     </x-slot>
+</div>
 </x-modal-create>
