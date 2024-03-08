@@ -204,8 +204,7 @@ class EstacionEdit extends Component
             //volvemos a la direccion que tiene el navegador
             return redirect(request()->header('Referer'));
         } catch (Exception $error) {
-            session()->flash('flash.banner', 'Ha ocurrido un error, por favor contacte a un administrador: ' . $error->getMessage());
-            session()->flash('flash.bannerStyle', 'danger');
+           
             //volvemos a la direccion que tiene el navegador
             return redirect(request()->header('Referer'));
         }

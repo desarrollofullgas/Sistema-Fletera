@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EstacionController;
+use App\Http\Controllers\LecturaController;
 use App\Http\Controllers\OperadorController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ProveedorController;
@@ -99,6 +100,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/viajes/recepcion-pipas/{ctID}','recepcion')->name('recepcion');
         Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
         Route::get('/viajes/recepcion-pipas/editar/{rep}','editRecepcion')->name('recepcion.edit');
+    });
+
+    //Lecturas
+    Route::controller(LecturaController::class)->group(function () {
+        Route::get('/lecturas', 'index')->name('lecturas');
+        Route::delete('/lecturas{lectura}' . 'destroy')->name('lecturas.destroy');
+        Route::get("/trashedlecturas", 'trashed_lecturas')->name('lecturas.trashed');
+        Route::post("/restorelectura", 'do_restore')->name('lectura_restore');
+        Route::post("/deletelectura-permanently", 'delete_permanently')->name('lectura_permanently');
     });
 
     //Permisos

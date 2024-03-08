@@ -109,6 +109,6 @@ class User extends Authenticatable
 
     public function estacion()
     {
-        return $this->hasOne(Estacion::class);
+        return $this->hasOne(Estacion::class,'user_id');
     }
 }
