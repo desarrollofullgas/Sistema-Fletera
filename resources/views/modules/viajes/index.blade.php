@@ -14,7 +14,7 @@
                     </x-slot>
                     <x-slot name="options">
                         @livewire('recepcion.gen-reporte-merma')
-                        <p>option</p>
+                        @livewire('viajes.gen-reporte-viajes')
                         <p>option</p>
                     </x-slot>
                 </x-menu-options>

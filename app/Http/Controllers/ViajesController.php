@@ -36,8 +36,9 @@ class ViajesController extends Controller
                 $rango=[Carbon::create($request->query('start'))->startOfDay()->toDateTimeString(),Carbon::create($request->query('end'))->endOfDay()->toDateTimeString()];
                 $viajes=Cataport::where('id',$request->query('search'))->orWhereHas('estacion',function(Builder $estaciones)use($request){
                     $estaciones->where('name','LIKE','%'.$request->query('search').'%');
-                })->whereIn('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
-            }else{
+                })->whereBetween('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
+            }
+            else{
                 $viajes=Cataport::where('id',$request->query('search'))->orWhereHas('estacion',function(Builder $estaciones)use($request){
                     $estaciones->where('name','LIKE','%'.$request->query('search').'%');
                 })->orderBy('id','DESC')->paginate(15)->withQueryString();
@@ -49,7 +50,7 @@ class ViajesController extends Controller
                 $rango=[Carbon::create($request->query('start'))->startOfDay()->toDateTimeString(),Carbon::create($request->query('end'))->endOfDay()->toDateTimeString()];
                 $viajes=Cataport::where('id',$request->query('search'))->orWhereHas('estacion',function(Builder $estaciones)use($request){
                     $estaciones->where('name','LIKE','%'.$request->query('search').'%');
-                })->whereIn('estacion_id',$estaciones)->whereIn('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
+                })->whereIn('estacion_id',$estaciones)->whereBetween('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
             }else{
                 $viajes=Cataport::where('id',$request->query('search'))->orWhereHas('estacion',function(Builder $estaciones)use($request){
                     $estaciones->where('name','LIKE','%'.$request->query('search').'%');
@@ -60,7 +61,7 @@ class ViajesController extends Controller
             $estacion=Estacion::where('user_id',$user->id)->pluck('id');
             if(!is_null($request->query('start')) && !is_null($request->query('end'))){
                 $rango=[Carbon::create($request->query('start'))->startOfDay()->toDateTimeString(),Carbon::create($request->query('end'))->endOfDay()->toDateTimeString()];
-                $viajes=Cataport::where('id',$request->query('search'))->whereIn('estacion_id',$estacion)->whereIn('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
+                $viajes=Cataport::where('id',$request->query('search'))->whereIn('estacion_id',$estacion)->whereBetween('created_at',$rango)->orderBy('id','DESC')->paginate(15)->withQueryString();
             }else{
                 $viajes=Cataport::where('id',$request->query('search'))->whereIn('estacion_id',$estacion)->orderBy('id','DESC')->paginate(15)->withQueryString();
             }

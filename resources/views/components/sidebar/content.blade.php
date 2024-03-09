@@ -76,8 +76,6 @@
                 <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
                 @endif
             @endforeach
-            <x-sidebar.sublink title="Proveedores" href="{{ route('proveedores') }}" :active="request()->routeIs('proveedores')" />
-            <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
             <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
 
         </x-sidebar.dropdown>
