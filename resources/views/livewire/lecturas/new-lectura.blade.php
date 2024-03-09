@@ -7,7 +7,8 @@
             selectCombustible: [],
             filterCombustibles(event) {
                 const selectedEstacionId = event.target.value;
-                this.selectCombustible = this.tiposCombustible.filter(item => item.estacion == selectedEstacionId);
+                this.selectCombustible = this.tiposCombustible.filter(item => item.estacion_id == selectedEstacionId);
+                console.log(this.tiposCombustible, selectedEstacionId);
             },
             addDetalle() {
                 this.detalles.push({ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' });
@@ -40,7 +41,7 @@
                         {{-- dentro de un template sólo puede existir un contenedor div padre --}}
                         <div>
                             <div class="flex gap-2 justify-around items-end">
-                                <div x-show="selectCombustible.length > 0" class="w-full">
+                                <div  class="w-full">
                                     <x-label for="combustible" value="Selecciona un tipo de combustible" />
                                     <select id="combustible" x-model="detalle.tipo"
                                             class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
@@ -99,9 +100,9 @@
                 </div>
                 <script>
                     const estas = {!! json_encode($estaciones) !!};
-                    console.log(estas);
+                    
                     const comb = {!! json_encode($tiposCombustible) !!};
-                    console.log(comb);
+                    
                 </script>
             </fieldset>
         </div>
