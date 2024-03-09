@@ -1,45 +1,13 @@
 <x-modal-create button_tittle="Nueva Lectura" tittle="REGISTRO DE VENTAS">
     <x-slot name="content">
-        <fieldset class="border dark:border-gray-500 p-2 overflow-hidden max-h-60 overflow-y-auto">
-            <legend class="font-bold">Datos </legend>
-            <div class="flex flex-wrap justify-evenly gap-2" x-data="{
-                estaciones: estas,
-            }">
-                <div class="w-full">
-                    <x-label for="estacion" value="Selecciona una estación" />
-                    <select wire:model="estacionId" id="estacion" @change="filterCombustibles(event)"
-                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
-                    dark:text-gray-300 dark:focus:ring-offset-dark-eval-1">
-                        <option value="">Seleccione una estación</option>
-                        <template x-for="estacion in estaciones" >
-                            <option x-bind:value="estacion.id" x-text="estacion.name"></option>
-                        </template>
-                    </select>
-                </div>
-                    <div class="flex flex-wrap justify-evenly gap-2">
-                        <div class="max-sm:w-full">
-                            <x-label :value="'Venta Total en Litros'" for="tlitros" />
-                            <x-input wire:model.defer="tlitros" type="number" :name="'tlitros'" :id="'tlitros'"
-                                required autofocus autocomplete="off" class="w-full" />
-                            <x-input-error :for="'tlitros'"></x-input-error>
-                        </div>
-                        <div class="max-sm:w-full">
-                            <x-label :value="'Venta Total en Pesos'" for="tpesos" />
-                            <x-input wire:model.defer="tpesos" type="number" :name="'tpesos'" :id="'tpesos'"
-                                required autofocus autocomplete="off" class="w-full" />
-                            <x-input-error :for="'tpesos'"></x-input-error>
-                        </div>
-                    </div>
-            </div>
-        </fieldset>
-    </x-slot>
-    <x-slot name="btn_action">
-        <div x-data="{
+        <div class="flex flex-wrap justify-evenly gap-2" x-data="{
+            estaciones: estas,
             detalles: [{ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' }],
             tiposCombustible: comb,
-            selectCombustible:[],
-            filterCombustibles(event){
-                this.selectCombustible = this.tipoCombustible.filter(item => item.estacion == event.target.value);
+            selectCombustible: [],
+            filterCombustibles(event) {
+                const selectedEstacionId = event.target.value;
+                this.selectCombustible = this.tiposCombustible.filter(item => item.estacion == selectedEstacionId);
             },
             addDetalle() {
                 this.detalles.push({ tipo: '', veeder: '', fisico: '', vperiferico: '', velectronica: '', vodometro: '' });
@@ -53,12 +21,17 @@
                 $wire.addLectura();
             }
         }">
-        <script>
-             const estas = {!! json_encode($estaciones) !!};
-             console.log(estas);
-            const comb = {!! json_encode($tiposCombustible) !!};
-            console.log(comb);
-        </script>
+            <div class="w-full">
+                <x-label for="estacion" value="Selecciona una estación" />
+                <select wire:model="estacionId" id="estacion" @change="filterCombustibles(event)"
+                    class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm1 dark:border-gray-600 dark:bg-dark-eval-1
+                    dark:text-gray-300 dark:focus:ring-offset-dark-eval-1">
+                    <option value="">Seleccione una estación</option>
+                    <template x-for="estacion in estaciones">
+                        <option x-bind:value="estacion.id" x-text="estacion.name"></option>
+                    </template>
+                </select>
+            </div>
             <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden max-h-60 overflow-y-auto">
                 <legend class="font-bold">Datos de Combustible</legend>
                 <x-input-error for="detalles"></x-input-error>
@@ -67,12 +40,12 @@
                         {{-- dentro de un template sólo puede existir un contenedor div padre --}}
                         <div>
                             <div class="flex gap-2 justify-around items-end">
-                                <div class="max-sm:w-full">
-                                    <x-label value="{{ __('Tipo de Combustible') }}" />
-                                    <select x-model="detalle.tipo"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
+                                <div x-show="selectCombustible.length > 0" class="w-full">
+                                    <x-label for="combustible" value="Selecciona un tipo de combustible" />
+                                    <select id="combustible" x-model="detalle.tipo"
+                                            class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                         <option value="">Seleccionar Tipo de Combustible</option>
-                                        <template x-for="tipoCombustible in tiposCombustible" >
+                                        <template x-for="tipoCombustible in selectCombustible">
                                             <option x-bind:value="tipoCombustible.id" x-text="tipoCombustible.tipo"></option>
                                         </template>
                                     </select>
@@ -107,13 +80,13 @@
                                     <x-label value="{{ __('Veeder Root') }}" for="veeder" />
                                     <x-input x-model="detalle.veeder" type="text" name="veeder" id="veeder"
                                         required autocomplete="veeder" class="max-sm:w-full" />
-<x-input-error for="veeder"></x-input-error>
+                                    <x-input-error for="veeder"></x-input-error>
                                 </div>
                                 <div class="max-sm:w-full">
                                     <x-label value="{{ __('Fisico') }}" for="fisico" />
                                     <x-input x-model="detalle.fisico" type="text" name="fisico" id="fisico"
                                         required autocomplete="fisico" class="max-sm:w-full" />
-<x-input-error for="fisico"></x-input-error>
+                                    <x-input-error for="fisico"></x-input-error>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +97,32 @@
                         Añadir
                     </button>
                 </div>
+                <script>
+                    const estas = {!! json_encode($estaciones) !!};
+                    console.log(estas);
+                    const comb = {!! json_encode($tiposCombustible) !!};
+                    console.log(comb);
+                </script>
             </fieldset>
+        </div>
+    </x-slot>
+    <x-slot name="btn_action">
+        <div>
+            <div class="flex flex-wrap justify-evenly gap-2 mb-2">
+                <div class="max-sm:w-full">
+                    <x-label :value="'Venta Total en Litros'" for="tlitros" />
+                    <x-input wire:model.defer="tlitros" type="number" :name="'tlitros'" :id="'tlitros'" required
+                        autofocus autocomplete="off" class="w-full" />
+                    <x-input-error :for="'tlitros'"></x-input-error>
+                </div>
+                <div class="max-sm:w-full">
+                    <x-label :value="'Venta Total en Pesos'" for="tpesos" />
+                    <x-input wire:model.defer="tpesos" type="number" :name="'tpesos'" :id="'tpesos'" required
+                        autofocus autocomplete="off" class="w-full" />
+                    <x-input-error :for="'tpesos'"></x-input-error>
+                </div>
+            </div>
+
             <x-danger-button class="mr-2" @click="newDetalle()" wire:loading.attr="disabled">
                 <div role="status" wire:loading wire:target="addLectura">
                     <svg aria-hidden="true"
