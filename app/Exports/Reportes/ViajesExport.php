@@ -2,6 +2,7 @@
 
 namespace App\Exports\Reportes;
 
+use App\Exports\Reportes\Sheets\ViajesSheet;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
@@ -14,6 +15,7 @@ class ViajesExport implements WithMultipleSheets
     public function sheets(): array
     {
         $arr=[];
+        array_push($arr,new ViajesSheet($this->data));
         return $arr;
     }
 }
