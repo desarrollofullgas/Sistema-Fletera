@@ -7,17 +7,25 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ViajesSheet implements FromView,ShouldAutoSize,WithTitle,WithEvents
+class ViajesSheet implements FromView,ShouldAutoSize,WithTitle,WithEvents,WithStyles
 {
     public $data;
     public function __construct($data) {
         $this->data = $data;
+    }
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            'G' =>['font'=>['bold' => true]],
+        ];
     }
     public function view(): View
     {

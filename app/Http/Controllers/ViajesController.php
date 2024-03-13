@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cataport;
 use App\Models\Estacion;
+use App\Models\RecepcionPipa;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,6 +77,15 @@ class ViajesController extends Controller
         return $pdf;
     }
     //recepcion de pipas
+    public function recepcionesHome(){
+        $recepciones=RecepcionPipa::orderBy('id','DESC')->paginate(10);
+        return view('modules.recepcion.index',compact('recepciones'));
+    }
+    public function recepcionPDF($id){
+        $recepcion=RecepcionPipa::find($id);
+        $pdf=Pdf::loadView('modules.recepcion.PDF',compact('recepcion'))->stream();
+        return $pdf;
+    }
     public function recepcion($id){
         $viaje=Cataport::find($id);
         return view('modules.recepcion.new-recepcion',compact('viaje'));

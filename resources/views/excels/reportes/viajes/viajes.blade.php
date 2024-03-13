@@ -7,8 +7,8 @@
             <th>NOMBRE</th>
             <th>OPERADOR</th>
             <th>UNIDAD</th>
-            <th>TONEL</th>
             <th>PRODUCTO</th>
+            <th>TONEL</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +20,13 @@
                 <td>{{$viaje->estacion->name}}</td>
                 <td>{{$viaje->operador->name}}</td>
                 <td>{{$viaje->unidad->tractor}}</td>
-                <td>{{$viaje->combustible->tipo}}</td>
+                <td @if ($viaje->combustible->tipo=='MAGNA')
+                    style='color:#009312;'
+                @elseif($viaje->combustible->tipo=='PREMIUM')
+                    style='color:#DC0000;'
+                @else
+                    style='color:#000000;'    
+                @endif>{{$viaje->combustible->tipo}}</td>
                 <td>{{$viaje->tonel->toneles}}</td>
             </tr>
         @endforeach

@@ -99,7 +99,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/viajes/search/','buscarViaje')->name('viajes.search');
         Route::get('/viajes/recepcion-pipas/{ctID}','recepcion')->name('recepcion');
         Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
+        Route::get('viajes/recepciones','recepcionesHome')->name('recepciones.list');
         Route::get('/viajes/recepcion-pipas/editar/{rep}','editRecepcion')->name('recepcion.edit');
+        Route::get('/viajes/recepcion/{id}/doc','recepcionPDF')->name('recepcion.doc');
     });
 
     //Lecturas
