@@ -6,13 +6,13 @@
     $sistema = 'hidden';
 
     foreach ($valid as $permis) {
-        for ($i = 2; $i <= 9; $i++) {
+        for ($i = 2; $i <= 10; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $settings = 'block';
             }
         }
 
-        for ($i = 9; $i <= 10; $i++) {
+        for ($i = 10; $i <= 11; $i++) {
             if ($permis->pivot->re == 1 && $permis->pivot->panel_id == $i) {
                 $sistema = 'block';
             }
@@ -75,6 +75,9 @@
                 @if ($item->pivot->panel_id == 9 && $item->pivot->re == 1)
                 <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
                 @endif
+                @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
+                <x-sidebar.sublink title="Lecturas" href="{{ route('lecturas') }}" :active="request()->routeIs('lecturas')" />
+                @endif
             @endforeach
             <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
             <x-sidebar.sublink title="Recepciones de pipa" href="{{ route('recepciones.list') }}" :active="request()->routeIs('recepciones.list')" />
@@ -96,7 +99,7 @@
                 </svg>
             </x-slot>
             @foreach ($valid as $item)
-                @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
+                @if ($item->pivot->panel_id == 11 && $item->pivot->re == 1)
                     <x-sidebar.sublink title="Versiones" href="{{ route('versiones') }}" :active="request()->routeIs('versiones')" />
                 @endif
             @endforeach

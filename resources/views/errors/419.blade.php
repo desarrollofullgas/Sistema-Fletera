@@ -8,7 +8,7 @@
         <meta name="author" content="" />
         <link rel="shortcut icon" href="{{ asset('img/logo/faviconnew.png') }}" type="image/x-icon">
         <title>419 Error - FullGas</title>
-        <link href="styles.css" rel="stylesheet" />
+        <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body>

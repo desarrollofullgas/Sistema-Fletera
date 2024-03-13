@@ -25,7 +25,7 @@ class LecturaTable extends Component
 
     public function render()
     {
-        $this->valid = Auth::user()->permiso->panels->where('id', 2)->first();
+        $this->valid = Auth::user()->permiso->panels->where('id', 10)->first();
         return view('livewire.lecturas.lectura-table', [
             'trashed' => LecturaDetalle::onlyTrashed()->count(),
             'lecturas' => $this->lecturas,
