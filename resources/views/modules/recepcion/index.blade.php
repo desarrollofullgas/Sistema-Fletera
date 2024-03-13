@@ -146,10 +146,15 @@
                                             <x-icons.dots-vertical class="max-lg:rotate-90"/>
                                         </button>
                                         <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
+                                            <a href="{{route('recepcion.edit',$recepcion->cataporte->id)}}" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
+                                                <x-icons.file-pencil/>
+                                                <span>Editar recepción</span>
+                                            </a>
                                             <a href="{{route('recepcion.doc',$recepcion->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                                 <x-icons.print/>
                                                 <span>Ver documento</span>
                                             </a>
+                                            @livewire('recepcion.delete-recepcion',['recepcionID'=>$recepcion->id])
                                         </div>
                                     </div>
                                 </div>
