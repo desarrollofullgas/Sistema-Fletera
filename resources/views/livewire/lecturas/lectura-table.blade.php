@@ -108,9 +108,17 @@
                             <x-cell>{{ $lectura->combustible->tipo }} </x-cell>
                             <x-cell>{{ $lectura->veeder}} </x-cell>
                             <x-cell>{{ $lectura->fisico}} </x-cell>
-                            <x-cell>
-                                <div class="flex gap-2 justify-center items-center">
-                                   
+                            <x-cell class="max-lg:p-0 flex justify-center items-stretch">
+                                <div class="flex justify-center items-center rounded-b-md max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900 max-lg:w-full max-lg:mb-4">
+                                    <div class="relative w-fit" x-data="{show:false}">
+                                        <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
+                                            <x-icons.dots-vertical class="max-lg:rotate-90"/>
+                                        </button>
+                                        <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
+                                            @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('lec'.$lectura->id))
+                                            @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                        </div>
+                                    </div>
                                 </div>
                             </x-cell>
                         </x-row>

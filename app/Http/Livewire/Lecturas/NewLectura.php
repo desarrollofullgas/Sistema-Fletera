@@ -20,30 +20,30 @@ class NewLectura extends Component
     public $detalles = [];
 
     
-public function mount()
-{
-    if (Auth::user()->permiso_id == 1) {
-        $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
-         // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-         $this->tiposCombustible=Combustible::all();
-    } else {
-        $this->estaciones = Estacion::where('status', 'Activo')->where('user_id', Auth::user()->id)->get();
-        // Verificar si hay estaciones asignadas al usuario no administrador
-        if ($this->estaciones->isNotEmpty()) {
-            // Establecer la estación del usuario autenticado como la primera estación encontrada
-            $this->estacionId = $this->estaciones->first()->id;
-            // Inicializar el array de tipos de combustible
-            $this->tiposCombustible = [];
-
+    public function mount()
+    {
+        if (in_array(Auth::user()->permiso_id,[1,4])) {
+            $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
             // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-            foreach ($this->estaciones as $estacion) {
-                $combustibles = Combustible::where('estacion_id', $estacion->id)->get();
-                // Almacenar los tipos de combustible asociados a la estación actual
-                $this->tiposCombustible[$estacion->id] = $combustibles;
+            $this->tiposCombustible=Combustible::all();
+        } else {
+            $this->estaciones = Estacion::where('status', 'Activo')->where('user_id', Auth::user()->id)->get();
+            // Verificar si hay estaciones asignadas al usuario no administrador
+            if ($this->estaciones->isNotEmpty()) {
+                // Establecer la estación del usuario autenticado como la primera estación encontrada
+                $this->estacionId = $this->estaciones->first()->id;
+                // Inicializar el array de tipos de combustible
+                $this->tiposCombustible = [];
+
+                // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
+                foreach ($this->estaciones as $estacion) {
+                    $combustibles = Combustible::where('estacion_id', $estacion->id)->get();
+                    // Almacenar los tipos de combustible asociados a la estación actual
+                    $this->tiposCombustible[$estacion->id] = $combustibles;
+                }
             }
         }
     }
-}
 
     public function updatedEstacionId($value)
     {
@@ -52,6 +52,13 @@ public function mount()
 
     public function addLectura()
     {
+        if(in_array(Auth::user()->permiso_id,[1,4])){
+            $this->validate([
+                'estacionId'=>['required'],
+            ],[
+                'estacionId.required'=>'Seleccione una estación.'
+            ]);
+        }
         $this->validate([
             'tlitros' => ['required'],
             'tpesos' => ['required'],

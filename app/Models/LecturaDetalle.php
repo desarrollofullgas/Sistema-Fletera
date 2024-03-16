@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LecturaDetalle extends Model
@@ -39,6 +40,10 @@ class LecturaDetalle extends Model
         });
     }
 
+    public function lectura():BelongsTo
+    {
+        return $this->belongsTo(Lectura::class);
+    }
     public function combustible()
     {
         return $this->belongsTo(Combustible::class);
