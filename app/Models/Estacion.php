@@ -74,4 +74,8 @@ class Estacion extends Model
     {
         return $this->hasMany(Cataport::class);
     }
+    public function combustibles():HasMany
+    {
+        return $this->hasMany(Combustible::class);
+    }
 }

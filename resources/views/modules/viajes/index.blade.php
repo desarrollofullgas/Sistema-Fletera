@@ -16,6 +16,7 @@
                         @livewire('recepcion.gen-reporte-merma')
                         @livewire('viajes.gen-reporte-viajes')
                         @livewire('lecturas.gen-reporte-ventas')
+                        @livewire('lecturas.gen-reporte-existencias')
                     </x-slot>
                 </x-menu-options>
                 @livewire('viajes.new-viaje')
