@@ -188,8 +188,8 @@
                                                     <span>Editar recepción</span>
                                                 </a>
                                             @endif
+                                            @livewire('viajes.change-status',['viajeID' =>$viaje->id])
                                             {{-- @if ($viaje->status=='En tránsito')
-                                                @livewire('viajes.change-status',['viajeID' =>$viaje->id])
                                             @endif --}}
                                            {{--  @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id]) --}}
                                             <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">

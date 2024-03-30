@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Viajes;
 
 use App\Models\Cataport;
+use App\Models\Unidad;
 use Livewire\Component;
 
 class ChangeStatus extends Component
@@ -15,6 +16,9 @@ class ChangeStatus extends Component
         $viaje=Cataport::find($this->viajeID);
         $viaje->status="Descargando";
         $viaje->save();
+        $unidad=Unidad::find($viaje->unidad_id);
+        $unidad->status="En descarga";
+        $unidad->save();
         session()->flash('flash.banner', 'El viaje a sido marcado como "Descargando".');
         session()->flash('flash.bannerStyle', 'success');
         return redirect(request()->header('Referer'));

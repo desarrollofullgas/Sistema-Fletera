@@ -5,7 +5,7 @@
             <x-card-greet-header>
                 {{ __('RECEPCIONES DE PIPA') }}
             </x-card-greet-header>
-            <div class=" flex justify-center space-x-2">
+            <div class=" flex sm:justify-center space-x-2 mr-0 sm:mr-40">
                 <x-menu-options>
                     <x-slot name="button">
                         <x-button variant="danger">
@@ -19,7 +19,8 @@
                         @livewire('lecturas.gen-reporte-existencias')
                     </x-slot>
                 </x-menu-options>
-                @livewire('viajes.new-viaje')
+                
+                {{-- @livewire('viajes.new-viaje') --}}
             </div>
         </div>
     </x-slot>

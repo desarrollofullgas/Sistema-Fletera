@@ -34,6 +34,7 @@ class NewRecepcion extends Component
             $viaje->sello_tfgd=$this->tfgD;
             $viaje->sello_tfgc=$this->tfgC;
             $viaje->sello_r=$this->retorno;
+            $viaje->status="Finalizado";
             $recepcion->selloP1=$this->pemex1;
             $recepcion->selloP2=$this->pemex2;
             //datos de carga de combustible
