@@ -4,12 +4,17 @@ namespace App\Exports\Reportes\Sheets;
 
 use App\Models\Combustible;
 use App\Models\Estacion;
+use App\Models\Lectura;
 use App\Models\LecturaDetalle;
+use App\Models\Zona;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ExistenciasSheet implements FromView
+class ExistenciasSheet implements FromView,ShouldAutoSize,WithTitle
 {
     public $estaciones,$rango;
     public function __construct($estaciones,array $rango) {
@@ -19,11 +24,70 @@ class ExistenciasSheet implements FromView
     public function view(): View
     {
         $tablas=[];
-        /* obtenemos la cantidad de combustibles que tiene cada estación y los ordenamos de mayor a menor, 
-        esto para las columnas de la tabla*/
-        //$cobustibles=Combustible::selectRaw('estacion_id,tipo,COUNT(*) as cant')->whereIn('estacion_id',$this->estaciones)->orderBy('tipo','ASC')->orderBy('cant','DESC')->groupBy('estacion_id','tipo')->get();
-        
-        foreach($this->estaciones as $estacion) 
+        //Obtenemos las zonas cuyas estaciones tengan registradas lecturas de sus combustibles
+        $zonas=Zona::whereHas('estacions',function(Builder $estaciones){
+            $estaciones->whereHas('combustibles',function(Builder $combustibles){
+                $combustibles->whereHas('detalleLectura',function(Builder $detalleLectura){
+                    $detalleLectura->whereBetween('created_at',$this->rango);
+                });
+            });
+        })->orderBy('name','ASC')->get();
+        //$mainLecturas=Lectura::whereBetween('created_at',$this->rango)->get();
+        $estaciones=Estacion::whereIn('id',$this->estaciones)->get();
+        foreach($zonas as $zona){
+            foreach($estaciones as $estacion){
+                //si la estación pertenece a la zona
+                if($estacion->zona_id == $zona->id){
+                    $dataLecturas=[];
+                    //obtenemos las lecturas de los combustibles de la estación que fueron registradas en el rango de fechas
+                    $mainLecturas=Lectura::whereHas('detalles',function(Builder $detalle)use($estacion){
+                        $detalle->whereIn('combustible_id',$estacion->combustibles->pluck('id'));
+                    })->get();
+                    $listComb=Combustible::select('tipo')->where('estacion_id',$estacion->id)->groupBy('tipo')->get();
+                    //dd($mainLecturas->pluck('id'),$estacion->name);
+                    foreach($mainLecturas as $mainLect){
+                        $tabla=[];
+                        $com12=[];
+                        //obtenemos los detalles e información adicional de la lectura
+                        $lecturas=LecturaDetalle::selectRaw('*,((veeder+fisico)/2) as exist')->where('lectura_id',$mainLect->id)->get();
+                        $copia=$lecturas;
+                        foreach ($lecturas as $lect)
+                        {
+                            $c=1;//variable para poder definir el promedio
+                            $exisTot=$lect->exist;
+                            $capacidadTot=$lect->combustible->capacidad;
+                            $dias=$lect->combustible->alerta;
+                            $minimo=$lect->combustible->minimo;
+                            $promedio=$lect->combustible->prom_venta;
+                            /* Operacio para agrupar y sacar promedios en caso que una estación tenga resgistrado 2
+                            o más combustibles del mismo tipo MM-P M-PP DD-M-P .... */
+                            foreach($copia as $bk)
+                            {
+                                if($lect->combustible->tipo == $bk->combustible->tipo && $lect->id!== $bk->id)
+                                {
+                                    $c++;
+                                    $exisTot+=$bk->exist;
+                                    $capacidadTot+=$bk->combustible->capacidad;
+                                    $minimo+=$bk->combustible->minimo;
+                                    $dias+=$bk->combustible->alerta;
+                                    $promedio+=$bk->combustible->prom_venta;
+                                }
+                            }
+                            array_push($com12,[
+                                'lectura_id'=>$lect->lectura_id,
+                                'combustible'=>$lect->combustible->tipo,
+                                'existencia'=>$exisTot,
+                                'llenar'=>($exisTot-$capacidadTot),
+                                'dias'=>$minimo==0||$promedio==0 ? 0 : (($exisTot-($minimo/$c))/($promedio/$c))
+                            ]); 
+                        }
+                        array_push($dataLecturas,['lecturas'=>$com12,'creado'=>$mainLect->created_at]);
+                    }
+                    array_push($tablas,['estacion'=>$estacion->name,'data'=>$dataLecturas,'combustibles'=>$listComb,'zona'=>$estacion->zona->name]);
+                }
+            }
+        }
+        /* foreach($this->estaciones as $estacion) 
         {
             $tabla=[];
             $com12=[];
@@ -59,9 +123,13 @@ class ExistenciasSheet implements FromView
                     'creado'=>$lect->created_at
                 ]); 
             }
-            array_push($tablas,[$est->name => $com12,'combustibles'=>$combustibles,'zona'=>$est->zona_id]);
-        }
-        dd($tablas);
-        return view('excels.reportes.existencias.existencias',compact('tablas'));
+            array_push($tablas,['estacion'=>$est->name,'data'=>$com12,'combustibles'=>$combustibles,'zona'=>$est->zona_id]);
+        } */
+        //dd($tablas,$zonas);
+        return view('excels.reportes.existencias.existencias',compact('tablas','zonas'));
+    }
+    public function title(): string
+    {
+        return 'Existencias';
     }
 }
