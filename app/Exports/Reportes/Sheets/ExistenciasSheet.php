@@ -12,9 +12,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class ExistenciasSheet implements FromView,ShouldAutoSize,WithTitle
+class ExistenciasSheet implements FromView,ShouldAutoSize,WithTitle,WithEvents
 {
     public $estaciones,$rango;
     public function __construct($estaciones,array $rango) {
@@ -127,6 +132,47 @@ class ExistenciasSheet implements FromView,ShouldAutoSize,WithTitle
         } */
         //dd($tablas,$zonas);
         return view('excels.reportes.existencias.existencias',compact('tablas','zonas'));
+    }
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class=>function(AfterSheet $event){
+                $cabeceras=$event->sheet->getDelegate()->getMergeCells();
+                $celdas=$event->sheet->getDelegate()->getCellCollection()->getCoordinates();
+                foreach($celdas as $celda){
+                    $event->sheet->getDelegate()->getStyle($celda)->applyFromArray([
+                        'alignment' => [
+                            'horizontal' => Alignment::HORIZONTAL_CENTER,
+                            'vertical' => Alignment::VERTICAL_CENTER
+                        ],
+                        'borders' => [
+                            'allBorders' => [
+                                'borderStyle' => Border::BORDER_THIN,
+                                'color' => ['argb' => 'ff000000'],
+                            ]
+                        ]
+                    ]);
+                }
+                foreach($cabeceras as $cabecera){
+                    $event->sheet->getDelegate()->getStyle($cabecera)
+                    ->applyFromArray([
+                        'font' => [
+                            'size'=>12,
+                            'bold' => true,
+                            'color' => ['rgb' => 'ffffff'],
+                        ],
+                        'alignment' => [
+                            'horizontal' => Alignment::HORIZONTAL_CENTER,
+                            'vertical' => Alignment::VERTICAL_CENTER
+                        ],
+                        'fill' => [
+                            'fillType' => Fill::FILL_SOLID,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ]);
+                }
+            }
+        ];
     }
     public function title(): string
     {

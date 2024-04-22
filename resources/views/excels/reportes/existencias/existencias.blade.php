@@ -2,15 +2,35 @@
     <table>
         <thead>
             <tr>
-                <th colspan={{count($tabla['combustibles'])+2}}>{{$tabla['estacion']}}</th>
+                <th colspan={{(count($tabla['combustibles'])*2)+2}}>{{$tabla['estacion']}}</th>
             </tr>
             <tr>
                 <th>ZONA</th>
                 @foreach ($tabla['combustibles'] as $combustible)    
-                    <th>{{$combustible->tipo}}</th>
+                    <th
+                        @if ($combustible->tipo=='MAGNA')
+                            style='color:white;background-color:#009739;'    
+                        @elseif($combustible->tipo=='PREMIUM')
+                            style='color:white;background-color:#CC0000;'
+                        @else
+                            style='color:white;background-color:#000000;'
+                        @endif
+                    >
+                    {{$combustible->tipo}}
+                    </th>
                 @endforeach
                 @foreach ($tabla['combustibles'] as $combustible)    
-                    <th>LLENAR {{$combustible->tipo}}</th>
+                    <th
+                        @if ($combustible->tipo=='MAGNA')
+                            style='color:white;background-color:#009739;'    
+                        @elseif($combustible->tipo=='PREMIUM')
+                            style='color:white;background-color:#CC0000;'
+                        @else
+                            style='color:white;background-color:#000000;'
+                        @endif
+                        >
+                        LLENAR {{$combustible->tipo}}
+                    </th>
                 @endforeach
                 <th>FECHA DE REGISTRO</th>
             </tr>
