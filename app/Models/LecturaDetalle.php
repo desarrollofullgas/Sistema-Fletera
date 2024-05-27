@@ -35,9 +35,12 @@ class LecturaDetalle extends Model
                     ->from('combustibles')
                     ->where('tipo', 'LIKE', "%{$value}%");
             });
-        })->orWhereHas('combustible.estacion', function ($query) use ($value) {
+        })->orWhereHas('combustible.info.estacion', function ($query) use ($value) {
             $query->where('name', 'LIKE', "%{$value}%");
-        });
+        })
+        /* ->orWhereHas('combustible.estacion', function ($query) use ($value) {
+            $query->where('name', 'LIKE', "%{$value}%");
+        }) */;
     }
 
     public function lectura():BelongsTo

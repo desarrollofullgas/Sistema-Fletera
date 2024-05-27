@@ -36,6 +36,9 @@
                         @if ($combustible->id==$detalle->combustible_id)    
                             <td>{{$detalle->venta_electronica}}</td>
                             <td>{{$detalle->venta_odometro}}</td>
+                        @else
+                            <td style="background-color: #ADADAD"></td>
+                            <td style="background-color: #ADADAD"></td>
                         @endif
                     @endforeach
                 @endforeach

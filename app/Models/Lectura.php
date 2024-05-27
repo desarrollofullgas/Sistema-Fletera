@@ -20,4 +20,8 @@ class Lectura extends Model
     {
         return $this->hasMany(LecturaDetalle::class);
     }
+    public function estacion():BelongsTo
+    {
+        return $this->belongsTo(Estacion::class);
+    }
 }

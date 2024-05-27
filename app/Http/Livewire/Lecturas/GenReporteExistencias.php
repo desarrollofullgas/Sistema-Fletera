@@ -14,9 +14,7 @@ class GenReporteExistencias extends Component
 {
     public $estaciones,$estacion,$tipo,$start,$end;
     public function mount(){
-        $this->estaciones=Estacion::whereHas('combustibles',function(Builder $combustibles){
-            $combustibles->whereHas('detalleLectura');
-        })->orderBy('name', 'ASC')->get(['id','name']);
+        $this->estaciones=Estacion::with('lecturas')->orderBy('name', 'ASC')->get(['id','name']);
     }
     public function genReporte(){
         $this->validate([
@@ -29,10 +27,8 @@ class GenReporteExistencias extends Component
         try{
             $rango=[Carbon::create($this->start)->startOfDay()->toDateTimeString(),Carbon::create($this->end)->endOfDay()->toDateTimeString()];
             if($this->tipo=='general'){
-                $estaciones=Estacion::whereHas('combustibles',function(Builder $combustibles)use($rango){
-                    $combustibles->whereHas('detalleLectura',function(Builder $detalle)use($rango){
-                        $detalle->whereBetween('created_at',$rango);
-                    });
+                $estaciones=Estacion::whereHas('lecturas',function(Builder $lecturas)use($rango){
+                    $lecturas->whereBetween('created_at',$rango);
                 })->pluck('id');
             }else{
                 $estaciones=[$this->estacion];
@@ -40,6 +36,7 @@ class GenReporteExistencias extends Component
             return Excel::download(new ExistenciasExport($estaciones,$rango),'Reporte de existencias.xlsx');
         }
         catch(Exception $error){
+            dd($error);
             session()->flash('flash.banner', 'Ha ocurrido un error al generar el reporte, favor de contactar a un administrador');
             session()->flash('flash.bannerStyle', 'danger');
             return redirect(request()->header('Referer'));

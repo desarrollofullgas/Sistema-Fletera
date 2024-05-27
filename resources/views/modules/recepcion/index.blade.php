@@ -13,10 +13,10 @@
                         </x-button>
                     </x-slot>
                     <x-slot name="options">
-                        @livewire('recepcion.gen-reporte-merma')
+                        {{-- @livewire('recepcion.gen-reporte-merma')
                         @livewire('viajes.gen-reporte-viajes')
                         @livewire('lecturas.gen-reporte-ventas')
-                        @livewire('lecturas.gen-reporte-existencias')
+                        @livewire('lecturas.gen-reporte-existencias') --}}
                     </x-slot>
                 </x-menu-options>
                 

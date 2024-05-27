@@ -78,4 +78,8 @@ class Estacion extends Model
     {
         return $this->hasMany(Combustible::class);
     }
+    public function lecturas():HasMany
+    {
+        return $this->hasMany(Lectura::class);
+    }
 }

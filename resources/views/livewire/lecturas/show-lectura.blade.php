@@ -15,7 +15,7 @@
                 </div>
                 <div class="max-sm:w-full flex gap-2 items-center">
                     <x-icons.gas-station/>
-                    <span><strong>Estacion destino: </strong>{{$lectura->combustible->estacion->name}}</span>
+                    <span><strong>Estacion destino: </strong>{{$lectura->lectura->estacion->name}}</span>
                 </div>
                 <div class="max-sm:w-full flex gap-2 items-center">
                     <x-icons.oil/>

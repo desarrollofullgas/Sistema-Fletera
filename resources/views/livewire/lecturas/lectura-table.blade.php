@@ -103,7 +103,7 @@
                             {{-- Componente Column --}}
                             <x-cell> <x-input type="checkbox" value="{{ $lectura->id }}" wire:model="checked" />
                             </x-cell>
-                            <x-cell>{{ $lectura->combustible->estacion->name }}</x-cell>
+                            <x-cell>{{ $lectura->lectura->estacion->name }}</x-cell>
                             <x-cell>{{ $lectura->created_at }}</x-cell>
                             <x-cell>{{ $lectura->combustible->tipo }} </x-cell>
                             <x-cell>{{ $lectura->veeder}} </x-cell>

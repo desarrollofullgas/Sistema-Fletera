@@ -26,8 +26,10 @@ class VentasSheet implements FromView,WithTitle,ShouldAutoSize,WithEvents
     public function view(): View
     {
         $estacion=Estacion::find($this->id);
-        $combustibles=Combustible::where('estacion_id',$estacion->id)->get();
-        $lecturas=Lectura::whereHas('detalles',function(Builder $detalle)use($combustibles){
+        $combustibles=Combustible::whereHas('info',function(Builder $info)use($estacion){
+            $info->where('estacion_id',$estacion->id);
+        })->get();
+        $lecturas=Lectura::where('estacion_id',$estacion->id)->whereHas('detalles',function(Builder $detalle)use($combustibles){
             $detalle->whereIn('combustible_id',$combustibles->pluck('id'));
         })->whereBetween('created_at',$this->rango)->orderBy('id','DESC')->get();
         return view('excels.reportes.ventas.ventas',compact('combustibles','lecturas'));

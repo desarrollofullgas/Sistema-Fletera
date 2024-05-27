@@ -48,7 +48,7 @@
                                             class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                         <option value="">Seleccionar Tipo de Combustible</option>
                                         <template x-for="tipoCombustible in selectCombustible">
-                                            <option x-bind:value="tipoCombustible.id" x-text="tipoCombustible.tipo"></option>
+                                            <option x-bind:value="tipoCombustible.combustible_id" x-text="tipoCombustible.tipo"></option>
                                         </template>
                                     </select>
                                 </div>

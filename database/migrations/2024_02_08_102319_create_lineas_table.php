@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name',500);
             $table->string('clave',50);
             $table->string('rfc',30);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

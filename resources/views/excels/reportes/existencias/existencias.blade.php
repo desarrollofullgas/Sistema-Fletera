@@ -1,4 +1,49 @@
-@foreach ($tablas as $tabla)
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th colspan="3">EXISTENCIAS</th>
+            <th colspan="3">POR LLENAR</th>
+            <th colspan="3">DÍAS DE VENCIMIENTO</th>
+        </tr>
+        <tr>
+            <th style='color:white;background-color:#000000;'>ZONA</th>
+            <th style='color:white;background-color:#000000;'>ESTACIÓN</th>
+            <th style='color:white;background-color:#009739;'>MAGNA</th>
+            <th style='color:white;background-color:#CC0000;'>PREMIUM</th>
+            <th style='color:white;background-color:#000000;'>DIESEL</th>
+            <th style='color:white;background-color:#009739;'>MAGNA</th>
+            <th style='color:white;background-color:#CC0000;'>PREMIUM</th>
+            <th style='color:white;background-color:#000000;'>DIESEL</th>
+            <th style='color:white;background-color:#009739;'>V.MAGNA</th>
+            <th style='color:white;background-color:#CC0000;'>V.PREMIUM</th>
+            <th style='color:white;background-color:#000000;'>V.DIESEL</th>
+            <th style='color:white;background-color:#000000;'>FECHA DE REGISTRO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($tablas as $registro)
+            @foreach ($registro['data'] as $data)    
+                <tr>
+                    <td>{{$registro['zona']}}</td>
+                    <td>{{$registro['estacion']}}</td>
+                    <td>{{$data['lecturas']['MAGNA']['existencia']}}</td>
+                    <td>{{$data['lecturas']['PREMIUM']['existencia']}}</td>
+                    <td>{{$data['lecturas']['DIESEL']['existencia']}}</td>
+                    <td>{{$data['lecturas']['MAGNA']['llenar']}}</td>
+                    <td>{{$data['lecturas']['PREMIUM']['llenar']}}</td>
+                    <td>{{$data['lecturas']['DIESEL']['llenar']}}</td>
+                    <td>{{$data['lecturas']['MAGNA']['dias']}}</td>
+                    <td>{{$data['lecturas']['PREMIUM']['dias']}}</td>
+                    <td>{{$data['lecturas']['DIESEL']['dias']}}</td>
+                    <td>{{$data['creado']}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+    </tbody>
+</table>
+{{-- @foreach ($tablas as $tabla)
     <table>
         <thead>
             <tr>
@@ -42,7 +87,9 @@
                     @foreach ($tabla['combustibles'] as $combustible)
                         @foreach ($data['lecturas'] as $registro)
                             @if ($registro['combustible']==$combustible->tipo)
-                            <td>{{$registro['existencia']}}</td>
+                            <td>id:{{$registro['lectura_id']}},{{$registro['existencia']}}</td>
+                            @else
+                                <td style="background-color: black;"></td>
                             @endif
                         @endforeach
                     @endforeach
@@ -50,6 +97,8 @@
                         @foreach ($data['lecturas'] as $registro)
                             @if ($registro['combustible']==$combustible->tipo)
                             <td>{{$registro['llenar']}}</td>
+                            @else
+                                <td style="background-color: black;"></td>
                             @endif
                         @endforeach
                     @endforeach
@@ -58,7 +107,7 @@
             @endforeach
         </tbody>
     </table>
-@endforeach
+@endforeach --}}
 {{-- @foreach ($zonas as $zona)
     @foreach ($tablas as $tabla)
         @if ($zona->id == $tabla['zona'])    

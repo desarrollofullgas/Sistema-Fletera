@@ -38,7 +38,9 @@ class EditViaje extends Component
         $this->estaciones=Estacion::orderBy('name','ASC')->get(['id','name']);
         $this->operadores=Operador::orderBy('name','ASC')->get(['id','name']);
         $this->unidades=Unidad::where('status','Disponible')->orderBy('tractor','ASC')->get(['id','tractor']);
-        $this->combustibles=Combustible::where('estacion_id',$viaje->estacion_id)->get();
+        $this->combustibles=Combustible::whereHas('info',function(Builder $info)use($viaje){
+            $info->where('estacion_id',$viaje->estacion_id);
+        })->get();
     }
     //cuando se actualiza el valor de la estación seleccionada se ejecuta la función
     public function updatedEstacion( $val){

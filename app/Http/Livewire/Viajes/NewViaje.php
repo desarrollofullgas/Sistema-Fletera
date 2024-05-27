@@ -41,7 +41,9 @@ class NewViaje extends Component
         $this->proveedores=Proveedor::whereHas('zonas',function(Builder $zonas)use($estacion){
             $zonas->where('zona_id',$estacion->zona_id);
         })->orderBy('name', 'ASC')->get(['id','name']);
-        $this->combustibles=Combustible::where('estacion_id',$estacion->id)->get();
+        $this->combustibles=Combustible::whereHas('info',function(Builder $info)use($estacion){
+            $info->where('estacion_id',$estacion->id);
+        })->get();
     }
     //ejecutamos la función cuando se actualice la variable $unidad
     public function updatedUnidad($val){
@@ -76,6 +78,11 @@ class NewViaje extends Component
         $viaje->operador_id=$this->operador;
         $viaje->contenido=$this->contenido;
         $viaje->status="En tránsito";
+
+        $vehiculo= Unidad::find($this->unidad);
+        $vehiculo->status="En tránsito";
+
+        $vehiculo->save();
         $viaje->save();
         session()->flash('flash.banner', 'Viaje registrado');
         session()->flash('flash.bannerStyle', 'success');

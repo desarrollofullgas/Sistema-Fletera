@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Combustible extends Model
 {
     use HasFactory;
-
+    public function info() :HasMany
+    {
+        return $this->hasMany(EstacionCombustible::class);
+    }
     public function estacion()
     {
         return $this->belongsTo(Estacion::class);
