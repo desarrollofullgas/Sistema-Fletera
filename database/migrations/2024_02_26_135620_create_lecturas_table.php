@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('lecturas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('estacion_id');
             $table->decimal('total_litros', 10, 2);
             $table->decimal('total_pesos', 10, 2);
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('estacion_id')->references('id')->on('estacions')->onDelete('CASCADE');
         });
     }
 

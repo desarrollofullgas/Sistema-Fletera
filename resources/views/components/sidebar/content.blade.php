@@ -79,10 +79,6 @@
                 <x-sidebar.sublink title="Lecturas" href="{{ route('lecturas') }}" :active="request()->routeIs('lecturas')" />
                 @endif
             @endforeach
-            <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
-            <x-sidebar.sublink title="Recepciones de pipa" href="{{ route('recepciones.list') }}" :active="request()->routeIs('recepciones.list')" />
-
-
         </x-sidebar.dropdown>
     </div>
 

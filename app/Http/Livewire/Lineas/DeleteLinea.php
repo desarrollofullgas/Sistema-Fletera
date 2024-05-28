@@ -14,7 +14,7 @@ class DeleteLinea extends Component
     }
     public function deleteLinea(){
         Linea::find($this->lineaID)->delete();
-        session()->flash('flash.banner', 'Una línea de transporte ha sido eliminada permanentemente.');
+        session()->flash('flash.banner', ' línea de transporte ha sido eliminada.');
         session()->flash('flash.bannerStyle', 'success');
         //volvemos a la direccion que tiene el navegador
         return redirect(request()->header('Referer'));

@@ -36,4 +36,3 @@
         </x-secondary-button>
     </x-slot>
 </x-modal-create>
-

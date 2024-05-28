@@ -108,7 +108,7 @@
         </fieldset>
     </x-slot>
     <x-slot name="btn_action">
-        <div x-data="{productos:lista,
+        <div x-data="{
             combustibles: [{ tipo: '', clave: '', capacidad: '', prom_venta: '', dif_vr_fisico: '', minimo: '', alerta: '' }],
             dispensarios: [{ marca: '', serie: '', version_cpu: '', modelo: '', mangueras: '', flujo: '' }],
         
@@ -132,9 +132,7 @@
                 $wire.addEstacion();
             }
         }">
-        <script wire:ignore>
-            const lista={!!json_encode($productos)!!}
-        </script>
+
             {{-- COMBUSTIBLES --}}
             <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden max-h-60 overflow-y-auto">
                 <legend class="font-bold">Datos de Combustibles</legend>
@@ -150,9 +148,9 @@
                                     <select name="tipo" id="tipo" x-model="combustible.tipo"
                                         class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                         <option hidden value="" selected>Tipo de combustible</option>
-                                        <template x-for="producto in productos">
-                                            <option :value="producto.id" x-text="producto.tipo"></option>
-                                        </template>
+                                        <option value="MAGNA">MAGNA</option>
+                                        <option value="PREMIUM">PREMIUM</option>
+                                        <option value="DIESEL">DIESEL</option>
                                     </select>
                                 </div>
                                 <template x-if="index >0">

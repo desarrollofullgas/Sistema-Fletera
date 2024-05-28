@@ -1,6 +1,6 @@
 <x-modal-create button_tittle="Añadir unidad" tittle="Nueva unidad de transporte">
     <x-slot name="content">
-        <fieldset class="border dark:border-gray-500 p-2">
+        <fieldset class="border dark:border-gray-500 p-2 overflow-hidden max-h-60 overflow-y-auto">
             <legend>Datos de unidad</legend>
             <div class="flex flex-wrap justify-evenly gap-2">
                 <div class="w-full">
@@ -66,7 +66,7 @@
                 $wire.addUnidad();
             }}">
             <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden max-h-60 overflow-y-auto">
-                <legend>Datos de toneles</legend>
+                <legend>Datos de Pipas</legend>
                 <x-input-error for="pipas"></x-input-error>
                 <div class="flex flex-col justify-evenly gap-2">
                     <template x-for="(pipa,index) in pipas" :key="index">
