@@ -15,9 +15,9 @@
                 </div>
                 <div class="max-sm:w-full flex gap-2 items-center">
                     <x-icons.gas-station/>
-                    <span><strong>Estacion destino: </strong>{{$lectura->lectura->estacion->name}}</span>
+                    <span><strong>Estacion destino: </strong>{{$lectura->estacion->name}}</span>
                 </div>
-                <div class="max-sm:w-full flex gap-2 items-center">
+                {{-- <div class="max-sm:w-full flex gap-2 items-center">
                     <x-icons.oil/>
                     <span><strong>Combustible: </strong>
                         @if ($lectura->combustible->tipo=='MAGNA')
@@ -34,24 +34,6 @@
                             </span>
                         @endif
                     </span>
-                </div>
-                {{-- <div class="max-sm:w-full flex gap-2 items-center">
-                    <span><strong>Proveedor: </strong>{{$lectura->proveedor->name}}</span>
-                </div>
-                <div class="max-sm:w-full flex gap-2 items-center">
-                    <x-icons.id-card/>
-                    <span><strong>Operador: </strong>{{$lectura->operador->name}}</span>
-                </div>
-                <div class="max-sm:w-full flex gap-2 items-center">
-                    <x-icons.truck/>
-                    <span><strong>Unidad: </strong>{{$lectura->unidad->tractor}}</span>
-                </div>
-                <div class="max-sm:w-full flex gap-2 items-center">
-                    <x-icons.fuel-tank/>
-                    <span><strong>Tonel seleccionado: </strong>{{$lectura->tonel->toneles}}</span>
-                </div>
-                <div class="max-sm:w-full flex gap-2 items-center">
-                    <span><strong>Cantidad: </strong>{{number_format($lectura->contenido)}} lts</span>
                 </div> --}}
             </div>
             <br>
@@ -69,8 +51,8 @@
                     <span><strong>Venta de perifericos:</strong> {{number_format($lectura->venta_periferico,2)}}</span>
                     <span><strong>Venta electrónica:</strong> {{number_format($lectura->venta_electronica,2)}}</span>
                     <span><strong>Odómetro:</strong> {{number_format($lectura->venta_odometro,2)}}</span>
-                    <span><strong>Total en pesos:</strong> ${{number_format($lectura->lectura->total_pesos,2)}}</span>
-                    <span><strong>Total en litros:</strong> {{number_format($lectura->lectura->total_litros,2)}}lts.</span>
+                    <span><strong>Total en pesos:</strong> ${{number_format($lectura->total_pesos,2)}}</span>
+                    <span><strong>Total en litros:</strong> {{number_format($lectura->total_litros,2)}}lts.</span>
                 </div>
             </fieldset>
         </fieldset>

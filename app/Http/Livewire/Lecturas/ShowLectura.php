@@ -10,7 +10,7 @@ class ShowLectura extends Component
 {
     public $lecturaID,$lectura,$datos;
     public function mount(){
-        $this->lectura=LecturaDetalle::find($this->lecturaID);
+        $this->lectura=Lectura::find($this->lecturaID);
     }
     public function render()
     {

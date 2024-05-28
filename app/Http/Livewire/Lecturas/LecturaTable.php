@@ -27,7 +27,7 @@ class LecturaTable extends Component
     {
         $this->valid = Auth::user()->permiso->panels->where('id', 10)->first();
         return view('livewire.lecturas.lectura-table', [
-            'trashed' => LecturaDetalle::onlyTrashed()->count(),
+            'trashed' => Lectura::onlyTrashed()->count(),
             'lecturas' => $this->lecturas,
         ]);
     }
@@ -76,7 +76,7 @@ class LecturaTable extends Component
   
       public function getLecturasQueryProperty()
       {
-          return LecturaDetalle::search($this->search)
+          return Lectura::search($this->search)
               ->when($this->sortField, function ($query) {
                   return $query->orderBy($this->sortField, $this->sortDirection);
               })
@@ -102,7 +102,7 @@ class LecturaTable extends Component
       //Eliminación multiple
       public function deleteLecturas()
       {
-          LecturaDetalle::whereKey($this->checked)->delete();
+          Lectura::whereKey($this->checked)->delete();
           $this->checked = [];
           $this->selectAll = false;
           $this->selectPage = false;

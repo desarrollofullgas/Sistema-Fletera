@@ -91,9 +91,9 @@
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable >ESTACIÓN</x-heading>
                     <x-heading sortable >FECHA</x-heading>
-                    <x-heading sortable wire:click="sortBy('combustible_id')" :direction="$sortField === 'combustible_id' ? $sortDirection : null">COMBUSTIBLE</x-heading>
-                    <x-heading sortable wire:click="sortBy('veeder')" :direction="$sortField === 'veeder' ? $sortDirection : null">VEEDER</x-heading>
-                    <x-heading sortable wire:click="sortBy('fisico')" :direction="$sortField === 'fisico' ? $sortDirection : null">FISICO</x-heading>
+                    <x-heading sortable>COMBUSTIBLES</x-heading>
+                    <x-heading sortable wire:click="sortBy('total_litros')" :direction="$sortField === 'total_litros' ? $sortDirection : null">LITROS</x-heading>
+                    <x-heading sortable wire:click="sortBy('total_pesos')" :direction="$sortField === 'total_pesos' ? $sortDirection : null">VALOR TOTAL</x-heading>
                     <x-heading>OPCIONES</x-heading>
                 </x-slot>
                 <x-slot name="body">
@@ -103,11 +103,11 @@
                             {{-- Componente Column --}}
                             <x-cell> <x-input type="checkbox" value="{{ $lectura->id }}" wire:model="checked" />
                             </x-cell>
-                            <x-cell>{{ $lectura->lectura->estacion->name }}</x-cell>
+                            <x-cell>{{ $lectura->estacion->name }}</x-cell>
                             <x-cell>{{ $lectura->created_at }}</x-cell>
-                            <x-cell>{{ $lectura->combustible->tipo }} </x-cell>
-                            <x-cell>{{ $lectura->veeder}} </x-cell>
-                            <x-cell>{{ $lectura->fisico}} </x-cell>
+                            <x-cell>{{$lectura->detalles->count()}}</x-cell>
+                            <x-cell>{{number_format($lectura->total_litros,2)}} lts. </x-cell>
+                            <x-cell>${{number_format($lectura->total_pesos,2)}}</x-cell>
                             <x-cell class="max-lg:p-0 flex justify-center items-stretch">
                                 <div class="flex justify-center items-center rounded-b-md max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900 max-lg:w-full max-lg:mb-4">
                                     <div class="relative w-fit" x-data="{show:false}">
