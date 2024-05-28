@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unidades', function (Blueprint $table) {
+        Schema::create('unidads', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('linea_id');
             $table->string('tractor',30);
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('marca',30)->nullable();
             $table->string('modelo',30)->nullable();
             $table->string('serie',30)->nullable();
-            $table->string('status',30)->default('Disponible');
+            $table->string('status',30)->default('DISPONIBLE');
             $table->softDeletes();
             $table->timestamps();
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unidades');
+        Schema::dropIfExists('unidads');
     }
 };

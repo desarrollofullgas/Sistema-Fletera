@@ -14,7 +14,7 @@ class DeleteUnidad extends Component
     }
     public function deleteUnidad(){
         $unidad=Unidad::find($this->unidadID)->delete();
-        session()->flash('flash.banner', 'Una unidad de transporte ha sido eliminada permanentemente.');
+        session()->flash('flash.banner', 'Unidad de transporte ha sido eliminada.');
         session()->flash('flash.bannerStyle', 'success');
         //volvemos a la direccion que tiene el navegador
         return redirect(request()->header('Referer'));

@@ -8,13 +8,12 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Zona;
 use App\Models\Estacion;
-use App\Models\EstacionCombustible;
 use Exception;
 
 class EstacionCreate extends Component
 {
     public $zonas;
-    public $name, $numero, $razon, $rfc, $siic, $iva, $direccion, $zona, $supervisor, $gerente,$productos, $combustibles = [];
+    public $name, $numero, $razon, $rfc, $siic, $iva, $direccion, $zona, $supervisor, $gerente, $combustibles = [];
     public $isSuper, $isGeren;
     public $optionSelected; // Nueva propiedad para almacenar la opción seleccionada (ej.  dispensarios)
     public $dispensarios = [];
@@ -27,7 +26,6 @@ class EstacionCreate extends Component
     public function mount()
     {
         $this->zonas = Zona::where('status', 'Activo')->get();
-        $this->productos=Combustible::all(['id','tipo']);
     }
 
     public function addEstacion()
@@ -78,16 +76,16 @@ class EstacionCreate extends Component
             $estacion->save();
             //guardamos los combustibles de la estacion 
             foreach ($this->combustibles as $combustible) {
-                $reg = new EstacionCombustible();
+                $reg = new Combustible();
                 $reg->estacion_id = $estacion->id;
-                $reg->combustible_id = $combustible['tipo'];
+                $reg->tipo = $combustible['tipo'];
                 $reg->capacidad = $combustible['capacidad'];
                 $reg->prom_venta = $combustible['prom_venta'];
                 $reg->dif_vr_fisico = $combustible['dif_vr_fisico'];
                 $reg->minimo = $combustible['minimo'];
                 $reg->alerta = $combustible['alerta'];
                 // Asignar la clave de acuerdo al tipo de combustible
-                /* switch ($combustible['tipo']) {
+                switch ($combustible['tipo']) {
                     case 'MAGNA':
                         $reg->clave = '32025 Gasolina con contenido minimo 87 octanos';
                         break;
@@ -100,7 +98,7 @@ class EstacionCreate extends Component
                     default:
                         // Manejar caso por defecto o lanzar una excepción si es necesario
                         break;
-                } */
+                }
                 $reg->save();
             }
             // Guardar detalles del dispensario

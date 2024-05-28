@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LecturaDetalle extends Model
@@ -35,18 +34,11 @@ class LecturaDetalle extends Model
                     ->from('combustibles')
                     ->where('tipo', 'LIKE', "%{$value}%");
             });
-        })->orWhereHas('combustible.info.estacion', function ($query) use ($value) {
+        })->orWhereHas('combustible.estacion', function ($query) use ($value) {
             $query->where('name', 'LIKE', "%{$value}%");
-        })
-        /* ->orWhereHas('combustible.estacion', function ($query) use ($value) {
-            $query->where('name', 'LIKE', "%{$value}%");
-        }) */;
+        });
     }
 
-    public function lectura():BelongsTo
-    {
-        return $this->belongsTo(Lectura::class);
-    }
     public function combustible()
     {
         return $this->belongsTo(Combustible::class);

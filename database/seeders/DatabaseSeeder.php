@@ -15,9 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            combustibles::class
-        ]);
         DB::statement("INSERT INTO `panels` (`id`, `titulo_panel`, `created_at`, `updated_at`) VALUES
         (1, 'DASHBOARD', '2023-09-21 06:50:25', NULL),
         (2, 'ESTACIONES', '2023-09-21 06:50:25', NULL),

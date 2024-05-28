@@ -28,11 +28,11 @@
                             </div>
                             <!-- Eliminar y Exportar-->
                             <div>
-                                {{-- @if ($valid->pivot->de == 1)
-                                @endif --}}
-                                <x-dropdown-link href="#" wire:click="deleteUnidades">
-                                    {{ __('Eliminar Unidad') }}
-                                </x-dropdown-link>
+                                @if ($valid->pivot->de == 1)
+                                    <x-dropdown-link href="#" wire:click="deleteUnidades">
+                                        {{ __('Eliminar Unidad') }}
+                                    </x-dropdown-link>
+                                @endif
                                 <x-dropdown-link href="#" wire:click="exportSelected">
                                     {{ __('Exportar a Excel') }}
                                 </x-dropdown-link>
@@ -120,19 +120,19 @@
                             <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
                                     <div>
+                                        @if ($valid->pivot->vermas == 1)
+                                            @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
+                                        @endif
+                                    </div>
+                                    <div>
                                         @if ($valid->pivot->ed == 1)
                                         <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
                                         @endif
                                     </div>
                                     <div>
-                                        @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
-                                        {{-- @if ($valid->pivot->ed == 1)
-                                        @endif --}}
-                                    </div>
-                                    <div>
-                                        @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
-                                        {{-- @if ($valid->pivot->de == 1)
-                                        @endif --}}
+                                        @if ($valid->pivot->de == 1)
+                                            @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
+                                        @endif
                                     </div>
                                 </div>
                             </x-cell>
