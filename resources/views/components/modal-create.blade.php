@@ -3,13 +3,13 @@
     if ($tipo == 'create') {
         $classes='inline-flex items-center transition-colors font-medium select-none disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 text-base bg-gray-900 text-white  dark:bg-gray-400 rounded-md dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700';
     } else {
-        $classes='text-gray-400 hover:text-indigo-500';
+        $classes='text-gray-400 hover:text-indigo-500 p-1';
     }
     
 @endphp
 <div x-data="{ modelOpen: false }">
-    <div class="">
-        <button  @click="modelOpen =!modelOpen" class="{{$classes}}">
+    <div>
+        <button  @click="modelOpen =!modelOpen" {{$attributes->merge(['class'=>$classes])}}>
             {{$button_tittle}}
         </button>
     </div>

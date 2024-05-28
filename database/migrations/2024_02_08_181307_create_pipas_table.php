@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('unidad_id')->references('id')->on('unidads')->onDelete('cascade');
+            $table->foreign('unidad_id')->references('id')->on('unidades')->onDelete('CASCADE');
         });
     }
 

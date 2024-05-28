@@ -6,6 +6,19 @@
                 {{ __('LECTURAS') }}
             </x-card-greet-header>
             <div class=" flex justify-center space-x-2">
+                <x-menu-options>
+                    <x-slot name="button">
+                        <x-button variant="danger">
+                            <x-icons.file-download/>
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="options">
+                        @livewire('recepcion.gen-reporte-merma')
+                        @livewire('viajes.gen-reporte-viajes')
+                        @livewire('lecturas.gen-reporte-ventas')
+                        @livewire('lecturas.gen-reporte-existencias')
+                    </x-slot>
+                </x-menu-options>
                 <div>
                     @livewire('lecturas.new-lectura')
                 </div>

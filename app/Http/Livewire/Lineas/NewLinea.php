@@ -8,7 +8,6 @@ use Livewire\Component;
 class NewLinea extends Component
 {
     public $name,$clave,$rfc;
-
     public function addLinea(){
         $this->validate([
             'name' =>['required'],
@@ -19,16 +18,14 @@ class NewLinea extends Component
             'clave.required' =>'Ingrese la clave del transportista',
             'rfc.required' =>'Igrese el rfc'
         ]);
-
         $linea=new Linea();
         $linea->name=$this->name;
         $linea->clave=$this->clave;
         $linea->rfc=$this->rfc;
         $linea->save();
-
-        session()->flash('flash.banner', 'Nueva Linea Transportista, la  linea transportista "'.$this->name.'" ha sido agregada al sistema.');
+        session()->flash('flash.banner', 'Nueva línea de transporte añadida.');
         session()->flash('flash.bannerStyle', 'success');
-        return redirect(request()->header('Referer'));
+        to_route('lineas.transporte');
 
     }
     public function render()

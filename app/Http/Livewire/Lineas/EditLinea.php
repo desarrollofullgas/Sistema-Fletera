@@ -29,11 +29,10 @@ class EditLinea extends Component
         $linea->clave=$this->clave;
         $linea->rfc=$this->rfc;
         $linea->save();
-        session()->flash('flash.banner', 'Linea Transportista Actualizada, la  linea transportista "'.$linea->name.'" ha sido actualizada con éxito.');
+        session()->flash('flash.banner', 'Se ha actualizado una línea de transporte');
         session()->flash('flash.bannerStyle', 'success');
         return redirect(request()->header('Referer'));
     }
-
     public function render()
     {
         return view('livewire.lineas.edit-linea');

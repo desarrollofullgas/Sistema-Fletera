@@ -28,11 +28,11 @@
                             </div>
                             <!-- Eliminar y Exportar-->
                             <div>
-                                @if ($valid->pivot->de == 1)
-                                    <x-dropdown-link href="#" wire:click="deleteProveedores">
-                                        {{ __('Eliminar Proveedor') }}
-                                    </x-dropdown-link>
-                                @endif
+                                <x-dropdown-link href="#" wire:click="deleteProveedores">
+                                    {{ __('Eliminar Proveedor') }}
+                                </x-dropdown-link>
+                                {{-- @if ($valid->pivot->de == 1)
+                                @endif --}}
                                 <x-dropdown-link href="#" wire:click="exportSelected">
                                     {{ __('Exportar a Excel') }}
                                 </x-dropdown-link>
@@ -152,19 +152,19 @@
                             <x-cell>
                                 <div class="flex gap-2 justify-center items-center">
                                     <div>
-                                        @if ($valid->pivot->vermas == 1)
-                                            @livewire('proveedores.proveedor-show', ['proveedorID' => $pro->id], key('show' . $pro->id))
-                                        @endif
+                                        @livewire('proveedores.proveedor-show', ['proveedorID' => $pro->id], key('show' . $pro->id))
+                                       {{--  @if ($valid->pivot->vermas == 1)
+                                        @endif --}}
                                     </div>
                                     <div>
-                                        @if ($valid->pivot->ed == 1)
-                                            @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('ed' . $pro->id))
-                                        @endif
+                                        @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('ed' . $pro->id))
+                                        {{-- @if ($valid->pivot->ed == 1)
+                                        @endif --}}
                                     </div>
                                     <div>
-                                        @if ($valid->pivot->de == 1)
-                                            @livewire('proveedores.proveedor-delete', ['proveedorID' => $pro->id], key('del' . $pro->id))
-                                        @endif
+                                        @livewire('proveedores.proveedor-delete', ['proveedorID' => $pro->id], key('del' . $pro->id))
+                                        {{-- @if ($valid->pivot->de == 1)
+                                        @endif --}}
                                     </div>
                                 </div>
                             </x-cell>

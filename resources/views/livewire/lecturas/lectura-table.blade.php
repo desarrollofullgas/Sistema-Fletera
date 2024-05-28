@@ -91,9 +91,9 @@
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
                     <x-heading sortable >ESTACIÓN</x-heading>
                     <x-heading sortable >FECHA</x-heading>
-                    <x-heading sortable wire:click="sortBy('combustible_id')" :direction="$sortField === 'combustible_id' ? $sortDirection : null">COMBUSTIBLE</x-heading>
-                    <x-heading sortable wire:click="sortBy('veeder')" :direction="$sortField === 'veeder' ? $sortDirection : null">VEEDER</x-heading>
-                    <x-heading sortable wire:click="sortBy('fisico')" :direction="$sortField === 'fisico' ? $sortDirection : null">FISICO</x-heading>
+                    <x-heading sortable>COMBUSTIBLES</x-heading>
+                    <x-heading sortable wire:click="sortBy('total_litros')" :direction="$sortField === 'total_litros' ? $sortDirection : null">LITROS</x-heading>
+                    <x-heading sortable wire:click="sortBy('total_pesos')" :direction="$sortField === 'total_pesos' ? $sortDirection : null">VALOR TOTAL</x-heading>
                     <x-heading>OPCIONES</x-heading>
                 </x-slot>
                 <x-slot name="body">
@@ -103,14 +103,22 @@
                             {{-- Componente Column --}}
                             <x-cell> <x-input type="checkbox" value="{{ $lectura->id }}" wire:model="checked" />
                             </x-cell>
-                            <x-cell>{{ $lectura->combustible->estacion->name }}</x-cell>
+                            <x-cell>{{ $lectura->estacion->name }}</x-cell>
                             <x-cell>{{ $lectura->created_at }}</x-cell>
-                            <x-cell>{{ $lectura->combustible->tipo }} </x-cell>
-                            <x-cell>{{ $lectura->veeder}} </x-cell>
-                            <x-cell>{{ $lectura->fisico}} </x-cell>
-                            <x-cell>
-                                <div class="flex gap-2 justify-center items-center">
-                                   
+                            <x-cell>{{$lectura->detalles->count()}}</x-cell>
+                            <x-cell>{{number_format($lectura->total_litros,2)}} lts. </x-cell>
+                            <x-cell>${{number_format($lectura->total_pesos,2)}}</x-cell>
+                            <x-cell class="max-lg:p-0 flex justify-center items-stretch">
+                                <div class="flex justify-center items-center rounded-b-md max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900 max-lg:w-full max-lg:mb-4">
+                                    <div class="relative w-fit" x-data="{show:false}">
+                                        <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
+                                            <x-icons.dots-vertical class="max-lg:rotate-90"/>
+                                        </button>
+                                        <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
+                                            @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('lec'.$lectura->id))
+                                            @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                        </div>
+                                    </div>
                                 </div>
                             </x-cell>
                         </x-row>

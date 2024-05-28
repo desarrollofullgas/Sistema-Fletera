@@ -7,8 +7,10 @@ use App\Http\Controllers\OperadorController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VersionController;
+use App\Http\Controllers\ViajesController;
 use App\Http\Controllers\ZonaController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +57,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post("/deleteestacion-permanently", [EstacionController::class, "delete_permanently"])->name('deleteestacion_permanently');
     Route::get('/estacion/editar/{id}', [EstacionController::class, "editEstacion"])->name('estacion.edit');
 
+    //unidades
+    Route::controller(UnidadesController::class)->group(function (){
+        Route::get('/unidades','home')->name('unidades');
+        Route::get('/lineas-transporte','lineasHome')->name('lineas.transporte');
+        Route::get('/unidades/editar/{id}','editUnidad')->name('unidad.edit');
+    });
 
     //Operadores
     Route::get('/operadores', [OperadorController::class, 'index'])->name('operadores');
@@ -84,6 +92,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get("/trashedlineas-transporte", 'trashed_lineas')->name('lineas.trashed');
         Route::post("/restorelinea", 'do_restoreL')->name('linea_restore');
         Route::post("/deletelinea-permanently", 'delete_permanentlyL')->name('linea_permanently');
+    });
+    //viajes
+    Route::controller(ViajesController::class)->group(function(){
+        Route::get('/viajes','home')->name('viajes');
+        Route::get('/viajes/search/','buscarViaje')->name('viajes.search');
+        Route::get('/viajes/recepcion-pipas/{ctID}','recepcion')->name('recepcion');
+        Route::get('/viajes/cataporte/{id}','pdf')->name('ct.archivo');
+        Route::get('viajes/recepciones','recepcionesHome')->name('recepciones.list');
+        Route::get('/viajes/recepcion-pipas/editar/{rep}','editRecepcion')->name('recepcion.edit');
+        Route::get('/viajes/recepcion/{id}/doc','recepcionPDF')->name('recepcion.doc');
     });
 
     //Lecturas

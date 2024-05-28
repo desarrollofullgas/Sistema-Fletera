@@ -1,4 +1,4 @@
-<x-modal-create button_tittle="Datos de la unidad" tipo="delete">
+<x-modal-create button_tittle="Datos de la unidad" tipo="show">
     <x-slot name="button_tittle">
         <x-icons.eye/>
     </x-slot>
