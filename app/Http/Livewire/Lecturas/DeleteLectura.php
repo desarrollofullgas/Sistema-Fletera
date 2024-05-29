@@ -13,7 +13,7 @@ class DeleteLectura extends Component
 
     public function deleteLectura(){
         try{
-            $lectura=LecturaDetalle::find($this->lecturaID);
+            $lectura=Lectura::find($this->lecturaID);
             $lectura->delete();
             session()->flash('flash.banner', 'El rgistro ha sido eliminado');
             session()->flash('flash.bannerStyle', 'success');
