@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lectura_detalles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lectura_id');
-            $table->unsignedBigInteger('combustible_id');
+            $table->unsignedBigInteger('estacion_combustible_id');
             $table->decimal('veeder', 10, 2);
             $table->decimal('fisico', 10, 2);
             $table->decimal('venta_periferico', 10, 2);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('lectura_id')->references('id')->on('lecturas')->onDelete('cascade');
-            $table->foreign('combustible_id')->references('id')->on('combustibles')->onDelete('cascade');
+            $table->foreign('estacion_combustible_id')->references('id')->on('estacion_combustibles')->onDelete('cascade');
         });
     }
 

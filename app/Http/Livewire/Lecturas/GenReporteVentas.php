@@ -37,6 +37,7 @@ class GenReporteVentas extends Component
             return Excel::download(new VentasExport($estaciones,$rango),'Reporte de ventas.xlsx');
         }catch(Exception $error){
             session()->flash('flash.banner', 'Ha ocurrido un error al generar el reporte, favor de contactar a un administrador');
+            dd($error);
             session()->flash('flash.bannerStyle', 'danger');
             return redirect(request()->header('Referer'));
         }

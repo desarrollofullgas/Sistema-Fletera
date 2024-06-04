@@ -4,14 +4,14 @@
             <td style="background-color:#DFDFDF;">FECHA</td>
             @foreach ($combustibles as $combustible)
                 <td 
-                    @if ($combustible->tipo=='MAGNA')
+                    @if ($combustible->combustible->tipo=='MAGNA')
                         style='color:white;background-color:#009739;'    
-                    @elseif($combustible->tipo=='PREMIUM')
+                    @elseif($combustible->combustible->tipo=='PREMIUM')
                         style='color:white;background-color:#CC0000;'
                     @else
                         style='color:white;background-color:#000000;'
                     @endif>
-                    {{$combustible->tipo}} ELECTRÓNICO
+                    {{$combustible->combustible->tipo . '(TANQUE ' . number_format($combustible->capacidad) . 'lts)'}} ELECTRÓNICO
                 </td>
                 <td 
                     @if ($combustible->tipo=='MAGNA')
@@ -33,7 +33,7 @@
                 <td>{{$lectura->created_at}}</td>
                 @foreach ($combustibles as $combustible)
                     @foreach ($lectura->detalles as $detalle)
-                        @if ($combustible->id==$detalle->combustible_id)    
+                        @if ($combustible->id==$detalle->estacion_combustible_id)    
                             <td>{{$detalle->venta_electronica}}</td>
                             <td>{{$detalle->venta_odometro}}</td>
                         @else

@@ -61,7 +61,10 @@ class ExistenciasSheet implements FromView,ShouldAutoSize,WithTitle,WithEvents
                         ];
                         //obtenemos los detalles e información adicional de la lectura
                         //$lecturas=LecturaDetalle::selectRaw('combustible_id,AVG(veeder) as v,AVG(fisico) as f,AVG(venta_periferico) as pf,AVG(venta_electronica) as vl,AVG(venta_odometro) as vd,AVG(((veeder+fisico)/2)) as exist')->where('lectura_id',$mainLect->id)->groupBy('combustible_id')->get();
-                        $lecturas=DB::table('combustibles as c')->join('lectura_detalles as ld','c.id','=','ld.combustible_id')->join('estacion_combustibles as ec','c.id','=','ec.combustible_id')->where('ld.lectura_id',$mainLect->id)->selectRaw('c.tipo,SUM(((ld.veeder+ld.fisico)/2)) as exist,SUM(ec.capacidad) as cp,SUM(ec.prom_venta) as pv,SUM(ec.minimo) as min,Sum(ec.alerta) as dias')->groupBy('c.tipo','ld.combustible_id')->get();
+                        //<---------- Combustibles de manera general------------ V2.1>
+                        //$lecturas=DB::table('combustibles as c')->join('lectura_detalles as ld','c.id','=','ld.combustible_id')->join('estacion_combustibles as ec','c.id','=','ec.combustible_id')->where('ld.lectura_id',$mainLect->id)->selectRaw('c.tipo,SUM(((ld.veeder+ld.fisico)/2)) as exist,SUM(ec.capacidad) as cp,SUM(ec.prom_venta) as pv,SUM(ec.minimo) as min,Sum(ec.alerta) as dias')->groupBy('c.tipo','ld.combustible_id')->get();
+                        //<---------- Combustibles por tanque ------------------ V2.2>
+                        $lecturas=DB::table('estacion_combustibles as ec')->join('lectura_detalles as ld','ec.id','=','ld.estacion_combustible_id')->join('combustibles as c','ec.combustible_id','=','c.id')->where('ld.lectura_id',$mainLect->id)->selectRaw('c.tipo,SUM(((ld.veeder+ld.fisico)/2)) as exist,SUM(ec.capacidad) as cp,SUM(ec.prom_venta) as pv,SUM(ec.minimo) as min,Sum(ec.alerta) as dias')->groupBy('c.tipo','ec.combustible_id')->get();
                        
                         foreach($lecturas as $lect){
                             switch ($lect->tipo) {

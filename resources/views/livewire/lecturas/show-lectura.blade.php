@@ -22,17 +22,17 @@
                         <div class="max-sm:w-full flex gap-2 items-center">
                             <x-icons.oil/>
                             <span><strong>Combustible: </strong>
-                                @if ($detalle->combustible->tipo=='MAGNA')
+                                @if ($detalle->combustible->combustible->tipo=='MAGNA')
                                     <span class="px-2 py-1 bg-green-700 text-green-200 rounded-full">
-                                        {{$detalle->combustible->tipo}}
+                                        {{$detalle->combustible->combustible->tipo . ' - (TANQUE ' . number_format($detalle->combustible->capacidad).' lts)'}}
                                     </span>
-                                @elseif($detalle->combustible->tipo=='PREMIUM')
+                                @elseif($detalle->combustible->combustible->tipo=='PREMIUM')
                                     <span class="px-2 py-1 bg-red-700 text-red-200 rounded-full">
-                                        {{$detalle->combustible->tipo}}
+                                        {{$detalle->combustible->combustible->tipo . ' - (TANQUE ' . number_format($detalle->combustible->capacidad).' lts)'}}
                                     </span>
                                 @else
                                     <span class="px-2 py-1 bg-black text-gray-200 rounded-full">
-                                        {{$detalle->combustible->tipo}}
+                                        {{$detalle->combustible->combustible->tipo . ' - (TANQUE ' . number_format($detalle->combustible->capacidad).' lts)'}}
                                     </span>
                                 @endif
                             </span>

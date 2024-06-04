@@ -49,6 +49,6 @@ class LecturaDetalle extends Model
     }
     public function combustible()
     {
-        return $this->belongsTo(Combustible::class);
+        return $this->belongsTo(EstacionCombustible::class,'estacion_combustible_id');
     }
 }

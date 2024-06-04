@@ -25,7 +25,7 @@ class Lectura extends Model
         })->orWhereHas('estacion', function ($query) use ($value) {
             $query->where('name', 'LIKE', "%{$value}%");
         })
-        ->orWhereHas('detalles.combustible', function ($query) use ($value) {
+        ->orWhereHas('detalles.combustible.combustible', function ($query) use ($value) {
             $query->where('tipo', 'LIKE', "%{$value}%");
         });
     }

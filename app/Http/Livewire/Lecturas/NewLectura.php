@@ -26,13 +26,10 @@ class NewLectura extends Component
         if (in_array(Auth::user()->permiso_id,[1,4])) {
             $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
             // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-            $comb=EstacionCombustible::select('estacion_id','combustible_id')->groupByRaw('estacion_id,combustible_id')->get();
-            $this->tiposCombustible=$comb->map(function($combustible){
-                $combustible->tipo=Combustible::find($combustible->combustible_id)->tipo;
-                return $combustible;
-            });
+            $comb=EstacionCombustible::select('id','estacion_id','combustible_id','capacidad')->get();
+            $this->genCombustibles($comb);
         } else {
-            $this->estaciones = Estacion::where('status', 'Activo')->where('user_id', Auth::user()->id)->get();
+            $this->estaciones = Estacion::where([['status', 'Activo'],['user_id', Auth::user()->id]])->orderBy('name', 'asc')->get();
             // Verificar si hay estaciones asignadas al usuario no administrador
             if ($this->estaciones->isNotEmpty()) {
                 // Establecer la estación del usuario autenticado como la primera estación encontrada
@@ -41,13 +38,17 @@ class NewLectura extends Component
                 $this->tiposCombustible = [];
 
                 // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-                foreach ($this->estaciones as $estacion) {
-                    $combustibles = Combustible::where('estacion_id', $estacion->id)->get();
-                    // Almacenar los tipos de combustible asociados a la estación actual
-                    $this->tiposCombustible[$estacion->id] = $combustibles;
-                }
+                $comb=EstacionCombustible::select('id','estacion_id','combustible_id','capacidad')->whereIn('estacion_id',$this->estaciones->pluck('id'))->get();
+                $this->genCombustibles($comb);
             }
         }
+    }
+    //función para generar la lista de combustibles, los cuales se usarán en la vista
+    public function genCombustibles($comb){
+        $this->tiposCombustible=$comb->map(function($combustible){
+            $combustible->tipo=Combustible::find($combustible->combustible_id)->tipo . ' - ' . number_format($combustible->capacidad) . ' lts';
+            return $combustible;
+        });
     }
 
 /*     public function updatedEstacionId($value)
@@ -58,6 +59,7 @@ class NewLectura extends Component
 
     public function addLectura()
     {
+        //dd($this->detalles);
         if(in_array(Auth::user()->permiso_id,[1,4])){
             $this->validate([
                 'estacionId'=>['required'],
@@ -96,7 +98,7 @@ class NewLectura extends Component
             foreach ($this->detalles as $detalle) {
                 $reg = new LecturaDetalle();
                 $reg->lectura_id = $lectura->id;
-                $reg->combustible_id = $detalle['tipo'];
+                $reg->estacion_combustible_id = $detalle['tipo'];
                 $reg->veeder = $detalle['veeder'];
                 $reg->fisico = $detalle['fisico'];
                 $reg->venta_periferico = $detalle['vperiferico'];
