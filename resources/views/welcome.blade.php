@@ -43,6 +43,10 @@
             <div class="flex justify-center">
                 <img src="{{ asset('img/logo/Mesa de trabajo 1ng.png') }}" alt="" style="width: 350px">
             </div>
+            <div class="flex justify-center items-center gap-4 font-bold text-gray-500">
+                <div><x-icons.truck/></div>
+            <div>SISTEMA FLETERA</div>
+            </div>
             <div class="leyenda flex justify-center mt-3">
                 <a id="loginLink" style="text-decoration: none; display: flex; align-items: center;" class="kbc-button" href="/login">
                     <span style="margin-right: 5px;">

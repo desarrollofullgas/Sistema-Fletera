@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Estacion;
 use App\Models\Combustible;
 use App\Models\Dispensario;
 use App\Models\Estacion;
+use App\Models\EstacionCombustible;
 use App\Models\User;
 use App\Models\Zona;
 use Exception;
@@ -13,11 +14,12 @@ use Livewire\Component;
 class EstacionEdit extends Component
 {
     public $estacionID, $zonas;
-    public $name, $numero, $razon, $propietario, $rfc, $siic, $iva, $num_cre, $cre, $direccion, $zona, $supervisor, $gerente, $status, $isSuper, $isGeren, $combustibles = [], $newCombustibles = [], $dispensarios = [], $newDispensarios = [];
+    public $name, $numero, $razon, $propietario, $rfc, $siic, $iva, $num_cre, $cre, $direccion, $zona, $supervisor, $gerente, $status, $isSuper, $isGeren, $productos, $combustibles = [], $newCombustibles = [], $dispensarios = [], $newDispensarios = [];
 
     public function mount()
-    {//cargamos y mostramos los datos de la estacion
+    { //cargamos y mostramos los datos de la estacion
         $estacion = Estacion::find($this->estacionID);
+        $this->productos = Combustible::all(['id', 'tipo']);
         $this->zonas = Zona::where('status', 'Activo')->get();
         $this->name = $estacion->name;
         $this->numero = $estacion->num_estacion;
@@ -37,13 +39,13 @@ class EstacionEdit extends Component
         $this->dispensarios();
     }
     public function combustibles()
-    {//cargamos los datos de los combustibles asignados a la estacion
+    { //cargamos los datos de los combustibles asignados a la estacion
         $this->combustibles = [];
-        $combustibles = Combustible::where('estacion_id', $this->estacionID)->orderBy('id', 'DESC')->get();
+        $combustibles = EstacionCombustible::where('estacion_id', $this->estacionID)->orderBy('id', 'DESC')->get();
         foreach ($combustibles as $combustible) {
             array_push($this->combustibles, [
                 'id' => $combustible->id,
-                'tipo' => $combustible->tipo,
+                'tipo' => $combustible->combustible_id,
                 'capacidad' => $combustible->capacidad,
                 'prom_venta' => $combustible->prom_venta,
                 'dif_vr_fisico' => $combustible->dif_vr_fisico,
@@ -53,7 +55,7 @@ class EstacionEdit extends Component
         }
     }
     public function dispensarios()
-    {//cargamos los datos de los dispensarios asignados a la estacion
+    { //cargamos los datos de los dispensarios asignados a la estacion
         $this->dispensarios = [];
         $dispensarios = Dispensario::where('estacion_id', $this->estacionID)->orderBy('id', 'DESC')->get();
         foreach ($dispensarios as $dispensario) {
@@ -69,19 +71,19 @@ class EstacionEdit extends Component
         }
     }
     public function combustibleDelete($id)
-    {//Eliminar combustible asignado
-        $combustible = Combustible::find($id);
+    { //Eliminar combustible asignado
+        $combustible = EstacionCombustible::find($id);
         $combustible->delete();
         $this->combustibles();
     }
     public function dispensarioDelete($id)
-    {//Eliminar dispensario asignado
+    { //Eliminar dispensario asignado
         $dispensario = Dispensario::find($id);
         $dispensario->delete();
         $this->dispensarios();
     }
     public function estacionUpdate()
-    {//Actualizar los datos
+    { //Actualizar los datos
 
         //reglas d evalidacion para datos que  no pueden quedar vacios
         $this->validate(
@@ -121,9 +123,9 @@ class EstacionEdit extends Component
             $estacion->save();
             //actualizamos los datos del combustible actual
             foreach ($this->combustibles as $combustible) {
-                $reg = Combustible::find($combustible['id']);
+                $reg = EstacionCombustible::find($combustible['id']);
                 $reg->estacion_id = $estacion->id;
-                $reg->tipo = $combustible['tipo'];
+                $reg->combustible_id = $combustible['tipo'];
                 $reg->capacidad = $combustible['capacidad'];
                 $reg->prom_venta = $combustible['prom_venta'];
                 $reg->dif_vr_fisico = $combustible['dif_vr_fisico'];
@@ -131,46 +133,47 @@ class EstacionEdit extends Component
                 $reg->alerta = $combustible['alerta'];
                 // Asignar la clave de acuerdo al tipo de combustible
                 switch ($combustible['tipo']) {
-                    case 'MAGNA':
+                    case 1:
                         $reg->clave = '32025 Gasolina con contenido minimo 87 octanos';
                         break;
-                    case 'PREMIUM':
+                    case 2:
                         $reg->clave = '32026 Gasolina con contenido minimo 91 octanos';
                         break;
-                    case 'DIESEL':
+                    case 3:
                         $reg->clave = '34015 Diesel Automotriz';
                         break;
                     default:
-                        // Manejar caso por defecto o lanzar una excepción si es necesario
+                        //Manejar caso por defecto o lanzar una excepción si es necesario
                         break;
                 }
                 $reg->save();
             }
             //guardamos el nuevo combustible
+            // dd($this->newCombustibles);
             foreach ($this->newCombustibles as $comb) {
-                $reg = new Combustible();
+                $reg = new EstacionCombustible();
                 $reg->estacion_id = $estacion->id;
-                $reg->tipo = $comb['tipo'];
+                $reg->combustible_id = $comb['tipo'];
                 $reg->capacidad = $comb['capacidad'];
                 $reg->prom_venta = $comb['prom_venta'];
                 $reg->dif_vr_fisico = $comb['dif_vr_fisico'];
                 $reg->minimo = $comb['minimo'];
                 $reg->alerta = $comb['alerta'];
-                   // Asignar la clave de acuerdo al tipo de combustible
-            switch ($comb['tipo']) {
-                case 'MAGNA':
-                    $reg->clave = '32025 Gasolina con contenido minimo 87 octanos';
-                    break;
-                case 'PREMIUM':
-                    $reg->clave = '32026 Gasolina con contenido minimo 91 octanos';
-                    break;
-                case 'DIESEL':
-                    $reg->clave = '34015 Diesel Automotriz';
-                    break;
-                default:
-                    // Manejar caso por defecto o lanzar una excepción si es necesario
-                    break;
-            }
+                // Asignar la clave de acuerdo al tipo de combustible
+                switch ($comb['tipo']) {
+                    case 1:
+                        $reg->clave = '32025 Gasolina con contenido minimo 87 octanos';
+                        break;
+                    case 2:
+                        $reg->clave = '32026 Gasolina con contenido minimo 91 octanos';
+                        break;
+                    case 3:
+                        $reg->clave = '34015 Diesel Automotriz';
+                        break;
+                    default:
+                        //Manejar caso por defecto o lanzar una excepción si es necesario
+                        break;
+                }
                 $reg->save();
             }
             //actualizamos los datos del dispensario actual
@@ -183,7 +186,7 @@ class EstacionEdit extends Component
                 $reg->modelo = $dispensario['modelo'];
                 $reg->mangueras = $dispensario['mangueras'];
                 $reg->flujo = $dispensario['flujo'];
-            
+
                 $reg->save();
             }
             //guardamos el nuevo dispensario
@@ -196,7 +199,7 @@ class EstacionEdit extends Component
                 $reg->modelo = $disp['modelo'];
                 $reg->mangueras = $disp['mangueras'];
                 $reg->flujo = $disp['flujo'];
-                   
+
                 $reg->save();
             }
             session()->flash('flash.banner', 'La información de la estacion ha sido modificada');
@@ -204,7 +207,7 @@ class EstacionEdit extends Component
             //volvemos a la direccion que tiene el navegador
             return redirect(request()->header('Referer'));
         } catch (Exception $error) {
-           
+
             //volvemos a la direccion que tiene el navegador
             return redirect(request()->header('Referer'));
         }

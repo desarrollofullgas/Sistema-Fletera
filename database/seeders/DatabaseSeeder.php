@@ -15,13 +15,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::statement("INSERT INTO `sistema-fletera`.combustibles (tipo,created_at,updated_at) VALUES
+        ('MAGNA','2023-06-22 23:23:10','2023-06-22 23:23:10'),
+        ('PREMIUM','2023-06-22 23:23:10','2023-06-22 23:23:10'),
+        ('DIESEL','2023-06-22 23:23:10','2023-06-22 23:23:10')");
+
+
         DB::statement("INSERT INTO `panels` (`id`, `titulo_panel`, `created_at`, `updated_at`) VALUES
         (1, 'DASHBOARD', '2023-09-21 06:50:25', NULL),
         (2, 'ESTACIONES', '2023-09-21 06:50:25', NULL),
         (3, 'ROLES', '2023-09-21 06:50:25', NULL),
         (4, 'USUARIOS', '2023-09-21 06:50:25', NULL),
         (5, 'ZONAS', '2023-09-21 06:50:25', NULL),
-        (6, 'GLOBAL', '2023-09-21 06:50:25', NULL)");
+        (6, 'OPERADORES', '2023-09-21 06:50:25', NULL),
+        (7, 'PROVEEDORES', '2023-09-21 06:50:25', NULL),
+        (8, 'LINEAS', '2023-09-21 06:50:25', NULL),
+        (9, 'UNIDADES', '2023-09-21 06:50:25', NULL),
+        (10, 'LECTURAS', '2023-09-21 06:50:25', NULL),
+        (11, 'VERSIONES', '2023-09-21 06:50:25', NULL),
+        (12, 'GLOBAL', '2023-09-21 06:50:25', NULL)");
 
         DB::statement("INSERT INTO `zonas` (`id`, `name`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
         (1, 'CENTRAL', 'Activo', NULL, '2023-06-22 17:23:10', NULL),
@@ -53,35 +65,57 @@ class DatabaseSeeder extends Seeder
         (3, 'GERENTE', 'Gerente de estación', 0, '2023-09-21 06:50:25', '2023-10-31 17:19:20'),
         (4, 'FLETERA', 'Compras/Requisiciones de las estaciones', 0, '2023-09-21 06:50:25', '2023-10-31 17:21:12')");
 
-        DB::statement("INSERT INTO `panel_permiso` (`id`, `permiso_id`, `panel_id`, `wr`, `re`, `ed`, `de`, `vermas`, `verpap`, `restpap`, `vermaspap`, `created_at`, `updated_at`) VALUES
-        (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2023-09-22 00:50:25', NULL),
-        (2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, '2023-09-22 00:50:25', NULL),
-        (3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, '2023-09-22 00:50:25', NULL),
-        (4, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, '2023-09-22 00:50:25', NULL),
-        (5, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, '2023-09-22 00:50:25', NULL),
-        (6, 1, 6, 1, 1, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (7, 2, 1, 1, 1, 0, 0, 1, 0, 0, 0, '2023-09-22 00:56:34', '2023-10-03 11:43:15'),
-        (8, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (9, 2, 3, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (10, 2, 4, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (11, 2, 5, 1, 1, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-09-22 00:56:58'),
-        (12, 2, 6, 1, 1, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-09-22 00:56:58'),
-        (13, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-10-03 11:44:58'),
-        (14, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-09-22 00:56:58'),
-        (15, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-09-22 00:56:58'),
-        (16, 3, 4, 1, 1, 0, 0, 0, 0, 0, 0, '2023-09-22 00:57:38', '2023-10-03 11:47:31'),
-        (17, 3, 5, 1, 1, 0, 0, 1, 0, 0, 0, '2023-09-22 00:57:38', '2023-10-03 11:47:31'),
-        (18, 3, 6, 1, 1, 1, 0, 1, 0, 0, 0, '2023-09-22 00:57:38', '2023-10-03 11:47:31'),
-        (19, 4, 1, 1, 1, 1, 0, 1, 0, 0, 0, '2023-09-22 00:57:38', '2023-10-03 11:47:31'),
-        (20, 4, 2, 1, 1, 1, 0, 1, 1, 0, 1, '2023-09-22 00:57:38', '2023-10-03 11:47:31'),
-        (21, 4, 3, 1, 1, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (22, 4, 4, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:34', '2023-09-22 00:56:34'),
-        (23, 4, 5, 1, 0, 0, 0, 0, 0, 0, 0, '2023-09-22 00:56:58', '2023-09-22 00:56:58'),
-        (24, 4, 6, 1, 1, 1, 0, 1, 1, 0, 1, '2023-09-22 00:57:38', '2023-10-03 11:47:31')");
+        DB::statement("INSERT INTO `sistema-fletera`.panel_permiso (permiso_id,panel_id,wr,re,ed,de,vermas,verpap,restpap,vermaspap,created_at,updated_at) VALUES
+        (1,1,1,1,1,1,1,1,1,1,'2023-09-22 00:50:25',NULL),
+        (1,2,1,1,1,1,1,1,1,1,'2023-09-22 00:50:25',NULL),
+        (1,3,1,1,1,1,1,1,1,1,'2023-09-22 00:50:25',NULL),
+        (1,4,1,1,1,1,1,1,1,1,'2023-09-22 00:50:25',NULL),
+        (1,5,1,1,1,1,1,1,1,1,'2023-09-22 00:50:25',NULL),
+        (1,6,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34'),
+        (1,7,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-10-03 11:43:15'),
+        (1,8,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34'),
+        (1,9,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34'),
+        (1,10,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34')");
+        DB::statement("INSERT INTO `sistema-fletera`.panel_permiso (permiso_id,panel_id,wr,re,ed,de,vermas,verpap,restpap,vermaspap,created_at,updated_at) VALUES
+        (2,1,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-09-22 00:56:58'),
+        (2,2,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-09-22 00:56:58'),
+        (2,3,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-10-03 11:44:58'),
+        (2,4,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-09-22 00:56:58'),
+        (2,5,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-09-22 00:56:58'),
+        (2,6,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (2,7,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (2,8,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (2,9,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (2,10,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31')");
+        DB::statement("INSERT INTO `sistema-fletera`.panel_permiso (permiso_id,panel_id,wr,re,ed,de,vermas,verpap,restpap,vermaspap,created_at,updated_at) VALUES
+        (3,1,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34'),
+        (3,2,1,1,1,1,1,1,1,1,'2023-09-22 00:56:34','2023-09-22 00:56:34'),
+        (3,3,1,1,1,1,1,1,1,1,'2023-09-22 00:56:58','2023-09-22 00:56:58'),
+        (3,4,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,5,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,6,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,7,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,8,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,9,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (3,10,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31')");
+        DB::statement("INSERT INTO `sistema-fletera`.panel_permiso (permiso_id,panel_id,wr,re,ed,de,vermas,verpap,restpap,vermaspap,created_at,updated_at) VALUES
+        (4,1,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,2,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,3,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,4,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,5,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,6,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,7,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,8,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,9,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31'),
+        (4,10,1,1,1,1,1,1,1,1,'2023-09-22 00:57:38','2023-10-03 11:47:31')");
 
 
         DB::statement("INSERT INTO `users` (`id`, `name`, `username`, `email`, `permiso_id`,`status`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `profile_photo_path`, `last_seen`, `deleted_at`, `created_at`, `updated_at`) VALUES
-        (1, 'DESARROLLO FULLGAS', 'Desarrollo', 'desarrollo@fullgas.com.mx', 1, 'Activo', NULL, '$2y$10$1Xk1yMiMIfm5xgjMB7jV0eabWR1SONeTdokzCDFH3piTcIoAznuN6', NULL, NULL, NULL, NULL, NULL, '2023-11-22 16:14:35', NULL, '2023-09-21 06:50:25', '2023-11-22 16:14:35')");    
+        (1, 'DESARROLLO FULLGAS', 'Desarrollo', 'desarrollo@fullgas.com.mx', 1, 'Activo', NULL, '$2y$10$1Xk1yMiMIfm5xgjMB7jV0eabWR1SONeTdokzCDFH3piTcIoAznuN6', NULL, NULL, NULL, NULL, NULL, '2023-11-22 16:14:35', NULL, '2023-09-21 06:50:25', '2023-11-22 16:14:35'),
+        (1, 'SUPERVISOR', 'supervisor', 'demo2@example.com', 2, 'Activo', NULL, '$2y$10$5.oRr0wiUVEhIWJUQDybXOFHdF0yRD2w8n8Pg9UbuTwbSEPsDZfYy', NULL, NULL, NULL, NULL, NULL, '2023-11-22 16:14:35', NULL, '2023-09-21 06:50:25', '2023-11-22 16:14:35'),
+        (1, 'GERENTE', 'gerente', 'demo3@example.com', 3, 'Activo', NULL, '$2y$10$5.oRr0wiUVEhIWJUQDybXOFHdF0yRD2w8n8Pg9UbuTwbSEPsDZfYy', NULL, NULL, NULL, NULL, NULL, '2023-11-22 16:14:35', NULL, '2023-09-21 06:50:25', '2023-11-22 16:14:35'),
+        (1, 'FLETERA', 'fletera', 'demo4@example.com', 4, 'Activo', NULL, '$2y$10$5.oRr0wiUVEhIWJUQDybXOFHdF0yRD2w8n8Pg9UbuTwbSEPsDZfYy', NULL, NULL, NULL, NULL, NULL, '2023-11-22 16:14:35', NULL, '2023-09-21 06:50:25', '2023-11-22 16:14:35')");
 
         DB::statement("INSERT INTO `inspires` (`id`, `data`, `created_at`, `updated_at`) VALUES
         (1, 'La inteligencia consiste no sólo en el conocimiento, sino también en la destreza de aplicar los conocimientos en la práctica. (Aristóteles)', '2023-09-21 06:50:25', '2023-09-21 06:50:25'),
@@ -334,5 +368,5 @@ class DatabaseSeeder extends Seeder
         (5, 2, 'Nuevo', 'Gestión de Contenido:\n\nPermitir a los usuarios la carga de contenido propio (por ejemplo, imágenes o documentos).', '2023-10-30 17:09:49', '2023-10-30 17:09:49'),
         (6, 2, 'Nuevo', 'Estadísticas y Reportes:\n\nInclusión de herramientas de analítica web para rastrear el comportamiento de los usuarios.\nGeneración de informes y análisis para ayudar en la toma de decisiones', '2023-10-30 17:09:49', '2023-10-30 17:09:49'),
         (7, 2, 'Nuevo', 'Soporte Multiplataforma:\r\n\r\nAsegurar que el sistema sea compatible con varios navegadores y sistemas operativos.\r\nPruebas de compatibilidad en diferentes dispositivos y resoluciones de pantalla.', '2023-10-30 17:09:49', '2023-10-30 17:09:49')");
-    }    
+    }
 }

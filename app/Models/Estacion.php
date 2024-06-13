@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,6 +56,14 @@ class Estacion extends Model
         ][$this->status] ?? 'gray';
     }
 
+    public function getfueldColorAttribute()
+    {
+        return [
+            'MAGNA' => 'green',
+            'PREMIUM' => 'red',
+            'DIESEL' => 'black'];
+    }
+
     public function zona()
     {
         return $this->belongsTo(Zona::class);
@@ -68,5 +77,17 @@ class Estacion extends Model
     public function supervisor()
     {
         return $this->belongsTo(User::class, 'supervisor_id');
+    }
+    public function viajes():HasMany
+    {
+        return $this->hasMany(Cataport::class);
+    }
+    public function combustibles():HasMany
+    {
+        return $this->hasMany(Combustible::class);
+    }
+    public function lecturas():HasMany
+    {
+        return $this->hasMany(Lectura::class);
     }
 }

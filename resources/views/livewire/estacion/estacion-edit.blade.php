@@ -160,7 +160,7 @@
                     <div>
                         @foreach ($combustibles as $key => $combustible)
                             <div
-                                class="flex flex-wrap justify-evenly items-center gap-2 py-2 border-b dark:border-gray-500">
+                            class="flex flex-wrap justify-evenly items-center gap-2 py-2 border-b dark:border-gray-500">
                                 @if ($key > 0)
                                     <button wire:click="combustibleDelete({{ $combustible['id'] }})"
                                         class="rounded-md bg-red-700 text-white h-fit w-fit p-2">
@@ -175,7 +175,10 @@
                                             wire:model.defer="combustibles.{{ $key }}.tipo"
                                             class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                             <option hidden value="" selected>Tipo de combustible</option>
-                                            <option value="MAGNA"
+                                            @foreach ($productos as $producto)
+                                                <option value={{$producto->id}} selected>{{$producto->tipo}}</option>
+                                            @endforeach
+                                            {{-- <option value="MAGNA"
                                                 @if ($combustible['tipo'] == 'MAGNA') {{ 'selected' }} @endif>
                                                 MAGNA</option>
                                             <option value="PREMIUM"
@@ -183,7 +186,7 @@
                                                 PREMIUM</option>
                                             <option value="DIESEL"
                                                 @if ($combustible['tipo'] == 'DIESEL') {{ 'selected' }} @endif>
-                                                DIESEL</option>
+                                                DIESEL</option> --}}
                                         </select>
                                         <x-input-error for="combustibles.{{ $key }}.tipo"></x-input-error>
                                     </div>
@@ -319,7 +322,7 @@
         </fieldset>
     </div>
     <div class="mt-3 p-6 flex flex-col gap-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1"
-        x-data="{
+        x-data="{productos:lista,
             combustibles: [{ tipo: '', clave: '', capacidad: '', prom_venta: '', dif_vr_fisico: '', minimo: '', alerta: '' }],
             dispensarios: [{ marca: '', serie: '', version_cpu: '', modelo: '', mangueras: '', flujo: '' }],
 
@@ -343,7 +346,11 @@
                 $wire.estacionUpdate();
             }
         }">
-        {{-- Aañadir Combustibles --}}
+        {{-- Obtenemos la lista generada en el mount para usarla en AlpineJS --}}
+        <script wire:ignore>
+            const lista={!!json_encode($productos)!!}
+        </script>
+        {{-- Añadir Combustibles --}}
         <fieldset class="border dark:border-gray-500 p-2 text-left mb-4 overflow-hidden overflow-y-auto max-h-96">
             <legend class="px-1 font-bold">Añadir Combustible</legend>
             <x-input-error for="combustibles"></x-input-error>
@@ -365,9 +372,12 @@
                                 <select name="tipo" id="tipo" x-model="combustible.tipo"
                                     class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm dark:bg-slate-800 dark:border-gray-700 dark:text-white">
                                     <option hidden value="" selected>Tipo de combustible</option>
-                                    <option value="MAGNA">MAGNA</option>
+                                    <template x-for="producto in productos">
+                                        <option :value="producto.id" x-text="producto.tipo"></option>
+                                    </template>
+                                    {{-- <option value="MAGNA">MAGNA</option>
                                     <option value="PREMIUM">PREMIUM</option>
-                                    <option value="DIESEL">DIESEL</option>
+                                    <option value="DIESEL">DIESEL</option> --}}
                                 </select>
                             </div>
                             <div class="max-sm:w-full">

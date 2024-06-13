@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Lecturas;
 
 use App\Models\Combustible;
 use App\Models\Estacion;
+use App\Models\EstacionCombustible;
 use App\Models\Lectura;
 use App\Models\LecturaDetalle;
 use App\Models\User;
@@ -13,45 +14,59 @@ use Illuminate\Support\Facades\Auth;
 
 class NewLectura extends Component
 {
-    public $tipo, $combustible, $veeder, $fisico, $vperiferico, $velectronica, $vodometro, $tlitros, $tpesos;
+    public $tipo, $combustible, $productos, $veeder, $fisico, $vperiferico, $velectronica, $vodometro, $tlitros, $tpesos;
 
     public $tiposCombustible = [], $estaciones;
     public $estacionId;
     public $detalles = [];
 
     
-public function mount()
-{
-    if (Auth::user()->permiso_id == 1) {
-        $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
-         // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-         $this->tiposCombustible=Combustible::all();
-    } else {
-        $this->estaciones = Estacion::where('status', 'Activo')->where('user_id', Auth::user()->id)->get();
-        // Verificar si hay estaciones asignadas al usuario no administrador
-        if ($this->estaciones->isNotEmpty()) {
-            // Establecer la estación del usuario autenticado como la primera estación encontrada
-            $this->estacionId = $this->estaciones->first()->id;
-            // Inicializar el array de tipos de combustible
-            $this->tiposCombustible = [];
-
+    public function mount()
+    {
+        if (in_array(Auth::user()->permiso_id,[1,4])) {
+            $this->estaciones = Estacion::where('status', 'Activo')->orderBy('name', 'asc')->get();
             // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
-            foreach ($this->estaciones as $estacion) {
-                $combustibles = Combustible::where('estacion_id', $estacion->id)->get();
-                // Almacenar los tipos de combustible asociados a la estación actual
-                $this->tiposCombustible[$estacion->id] = $combustibles;
+            $comb=EstacionCombustible::select('id','estacion_id','combustible_id','capacidad')->get();
+            $this->genCombustibles($comb);
+        } else {
+            $this->estaciones = Estacion::where([['status', 'Activo'],['user_id', Auth::user()->id]])->orderBy('name', 'asc')->get();
+            // Verificar si hay estaciones asignadas al usuario no administrador
+            if ($this->estaciones->isNotEmpty()) {
+                // Establecer la estación del usuario autenticado como la primera estación encontrada
+                $this->estacionId = $this->estaciones->first()->id;
+                // Inicializar el array de tipos de combustible
+                $this->tiposCombustible = [];
+
+                // Obtener los tipos de combustible asociados a cada estación del usuario autenticado
+                $comb=EstacionCombustible::select('id','estacion_id','combustible_id','capacidad')->whereIn('estacion_id',$this->estaciones->pluck('id'))->get();
+                $this->genCombustibles($comb);
             }
         }
     }
-}
-
-    public function updatedEstacionId($value)
-    {
-        $this->tiposCombustible = Combustible::where('estacion_id', $value)->get();
+    //función para generar la lista de combustibles, los cuales se usarán en la vista
+    public function genCombustibles($comb){
+        $this->tiposCombustible=$comb->map(function($combustible){
+            $combustible->tipo=Combustible::find($combustible->combustible_id)->tipo . ' - ' . number_format($combustible->capacidad) . ' lts';
+            return $combustible;
+        });
     }
+
+/*     public function updatedEstacionId($value)
+    {
+        $combustibles=EstacionCombustible::where('estacion_id',$value)->get();
+        $this->tiposCombustible = Combustible::whereIn('id', $combustibles->pluck('combustible_id'))->get();
+    } */
 
     public function addLectura()
     {
+        //dd($this->detalles);
+        if(in_array(Auth::user()->permiso_id,[1,4])){
+            $this->validate([
+                'estacionId'=>['required'],
+            ],[
+                'estacionId.required'=>'Seleccione una estación.'
+            ]);
+        }
         $this->validate([
             'tlitros' => ['required'],
             'tpesos' => ['required'],
@@ -74,6 +89,7 @@ public function mount()
 
         try {
             $lectura = new Lectura();
+            $lectura->estacion_id = $this->estacionId;
             $lectura->total_litros = $this->tlitros;
             $lectura->total_pesos = $this->tpesos;
             //dd($lectura);
@@ -82,7 +98,7 @@ public function mount()
             foreach ($this->detalles as $detalle) {
                 $reg = new LecturaDetalle();
                 $reg->lectura_id = $lectura->id;
-                $reg->combustible_id = $detalle['tipo'];
+                $reg->estacion_combustible_id = $detalle['tipo'];
                 $reg->veeder = $detalle['veeder'];
                 $reg->fisico = $detalle['fisico'];
                 $reg->venta_periferico = $detalle['vperiferico'];
