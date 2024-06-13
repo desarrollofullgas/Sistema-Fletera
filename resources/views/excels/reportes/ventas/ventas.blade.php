@@ -28,7 +28,22 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($lecturas as $lectura)
+        @foreach ($table as $item)
+            <tr>
+                <td>{{$item['fecha']}}</td>
+                @foreach ($item['fila'] as $row)
+                    @if ($row['value'] > 0 && $row['odo'] > 0)
+                        <td>{{$row['value']}}</td>
+                        <td>{{$row['odo']}}</td>
+                    @else
+                        <td style="background-color: #ADADAD"></td>
+                        <td style="background-color: #ADADAD"></td>
+                    @endif
+                @endforeach
+                <td>{{$item['total']}}</td>
+            </tr>
+        @endforeach
+        {{-- @foreach ($lecturas as $lectura)
             <tr>
                 <td>{{$lectura->created_at}}</td>
                 @foreach ($combustibles as $combustible)
@@ -44,6 +59,6 @@
                 @endforeach
                 <td>{{$lectura->total_litros}}</td>
             </tr>
-        @endforeach
+        @endforeach --}}
     </tbody>
 </table>

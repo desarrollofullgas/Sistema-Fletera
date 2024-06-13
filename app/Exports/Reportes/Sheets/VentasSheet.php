@@ -56,8 +56,8 @@ class VentasSheet implements FromView,WithTitle,ShouldAutoSize,WithEvents
                 })
             ]);
         }
-        dd($table);
-        return view('excels.reportes.ventas.ventas',compact('combustibles','lecturas'));
+        //dd($table);
+        return view('excels.reportes.ventas.ventas',compact('combustibles','table'));
     }
     public function registerEvents(): array
     {
