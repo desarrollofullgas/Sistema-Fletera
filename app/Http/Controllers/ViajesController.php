@@ -15,6 +15,7 @@ class ViajesController extends Controller
 {
     public function home(){
         $user=Auth::user();
+        $valid = Auth::user()->permiso->panels->where('id',13)->first();//validamos las opciones en Viajes que tiene acceso el usuario
         //administradores
         if(in_array($user->permiso_id,[1,4])){
             $viajes=Cataport::orderBy('id','DESC')->paginate(15);
@@ -27,10 +28,11 @@ class ViajesController extends Controller
             $estacion=Estacion::where('user_id',$user->id)->pluck('id');
             $viajes=Cataport::whereIn('estacion_id',$estacion)->orderBy('id','DESC')->paginate(15);
         }
-        return view('modules.viajes.index',compact('viajes'));
+        return view('modules.viajes.index',compact('viajes','valid'));
     }
     public function buscarViaje(Request $request){
         $user=Auth::user();
+        $valid = Auth::user()->permiso->panels->where('id',13)->first();//validamos las opciones en Viajes que tiene acceso el usuario
         //query para administradores
         if (in_array($user->permiso_id,[1,4])) {
             if(!is_null($request->query('start')) && !is_null($request->query('end'))){
@@ -67,7 +69,7 @@ class ViajesController extends Controller
                 $viajes=Cataport::where('id',$request->query('search'))->whereIn('estacion_id',$estacion)->orderBy('id','DESC')->paginate(15)->withQueryString();
             }
         }
-        return view('modules.viajes.index',compact('viajes'));
+        return view('modules.viajes.index',compact('viajes','valid'));
     }
     //PDF del cataporte
     public function pdf($id){
@@ -79,7 +81,8 @@ class ViajesController extends Controller
     //recepcion de pipas
     public function recepcionesHome(){
         $recepciones=RecepcionPipa::orderBy('id','DESC')->paginate(10);
-        return view('modules.recepcion.index',compact('recepciones'));
+        $valid = Auth::user()->permiso->panels->where('id',14)->first();//validamos las opciones que tiene acceso el usuario
+        return view('modules.recepcion.index',compact('recepciones','valid'));
     }
     public function recepcionPDF($id){
         $recepcion=RecepcionPipa::find($id);

@@ -61,7 +61,7 @@ class NewRecepcion extends Component
             'difFis'=>['required'],
             'difLtsEnt'=>['required'],
             'pipaStatus'=>['required'],
-            'imgOpc'=>['required']
+            'imgOp'=>['required']
         ],[
             'llegada.required'=>'Este campo es requerido',
             'salida.required'=>'Este campo es requerido',
@@ -129,7 +129,7 @@ class NewRecepcion extends Component
             return to_route('viajes');
         }catch(Exception $error){
             session()->flash('flash.banner', 'Ha ocurrido un error al realizar la recepción. Pongase en contacto con un administrador y proporcione el siguiente código:'.$error->getMessage());
-            session()->flash('flash.bannerStyle', 'success');
+            session()->flash('flash.bannerStyle', 'danger');
             return  to_route('viajes');
         }
     }

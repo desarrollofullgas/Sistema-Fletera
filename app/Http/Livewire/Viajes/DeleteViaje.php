@@ -11,7 +11,12 @@ class DeleteViaje extends Component
     public $viajeID;
     public function deleteViaje(){
         try{
+            //buscamos el viaje a eliminar
             $viaje=Cataport::find($this->viajeID);
+            //eliminamos la recepción en caso que contenga alguno
+            if($viaje->recepcion){
+                $viaje->recepcion->delete();
+            }
             $viaje->delete();
             session()->flash('flash.banner', 'Un viaje ha sido eliminado.');
             session()->flash('flash.bannerStyle', 'success');

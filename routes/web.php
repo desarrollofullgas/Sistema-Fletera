@@ -111,6 +111,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get("/trashedlecturas", 'trashed_lecturas')->name('lecturas.trashed');
         Route::post("/restorelectura", 'do_restore')->name('lectura_restore');
         Route::post("/deletelectura-permanently", 'delete_permanently')->name('lectura_permanently');
+        Route::get('/lecturas/edit/{id}','edit')->name('lecturas.edit');
     });
 
     //Permisos

@@ -15,7 +15,7 @@ class LecturaController extends Controller
      */
     public function index()
     {
-        $valid = Auth::user()->permiso->panels->where('id', 2)->first();//provisional, cambiar luego
+        $valid = Auth::user()->permiso->panels->where('id',10)->first();//verificamos el acceso al panel Lecturas
         $trashed = Lectura::onlyTrashed()->count();
 
         if (Auth::user()->permiso->id == 1) {
@@ -60,5 +60,9 @@ class LecturaController extends Controller
 
         $lectura->forceDelete();
         return redirect()->back();
+    }
+    public function edit($id){
+        $val=$id;
+        return view('modules.lecturas.lectura-edit',compact('val'));
     }
 }

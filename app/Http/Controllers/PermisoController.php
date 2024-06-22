@@ -49,11 +49,10 @@ class PermisoController extends Controller
             'titulo_permiso' => Str::title($request->titulo_permiso),
             'descripcion' => Str::ucfirst($request->descripcion),
         ])->save();
-
-        for ($i=1; $i <= 29; $i++) { 
+        $cont=Panel::all()->count();
+        for ($i=1; $i <= $cont; $i++) { 
             
             $permi = PanelPermiso::where('permiso_id', $id)->where('panel_id', $i)->first();
-
             if ($permi != null || !empty($permi)) {
                 $puedeleer = isset($request->leer[$permi->panel_id]) ? 1 : 0;
                 $puedecrear = isset($request->crear[$permi->panel_id]) ? 1 : 0;

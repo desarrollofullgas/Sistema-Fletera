@@ -6,39 +6,26 @@
                 {{ __('RECEPCIONES DE PIPA') }}
             </x-card-greet-header>
             <div class=" flex sm:justify-center space-x-2 mr-0 sm:mr-40">
-                <x-menu-options>
-                    <x-slot name="button">
-                        <x-button variant="danger">
-                            <x-icons.file-download/>
-                        </x-button>
-                    </x-slot>
-                    <x-slot name="options">
-                        {{-- @livewire('recepcion.gen-reporte-merma')
-                        @livewire('viajes.gen-reporte-viajes')
-                        @livewire('lecturas.gen-reporte-ventas')
-                        @livewire('lecturas.gen-reporte-existencias') --}}
-                    </x-slot>
-                </x-menu-options>
-                
-                {{-- @livewire('viajes.new-viaje') --}}
+                @if (in_array(Auth::user()->permiso_id,[1,4]))
+                    <x-menu-options>
+                        <x-slot name="button">
+                            <x-button variant="danger">
+                                <x-icons.file-download/>
+                            </x-button>
+                        </x-slot>
+                        <x-slot name="options">
+                            @livewire('recepcion.gen-reporte-merma')
+                            @livewire('viajes.gen-reporte-viajes')
+                            @livewire('lecturas.gen-reporte-ventas')
+                            @livewire('lecturas.gen-reporte-existencias')
+                        </x-slot>
+                    </x-menu-options>
+                @endif
             </div>
         </div>
     </x-slot>
     <div class="p-6 flex flex-col gap-4 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-        {{-- <form action="{{route('viajes.search')}}" class="flex flex-wrap items-center gap-2">
-            @if (in_array(Auth::user()->permiso_id,[1,2,4]))
-                <x-input id="search" name="search" type="text" placeholder="Buscar No. viaje o estación..."/>
-            @else
-                <x-input id="search" name="search" type="text" placeholder="Buscar No. viaje ..."/>
-            @endif
-            <div class="flex flex-wrap gap-1 items-center">
-                <x-input id="start" name="start" type="date"/>
-                <span>al</span>
-                <x-input id="end" name="end" type="date"/>
-            </div>
-            <button class="p-2 rounded-md bg-black dark:bg-slate-700 text-gray-200"><x-icons.search/></button>
-        </form> --}}
-        @if ($recepciones->count()>0)
+        {{-- @if ($recepciones->count()>0)
             <x-table>
                 <x-slot name="head">
                     <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">CARTAPORTE</span></x-heading>
@@ -149,15 +136,19 @@
                                             <x-icons.dots-vertical class="max-lg:rotate-90"/>
                                         </button>
                                         <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
-                                            <a href="{{route('recepcion.edit',$recepcion->cataporte->id)}}" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
-                                                <x-icons.file-pencil/>
-                                                <span>Editar recepción</span>
-                                            </a>
+                                            @if ($valid->pivot->ed==1)
+                                                <a href="{{route('recepcion.edit',$recepcion->cataporte->id)}}" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
+                                                    <x-icons.file-pencil/>
+                                                    <span>Editar recepción</span>
+                                                </a>
+                                            @endif
                                             <a href="{{route('recepcion.doc',$recepcion->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                                 <x-icons.print/>
                                                 <span>Ver documento</span>
                                             </a>
-                                            @livewire('recepcion.delete-recepcion',['recepcionID'=>$recepcion->id])
+                                            @if ($valid->pivot->de==1)
+                                                @livewire('recepcion.delete-recepcion',['recepcionID'=>$recepcion->id])
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +166,8 @@
                 </svg>
                 <span class="text-2xl">No hay datos registrados</span>
             </div>
-        @endif
+        @endif --}}
+        @livewire('recepcion.recepcion-table')
     </div>
 
 </x-app-layout>

@@ -28,11 +28,11 @@
                             </div>
                             <!-- Eliminar y Exportar-->
                             <div>
-                                {{-- @if ($valid->pivot->de == 1)
-                                @endif --}}
-                                <x-dropdown-link href="#" wire:click="deleteUnidades">
-                                    {{ __('Eliminar Unidad') }}
-                                </x-dropdown-link>
+                                @if ($valid->pivot->de == 1)
+                                    <x-dropdown-link href="#" wire:click="deleteUnidades">
+                                        {{ __('Eliminar Unidad') }}
+                                    </x-dropdown-link>
+                                @endif
                                 <x-dropdown-link href="#" wire:click="exportSelected">
                                     {{ __('Exportar a Excel') }}
                                 </x-dropdown-link>
@@ -42,7 +42,7 @@
                 </x-dropdown>
             @endif
             {{-- Filtro de Fechas --}}
-            <div class="flex items-center">
+            <div class="flex items-center flex-wrap gap-2">
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -85,7 +85,7 @@
 
         <div class="flex-col space-y-4">
             {{-- Componente tabla --}}
-            <x-table>
+            <x-table class="hidden sm:table">
                 <x-slot name="head">
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
@@ -125,14 +125,14 @@
                                         @endif
                                     </div>
                                     <div>
-                                        @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
-                                        {{-- @if ($valid->pivot->ed == 1)
-                                        @endif --}}
+                                        @if ($valid->pivot->ed == 1)
+                                            @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
+                                        @endif
                                     </div>
                                     <div>
-                                        @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
-                                        {{-- @if ($valid->pivot->de == 1)
-                                        @endif --}}
+                                        @if ($valid->pivot->de == 1)
+                                            @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
+                                        @endif
                                     </div>
                                 </div>
                             </x-cell>
@@ -150,6 +150,41 @@
                     @endforelse
                 </x-slot>
             </x-table>
+            {{--vista móvil--}}
+            <div class="w-full flex flex-col gap-3 sm:hidden">
+                @foreach ($unidades as $unidad)
+                    <div class="rounded-lg bg-white dark:bg-slate-700 shadow-sm flex flex-col gap-1">
+                        <h3 class="font-semibold mb-2 bg-black dark:bg-dark-eval-0 text-gray-300 rounded-t-lg p-2">{{$unidad->tractor}}</h3>
+                        <div class="px-2 flex flex-col gap-2 text-sm">
+                            <div class="flex justify-center">
+                                <span class="rounded bg-gray-200 py-1 px-3 text-xs text-gray-500 font-bold w-fit">
+                                    {{ $unidad->status }}
+                                </span>
+                            </div>
+                            <p><strong>Placa: </strong>{{$unidad->placa}}</p>
+                            <p><strong>Marca: </strong>{{$unidad->marca}}</p>
+                            <p><strong>Capacidad: </strong>{{number_format($unidad->capacidad,2)}} Lts</p>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center">
+                            <div>
+                                @if ($valid->pivot->ed == 1)
+                                <a href="{{route('unidad.edit',$unidad->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
+                                @endif
+                            </div>
+                            <div>
+                                @if ($valid->pivot->ed == 1)
+                                    @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
+                                @endif
+                            </div>
+                            <div>
+                                @if ($valid->pivot->de == 1)
+                                    @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             {{-- Paginación y contenido por página --}}
             <div class="py-4 px-3">
                 <div class="flex space-x-4 items-center mb3">

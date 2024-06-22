@@ -6,25 +6,31 @@
                 {{ __('LISTADO DE VIAJES') }}
             </x-card-greet-header>
             <div class=" flex justify-center space-x-2">
-                <x-menu-options>
-                    <x-slot name="button">
-                        <x-button variant="danger">
-                            <x-icons.file-download/>
-                        </x-button>
-                    </x-slot>
-                    <x-slot name="options">
-                        @livewire('recepcion.gen-reporte-merma')
-                        @livewire('viajes.gen-reporte-viajes')
-                        @livewire('lecturas.gen-reporte-ventas')
-                        @livewire('lecturas.gen-reporte-existencias')
-                    </x-slot>
-                </x-menu-options>
-                @livewire('viajes.new-viaje')
+                @if (in_array(Auth::user()->permiso_id,[1,4]))    
+                    <x-menu-options>
+                        <x-slot name="button">
+                            <x-button variant="danger">
+                                <x-icons.file-download/>
+                            </x-button>
+                        </x-slot>
+                        <x-slot name="options">
+                            @livewire('recepcion.gen-reporte-merma')
+                            @livewire('viajes.gen-reporte-viajes')
+                            @livewire('lecturas.gen-reporte-ventas')
+                            @livewire('lecturas.gen-reporte-existencias')
+                        </x-slot>
+                    </x-menu-options>
+                @endif
+                @if ($valid->pivot->wr==1)
+                    @livewire('viajes.new-viaje')
+                @else
+                    <div class="w-32"></div>
+                @endif
             </div>
         </div>
     </x-slot>
     <div class="p-6 flex flex-col gap-4 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-        <form action="{{route('viajes.search')}}" class="flex flex-wrap items-center gap-2">
+        {{-- <form action="{{route('viajes.search')}}" class="flex flex-wrap items-center gap-2">
             @if (in_array(Auth::user()->permiso_id,[1,2,4]))
                 <x-input id="search" name="search" type="text" placeholder="Buscar No. viaje o estación..."/>
             @else
@@ -36,8 +42,8 @@
                 <x-input id="end" name="end" type="date"/>
             </div>
             <button class="p-2 rounded-md bg-black dark:bg-slate-700 text-gray-200"><x-icons.search/></button>
-        </form>
-        @if ($viajes->count()>0)
+        </form> --}}
+        {{-- @if ($viajes->count()>0)
             <x-table>
                 <x-slot name="head">
                     <x-heading class="max-lg:hidden lg:table-cell"><span class="text-gray-200">NUM. VIAJE</span></x-heading>
@@ -173,9 +179,15 @@
                                             <x-icons.dots-vertical class="max-lg:rotate-90"/>
                                         </button>
                                         <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
-                                            @livewire('viajes.show-viaje',['viajeID' =>$viaje->id])
-                                            @livewire('viajes.edit-viaje',['viajeID' =>$viaje->id])
-                                            @livewire('viajes.delete-viaje',['viajeID' =>$viaje->id])
+                                            @if ($valid->pivot->vermas==1)
+                                                @livewire('viajes.show-viaje',['viajeID' =>$viaje->id])
+                                            @endif
+                                            @if ($valid->pivot->ed==1)
+                                                @livewire('viajes.edit-viaje',['viajeID' =>$viaje->id])
+                                            @endif
+                                            @if ($valid->pivot->de==1)
+                                                @livewire('viajes.delete-viaje',['viajeID' =>$viaje->id])
+                                            @endif
                                             @if ($viaje->status=='Descargando' && $viaje->recepcion==null)
                                                 <a href="{{route('recepcion',$viaje->id)}}" target="_self" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                                     <x-icons.descarga-fuel/>
@@ -189,9 +201,6 @@
                                                 </a>
                                             @endif
                                             @livewire('viajes.change-status',['viajeID' =>$viaje->id])
-                                            {{-- @if ($viaje->status=='En tránsito')
-                                            @endif --}}
-                                           {{--  @livewire('viajes.doc-cataporte',['viajeID' =>$viaje->id]) --}}
                                             <a href="{{route('ct.archivo',$viaje->id)}}" target="_blank" class="text-gray-400 hover:text-indigo-500 p-1 flex gap-2 items-center">
                                                 <x-icons.print/>
                                                 <span>Carta porte</span>
@@ -213,7 +222,8 @@
                 </svg>
                 <span class="text-2xl">No hay datos registrados</span>
             </div>
-        @endif
+        @endif --}}
+        @livewire('viajes.viajes-table')
     </div>
 
 </x-app-layout>

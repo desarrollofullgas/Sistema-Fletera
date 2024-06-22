@@ -80,21 +80,22 @@ class EstacionTable extends Component
     {
         $user = Auth::user();
         return Estacion::search($this->search)
-            ->when($user->permiso_id == 1  || $user->permiso_id == 5 || $user->permiso_id == 8, function ($query) {
+            ->when(in_array($user->permiso_id,[1,4,5,8]), function ($query) {
                 // Si el usuario es un administrador, no aplicamos restricciones
                 return $query;
             }, function ($query) use ($user) {
-                if ($user->permiso_id == 4) {
-                    // Si el usuario es compras, aplicamos restricciones específicas
-                    $zones = $user->zonas->pluck('id')->toArray();
+                // Si el usuario es un supervisor/gerente, filtramos por sus estaciones asignadas
+                $query->where(function ($subQuery) use ($user) {
+                    $subQuery->where('supervisor_id', $user->id)
+                        ->orWhere('user_id', $user->id);
+                });
+                //if ($user->permiso_id == 4) {
+                    // Si el usuario es fletera, aplicamos restricciones específicas
+                    /* $zones = $user->zonas->pluck('id')->toArray();
                     $query->whereIn('zona_id', $zones);
                 } else {
-                    // Si el usuario es un supervisor/gerente, filtramos por sus estaciones asignadas
-                    $query->where(function ($subQuery) use ($user) {
-                        $subQuery->where('supervisor_id', $user->id)
-                            ->orWhere('user_id', $user->id);
-                    });
-                }
+                    
+                } */
             })
             ->when($this->sortField, function ($query) {
                 return $query->orderBy($this->sortField, $this->sortDirection);

@@ -42,7 +42,7 @@
                 </x-dropdown>
             @endif
             {{-- Filtro de Fechas --}}
-            <div class="flex items-center">
+            <div class="flex items-center flex-wrap gap-2">
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -66,7 +66,7 @@
                     <input type="date" name="end" id="to_date" wire:model="to_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
-                <button wire:click="clearDateFilters" class="mx-4 text-gray-500">x</button>
+                <button wire:click="clearDateFilters" class="mx-4 text-gray-500"><x-icons.arrow-back class="w-4 h-4"/></button>
             </div>
         </div>
         @if ($selectPage)
@@ -85,7 +85,7 @@
 
         <div class="flex-col space-y-4">
             {{-- Componente tabla --}}
-            <x-table>
+            <x-table class="hidden sm:table">
                 <x-slot name="head">
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
@@ -144,6 +144,37 @@
                     @endforelse
                 </x-slot>
             </x-table>
+            
+            {{--vista móvil--}}
+            <div class="w-full flex flex-col gap-3 sm:hidden">
+                @foreach ($operadores as $op)
+                    <div class="rounded-lg bg-white dark:bg-slate-700 shadow-sm flex flex-col gap-1">
+                        <h3 class="font-semibold mb-2 bg-black dark:bg-dark-eval-0 text-gray-300 rounded-t-lg p-2">{{$op->name}}</h3>
+                        <div class="px-2 flex flex-col gap-2 text-sm">
+                            <div class="flex justify-center">
+                                <span class="rounded bg-gray-200 py-1 px-3 text-xs text-gray-500 font-bold w-fit">
+                                    {{ $op->status }}
+                                </span>
+                            </div>
+                            <p><strong>Licencia: </strong>{{$op->licencia}}</p>
+                            <p><strong>RFC: </strong>{{$op->rfc}}</p>
+                            <p><strong>Fecha de registro: </strong>{{ $op->created_at->locale('es')->isoFormat('D  MMMM  YYYY') }}</p>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center">
+                            <div>
+                                @if ($valid->pivot->ed == 1)
+                                    @livewire('operadores.operador-edit', ['ope_id' => $op->id], key('ed' . $op->id))
+                                @endif
+                            </div>
+                            <div>
+                                @if ($valid->pivot->de == 1)
+                                    @livewire('operadores.operador-delete', ['operadorID' => $op->id], key('del' . $op->id))
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             {{-- Paginación y contenido por página --}}
             <div class="py-4 px-3">
                 <div class="flex space-x-4 items-center mb3">

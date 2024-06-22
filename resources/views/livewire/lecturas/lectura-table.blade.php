@@ -42,7 +42,7 @@
                 </x-dropdown>
             @endif
             {{-- Filtro de Fechas --}}
-            <div class="flex items-center">
+            <div class="flex items-center flex-wrap gap-2">
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -83,9 +83,9 @@
             @endif
         @endif
 
-        <div class="flex-col space-y-4">
+        <div class="flex-col sm:space-y-4">
             {{-- Componente tabla --}}
-            <x-table>
+            <x-table class="hidden sm:table">
                 <x-slot name="head">
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
@@ -104,19 +104,28 @@
                             <x-cell> <x-input type="checkbox" value="{{ $lectura->id }}" wire:model="checked" />
                             </x-cell>
                             <x-cell>{{ $lectura->estacion->name }}</x-cell>
-                            <x-cell>{{ $lectura->created_at }}</x-cell>
+                            <x-cell>{{ $lectura->created_at->locale('es')->isoFormat('D  MMMM  YYYY') }}</x-cell>
                             <x-cell>{{$lectura->detalles->count()}}</x-cell>
                             <x-cell>{{number_format($lectura->total_litros,2)}} lts. </x-cell>
                             <x-cell>${{number_format($lectura->total_pesos,2)}}</x-cell>
                             <x-cell class="max-lg:p-0 flex justify-center items-stretch">
-                                <div class="flex justify-center items-center rounded-b-md max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900 max-lg:w-full max-lg:mb-4">
+                                <div class="flex justify-center items-center">
                                     <div class="relative w-fit" x-data="{show:false}">
                                         <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
                                             <x-icons.dots-vertical class="max-lg:rotate-90"/>
                                         </button>
                                         <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
                                             @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('lec'.$lectura->id))
-                                            @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                            @if ($valid->pivot->ed==1)    
+                                                <div>
+                                                    <a href={{route('lecturas.edit',$lectura->id)}} class="flex gap-2 text-gray-400 hover:text-indigo-500 p-1">
+                                                        <x-icons.edit/><span>Editar</span>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if ($valid->pivot->de == 1)
+                                                @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -135,6 +144,41 @@
                     @endforelse
                 </x-slot>
             </x-table>
+
+            {{--vista móvil--}}
+            <div class="w-full flex flex-col gap-3 sm:hidden">
+                @foreach ($lecturas as $lectura)
+                    <div class="rounded-lg bg-white dark:bg-slate-700 shadow-sm flex flex-col gap-1">
+                        <h3 class="font-semibold mb-2 bg-black dark:bg-dark-eval-0 text-gray-300 rounded-t-lg p-2">{{$lectura->estacion->name}}</h3>
+                        <div class="px-2 flex flex-col gap-2 text-sm">
+                            <p>{{ $lectura->created_at->locale('es')->isoFormat('D  MMMM  YYYY') }}</p>
+                            <p><strong>Combustibles: </strong>{{$lectura->detalles->count()}}</p>
+                            <p><strong>Litros: </strong>{{number_format($lectura->total_litros,2)}} lts.</p>
+                            <p><strong>Valor total: </strong> ${{number_format($lectura->total_pesos,2)}}</p>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <div class="relative w-fit" x-data="{show:false}">
+                                <button class="text-gray-400 hover:text-indigo-500 p-2" @click="show=!show">
+                                    <x-icons.dots-vertical class="max-lg:rotate-90"/>
+                                </button>
+                                <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
+                                    @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('lec'.$lectura->id))
+                                    @if ($valid->pivot->ed==1)    
+                                        <div>
+                                            <a href={{route('lecturas.edit',$lectura->id)}} class="flex gap-2 text-gray-400 hover:text-indigo-500 p-1">
+                                                <x-icons.edit/><span>Editar</span>
+                                            </a>
+                                        </div>
+                                    @endif
+                                    @if ($valid->pivot->de == 1)
+                                        @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             {{-- Paginación y contenido por página --}}
             <div class="py-4 px-3">
                 <div class="flex space-x-4 items-center mb3">

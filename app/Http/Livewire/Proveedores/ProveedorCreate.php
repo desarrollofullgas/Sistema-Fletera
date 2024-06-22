@@ -43,7 +43,7 @@ class ProveedorCreate extends Component
                 'name' => ['required', 'min:3', 'max:500'],
                 'razon_social' => ['required', 'min:3', 'max:500'],
                 'direccion' => ['required', 'min:3', 'max:500'],
-                'rfc' => ['required', 'min:12', 'max:500'],
+                'rfc' => ['required', 'min:3', 'max:500'],
             ],
             [
                 'name.required' => 'El Nombre de el Proveedor es obligatorio',

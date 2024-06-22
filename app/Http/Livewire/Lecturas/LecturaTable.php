@@ -82,7 +82,10 @@ class LecturaTable extends Component
               })
               ->when($this->from_date && $this->to_date, function ($query) {
                   return $query->whereBetween('created_at', [$this->from_date, $this->to_date . " 23:59:59"]);
-              });
+              })
+              ->when(Auth::user()->permiso_id==3,function ($query) {
+                return $query->where('estacion_id',Auth::user()->estacion->id);
+              })->orderBy('id','DESC');
       }
   
       public function sortBy($field)

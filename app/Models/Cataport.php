@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,13 @@ class Cataport extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    //scope para realizar busqueda
+    public function scopeSearch(Builder $query,$txt):void
+    {
+        $query->where('id','LIKE','%'.$txt.'%')->orWhereHas('estacion',function(Builder $est)use($txt){
+            $est->where('name','LIKE','%'.$txt.'%');
+        });
+    }
     public function estacion(): BelongsTo
     {
         return $this->belongsTo(Estacion::class);

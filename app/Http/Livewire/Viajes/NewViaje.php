@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Viajes;
 
+use App\Mail\MailNewViaje;
 use App\Models\Cataport;
 use App\Models\Combustible;
 use App\Models\Estacion;
@@ -9,8 +10,10 @@ use App\Models\Operador;
 use App\Models\Proveedor;
 use App\Models\ProveedorZona;
 use App\Models\Unidad;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class NewViaje extends Component
@@ -69,24 +72,32 @@ class NewViaje extends Component
             'contenido.required' => 'Ingrese la cantidad de combustible',
             'contenido.gt' => 'La cantidad debe ser mayor a cero'
         ]);
-        $viaje=new Cataport();
-        $viaje->estacion_id=$this->estacion;
-        $viaje->combustible_id=$this->combustible;
-        $viaje->proveedor_id=$this->proveedor;
-        $viaje->unidad_id=$this->unidad;
-        $viaje->pipa_id=$this->pipa;
-        $viaje->operador_id=$this->operador;
-        $viaje->contenido=$this->contenido;
-        $viaje->status="En tránsito";
-
-        $vehiculo= Unidad::find($this->unidad);
-        $vehiculo->status="En tránsito";
-
-        $vehiculo->save();
-        $viaje->save();
-        session()->flash('flash.banner', 'Viaje registrado');
-        session()->flash('flash.bannerStyle', 'success');
-        return to_route('viajes');
+        try{
+            $viaje=new Cataport();
+            $viaje->estacion_id=$this->estacion;
+            $viaje->combustible_id=$this->combustible;
+            $viaje->proveedor_id=$this->proveedor;
+            $viaje->unidad_id=$this->unidad;
+            $viaje->pipa_id=$this->pipa;
+            $viaje->operador_id=$this->operador;
+            $viaje->contenido=$this->contenido;
+            $viaje->status="En tránsito";
+    
+            $vehiculo= Unidad::find($this->unidad);
+            $vehiculo->status="En tránsito";
+    
+            Mail::to('desarrollo@fullgas.com.mx')->send(new MailNewViaje($viaje));
+            $vehiculo->save();
+            $viaje->save();
+            session()->flash('flash.banner', 'Viaje registrado');
+            session()->flash('flash.bannerStyle', 'success');
+            return redirect(request()->header('referer'));
+        }catch(Exception $e){
+            dd($e);
+            session()->flash('flash.banner', 'Ocurrió un error');
+            session()->flash('flash.bannerStyle', 'danger');
+            return redirect(request()->header('referer'));
+        }
     }
     public function render()
     {

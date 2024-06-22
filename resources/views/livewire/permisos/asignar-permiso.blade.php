@@ -50,7 +50,7 @@
                                 class="bg-gray-100 py-2 px-4 cursor-pointer dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
                                 Click para mostrar/ocultar Permisos</summary>
                             <table class="w-full">
-                                <thead class="bg-gray-50">
+                                <thead class="bg-gray-50 sm:sticky sm:top-0">
                                     <tr>
                                         <th
                                             class="font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 lg:table-cell dark:bg-slate-700 dark:text-gray-300 dark:border-gray-700">
@@ -82,9 +82,9 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="table-light">
+                                <tbody class="table-light divide-y">
                                     @foreach ($permission as $permissio)
-                                        <tr>
+                                        <tr class="sm:p-1">
                                             <td>
                                                 {{ $permissio->titulo_panel }}
                                             </td>
