@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Recepcion;
 
 use App\Models\RecepcionPipa;
+use App\Models\Unidad;
 use Exception;
 use Livewire\Component;
 
@@ -15,6 +16,9 @@ class DeleteRecepcion extends Component
     public function deleteRecepcion(){
         try{
             $recepcion=RecepcionPipa::find($this->recepcionID);
+            $unidad=Unidad::find($recepcion->cataporte->unidad_id);
+            $unidad->status="Disponible";
+            $unidad->save();
             $recepcion->delete();
             session()->flash('La recepcion del carta porte #'.$this->recepcion->cataporte->id.' ha sido eliminada');
             session()->flash('flash.bannerStyle','success');

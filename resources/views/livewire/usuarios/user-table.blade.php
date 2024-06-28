@@ -251,17 +251,17 @@
                         <div class="flex gap-2 justify-center items-center">
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('usuarios.user-edit', ['user_edit_id' => $user->id], key('ed' . $user->id))
+                                    @livewire('usuarios.user-edit', ['user_edit_id' => $user->id], key('med' . $user->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->vermas == 1)
-                                    @livewire('usuarios.show-user', ['user_show_id' => $user->id], key('show' . $user->id))
+                                    @livewire('usuarios.show-user', ['user_show_id' => $user->id], key('mshow' . $user->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('usuarios.user-delete', ['userID' => $user->id], key('del' . $user->id))
+                                    @livewire('usuarios.user-delete', ['userID' => $user->id], key('mdel' . $user->id))
                                 @endif
                             </div>
                         </div>

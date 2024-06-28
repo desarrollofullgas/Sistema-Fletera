@@ -173,12 +173,12 @@
                             </div>
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('show' . $unidad->id))
+                                    @livewire('unidades.show-unidad', ['unidadID' => $unidad->id], key('mshow' . $unidad->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('del' . $unidad->id))
+                                    @livewire('unidades.delete-unidad', ['unidadID' => $unidad->id], key('mdel' . $unidad->id))
                                 @endif
                             </div>
                         </div>

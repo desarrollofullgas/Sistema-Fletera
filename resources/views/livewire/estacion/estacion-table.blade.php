@@ -42,7 +42,7 @@
                 </x-dropdown>
             @endif
             {{-- Filtro de Fechas --}}
-            <div class="flex items-center">
+            <div class="flex items-center flex-wrap gap-2">
                 <div class="relative">
                     
                     <input type="date" name="start" id="from_date" wire:model="from_date"
@@ -54,7 +54,7 @@
                     <input type="date" name="end" id="to_date" wire:model="to_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
-                <button wire:click="clearDateFilters" class="mx-4 text-gray-500">x</button>
+                <button wire:click="clearDateFilters" class="mx-4 text-gray-500"><x-icons.arrow-back class="w-4 h-4"/></button>
             </div>
         </div>
         @if ($selectPage)
@@ -73,7 +73,7 @@
 
         <div class="flex-col space-y-4">
             {{-- Componente tabla --}}
-            <x-table>
+            <x-table class="hidden sm:table">
                 <x-slot name="head">
                     {{-- Componente Heading  --}}
                     <x-heading><x-input type="checkbox" wire:model="selectPage" /></x-heading>
@@ -209,6 +209,61 @@
                     @endforelse
                 </x-slot>
             </x-table>
+            {{--vista móvil--}}
+            <div class="w-full flex flex-col gap-3 sm:hidden">
+                @foreach ($estaciones as $esta)
+                    <div class="rounded-lg bg-white dark:bg-slate-700 shadow-sm flex flex-col gap-1">
+                        <h3 class="font-semibold mb-2 bg-black dark:bg-dark-eval-0 text-gray-300 rounded-t-lg p-2">{{$esta->name}} - <span>#{{$esta->num_estacion}}</span></h3>
+                        <div class="px-2 flex flex-col gap-2 text-sm text-balance">
+                            <div class="flex justify-center">
+                                <span
+                                    class="rounded bg-{{ $esta->status_color }}-200 py-1 px-3 text-xs text-{{ $esta->status_color }}-500 font-bold">
+                                    {{ $esta->status }}
+                                </span>
+                            </div>
+                            <p><strong>Razón social: </strong>{{$esta->razon_social}}</p>
+                            <p><strong>Zona: </strong>
+                                @if ($esta->zona->status == 'Inactivo')
+                                    <p class="text-red-500">
+                                        {{ $esta->zona->name }}
+                                        <span class="inline-block" tabindex="0" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus"
+                                            data-bs-content="Esta zona ha sido movida a la papelera"
+                                            data-bs-placement="top">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" class="w-4 h-4 text-blue-400">
+                                                <path fill-rule="evenodd"
+                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </p>
+                                @else
+                                    {{ $esta->zona->name }}
+                                @endif
+                            </p>
+                            <p><strong>Fecha de registro: </strong>{{ $esta->created_at->locale('es')->isoFormat('D  MMMM  YYYY') }}</p>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center">
+                            <div>
+                                @if ($valid->pivot->vermas == 1)
+                                    @livewire('estacion.show-estacion', ['estacionID' => $esta->id], key('mshow'.$esta->id))
+                                @endif
+                            </div>
+                            <div>
+                                @if ($valid->pivot->ed == 1)
+                                <a href="{{route('estacion.edit',$esta->id)}}" class="text-gray-400 hover:text-indigo-500"><x-icons.edit/></a>
+                                @endif
+                            </div>
+                            <div>
+                                @if ($valid->pivot->de == 1)
+                                    @livewire('estacion.estacion-delete', ['estaID' => $esta->id], key('mdel'.$esta->id))
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             {{-- Paginación y contenido por página --}}
             <div class="py-4 px-3">
                 <div class="flex space-x-4 items-center mb3">

@@ -119,5 +119,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::put('/roles/{id}', [PermisoController::class, 'asignar'])->name('asignacionpermiso.asignar');
 
     //Sistema
-    Route::get('/versiones', [VersionController::class, 'show'])->name('versiones');
+    //Route::get('/versiones', [VersionController::class, 'show'])->name('versiones');
 });

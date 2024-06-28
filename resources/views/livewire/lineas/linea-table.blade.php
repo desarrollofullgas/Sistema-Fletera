@@ -150,12 +150,12 @@
                         <div class="flex gap-2 justify-center items-center">
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('lineas.edit-linea',['lineaID'=>$linea->id],key('ed'.$linea->id))
+                                    @livewire('lineas.edit-linea',['lineaID'=>$linea->id],key('med'.$linea->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('lineas.delete-linea',['lineaID'=>$linea->id],key('del'.$linea->id))
+                                    @livewire('lineas.delete-linea',['lineaID'=>$linea->id],key('msdel'.$linea->id))
                                 @endif
                             </div>
                         </div>

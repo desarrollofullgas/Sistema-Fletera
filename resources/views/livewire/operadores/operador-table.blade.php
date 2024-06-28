@@ -163,12 +163,12 @@
                         <div class="flex gap-2 justify-center items-center">
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('operadores.operador-edit', ['ope_id' => $op->id], key('ed' . $op->id))
+                                    @livewire('operadores.operador-edit', ['ope_id' => $op->id], key('med' . $op->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('operadores.operador-delete', ['operadorID' => $op->id], key('del' . $op->id))
+                                    @livewire('operadores.operador-delete', ['operadorID' => $op->id], key('mdel' . $op->id))
                                 @endif
                             </div>
                         </div>

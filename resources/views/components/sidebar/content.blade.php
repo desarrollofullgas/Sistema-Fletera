@@ -35,6 +35,21 @@
                 </x-slot>
             </x-sidebar.link>
         @endif
+        @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
+            <x-sidebar.link title="Lecturas" href="{{ route('lecturas') }}" :isActive="request()->routeIs('lecturas')">
+                <x-slot name="icon"><x-icons.report-analytics class="w-6 h-6"/></x-slot>
+            </x-sidebar.link>
+        @endif
+        @if ($item->pivot->panel_id == 13 && $item->pivot->re==1)
+            <x-sidebar.link title="Control de viajes" href="{{ route('viajes') }}" :isActive="request()->routeIs('viajes')">
+                <x-slot name="icon"><x-icons.truck class="w-6 h-6"/></x-slot>
+            </x-sidebar.link>
+        @endif
+        @if ($item->pivot->panel_id == 14 && $item->pivot->re==1)
+            <x-sidebar.link title="Recepciones de pipa" href="{{ route('recepciones.list') }}" :isActive="request()->routeIs('recepciones.list')">
+                <x-slot name="icon"><x-icons.descarga-fuel class="w-6 h-6"/></x-slot>
+            </x-sidebar.link>
+        @endif
     @endforeach
     {{-- </div> --}}
 
@@ -75,15 +90,15 @@
                 @if ($item->pivot->panel_id == 9 && $item->pivot->re == 1)
                 <x-sidebar.sublink title="Unidades" href="{{ route('unidades') }}" :active="request()->routeIs('unidades')" />
                 @endif
-                @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
+                {{-- @if ($item->pivot->panel_id == 10 && $item->pivot->re == 1)
                 <x-sidebar.sublink title="Lecturas" href="{{ route('lecturas') }}" :active="request()->routeIs('lecturas')" />
-                @endif
-                @if ($item->pivot->panel_id == 13 && $item->pivot->re==1)
+                @endif --}}
+                {{-- @if ($item->pivot->panel_id == 13 && $item->pivot->re==1)
                     <x-sidebar.sublink title="Control de viajes" href="{{ route('viajes') }}" :active="request()->routeIs('viajes')" />
-                @endif
-                @if ($item->pivot->panel_id == 14 && $item->pivot->re==1)
+                @endif --}}
+                {{-- @if ($item->pivot->panel_id == 14 && $item->pivot->re==1)
                     <x-sidebar.sublink title="Recepciones de pipa" href="{{ route('recepciones.list') }}" :active="request()->routeIs('recepciones.list')" />
-                @endif
+                @endif --}}
             @endforeach
 
 
@@ -91,10 +106,9 @@
     </div>
 
     {{-- Sistema --}}
-    <div class="{{ $sistema }}">
+    {{-- <div class="{{ $sistema }}">
         <x-sidebar.dropdown title="Sistema" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
             <x-slot name="icon">
-                {{-- <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" /> --}}
                 <svg class="flex-shrink-0 w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -108,6 +122,6 @@
                 @endif
             @endforeach
         </x-sidebar.dropdown>
-    </div>
+    </div> --}}
 
 </x-perfect-scrollbar>

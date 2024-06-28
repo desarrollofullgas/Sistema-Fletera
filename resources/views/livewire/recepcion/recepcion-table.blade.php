@@ -86,7 +86,7 @@
                         <x-cell class="max-lg:p-0 max-lg:border max-lg:border-blue-200 max-lg:dark:border-blue-900">
                             <div class="w-full flex items-strech gap-2 max-w-xs">
                                 <div class="lg:hidden flex items-center bg-blue-200 py-2 px-1 min-w-[6rem] text-xs font-bold uppercase dark:bg-blue-900 dark:text-blue-200">
-                                    <span>PRVEEDOR</span>
+                                    <span>OPERADOR</span>
                                 </div>
                                 <p class="max-lg:my-2 break-all">
                                     {{$recepcion->cataporte->operador->name}}

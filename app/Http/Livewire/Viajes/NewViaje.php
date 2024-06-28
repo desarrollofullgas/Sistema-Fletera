@@ -83,17 +83,17 @@ class NewViaje extends Component
             $viaje->contenido=$this->contenido;
             $viaje->status="En tránsito";
     
-            $vehiculo= Unidad::find($this->unidad);
-            $vehiculo->status="En tránsito";
+            /* $vehiculo= Unidad::find($this->unidad);
+            $vehiculo->status="En tránsito"; */
     
             Mail::to('desarrollo@fullgas.com.mx')->send(new MailNewViaje($viaje));
-            $vehiculo->save();
+            //$vehiculo->save();
             $viaje->save();
             session()->flash('flash.banner', 'Viaje registrado');
             session()->flash('flash.bannerStyle', 'success');
             return redirect(request()->header('referer'));
         }catch(Exception $e){
-            dd($e);
+            //dd($e);
             session()->flash('flash.banner', 'Ocurrió un error');
             session()->flash('flash.bannerStyle', 'danger');
             return redirect(request()->header('referer'));

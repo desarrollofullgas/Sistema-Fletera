@@ -162,7 +162,7 @@
                                     <x-icons.dots-vertical class="max-lg:rotate-90"/>
                                 </button>
                                 <div class="px-2 w-max flex flex-col gap-1 absolute max-lg:bottom-full lg:top-0 lg:right-full rounded-md shadow-md dark:shadow-gray-700 bg-white dark:bg-dark-eval-3" x-cloack x-show="show" x-collapse @click.outside="show=false">
-                                    @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('lec'.$lectura->id))
+                                    @livewire('lecturas.show-lectura',['lecturaID' => $lectura->id],key('mlec'.$lectura->id))
                                     @if ($valid->pivot->ed==1)    
                                         <div>
                                             <a href={{route('lecturas.edit',$lectura->id)}} class="flex gap-2 text-gray-400 hover:text-indigo-500 p-1">
@@ -171,7 +171,7 @@
                                         </div>
                                     @endif
                                     @if ($valid->pivot->de == 1)
-                                        @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('del'.$lectura->id))
+                                        @livewire('lecturas.delete-lectura',['lecturaID' => $lectura->id],key('mdel'.$lectura->id))
                                     @endif
                                 </div>
                             </div>

@@ -213,17 +213,17 @@
                         <div class="flex gap-2 justify-center items-center">
                             <div>
                                 @if ($valid->pivot->vermas == 1)
-                                    @livewire('proveedores.proveedor-show', ['proveedorID' => $pro->id], key('show' . $pro->id))
+                                    @livewire('proveedores.proveedor-show', ['proveedorID' => $pro->id], key('mshow' . $pro->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('ed' . $pro->id))
+                                    @livewire('proveedores.proveedor-edit', ['prov_id' => $pro->id], key('med' . $pro->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('proveedores.proveedor-delete', ['proveedorID' => $pro->id], key('del' . $pro->id))
+                                    @livewire('proveedores.proveedor-delete', ['proveedorID' => $pro->id], key('mdel' . $pro->id))
                                 @endif
                             </div>
                         </div>

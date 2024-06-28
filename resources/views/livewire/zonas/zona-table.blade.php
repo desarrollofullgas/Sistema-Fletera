@@ -161,17 +161,17 @@
                         <div class="flex gap-2 justify-center items-center">
                             <div>
                                 @if ($valid->pivot->ed == 1)
-                                    @livewire('zonas.zona-edit', ['zona_id' => $zona->id], key('ed' . $zona->id))
+                                    @livewire('zonas.zona-edit', ['zona_id' => $zona->id], key('med' . $zona->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->vermas == 1)
-                                    @livewire('zonas.show-zona', ['zona_show_id' => $zona->id], key('show' . $zona->id))
+                                    @livewire('zonas.show-zona', ['zona_show_id' => $zona->id], key('mshow' . $zona->id))
                                 @endif
                             </div>
                             <div>
                                 @if ($valid->pivot->de == 1)
-                                    @livewire('zonas.zona-delete', ['zonaID' => $zona->id], key('del' . $zona->id))
+                                    @livewire('zonas.zona-delete', ['zonaID' => $zona->id], key('mdel' . $zona->id))
                                 @endif
                             </div>
                         </div>
